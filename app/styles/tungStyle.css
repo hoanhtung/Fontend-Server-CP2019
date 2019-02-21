@@ -1,0 +1,61 @@
+
+/* body {
+    font-family: 'Roboto', sans-serif;
+} */
+.title-surgery-shift h2{
+    text-align: center;
+}
+.div-schedule {
+    width: 100%;
+}
+.div-roomHeader {
+    width: 100%;
+    border: 1px solid black;
+}
+.div-roomHeaderItem {
+    border: 1px black solid;
+    width: 20%; 
+    max-width: 20%;
+    float: left;
+}
+.div-roomBodyItem {
+    border: 1px black solid;
+}
+/* View Schedule Item */
+.container-scheduleItem {
+    padding-left: 10%;
+    padding-right: 10%; 
+}
+.div-surgery-report {
+    /* display: flex; */
+    font-size: 18px;
+    color: black;
+    margin-top: 50px
+}
+.div-surgery-report span {
+}
+.div-surgery-report .div-info-patient {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.div-info-patient div {
+    margin-right: 15%;
+}
+.div-surgery-shift {
+
+}
+.div-editable-information {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 30px;
+}
+.div-ekip .table-ekip {
+    font-size: 18px;
+    color: black;
+}
+.div-ekip .table-ekip tr td{
+    padding-right: 40px;
+    padding-bottom: 10px;
+}

@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- build:css styles/tungStyle.css -->
+    <link rel="stylesheet" href="styles/headerStyle.css">
+    <!-- endbuild -->
+    <!-- build:css styles/tungStyle.css -->
+    <link rel="stylesheet" href="styles/tungStyle.css">
+    <!-- endbuild -->
+    <!-- build:css styles/mainTemplate.css -->
+    <link rel="stylesheet" href="styles/mainTemplate.css">
+    <!-- endbuild -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- bower:css -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+    <!-- endbower -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <title>Surgery Management System</title>
+    <script>
+        $(function() {
+            $("#header").load("./layout/header.html"); 
+            // $("#navigation").load("./layout/navigation.html"); 
+        })
+    </script>
+</head>
+<body>
+    <div class="dashboard-main-wrapper">
+        <div id="header"></div>
+        <div class="container-scheduleItem">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="title-surgery-shift">
+                                <h2>Information of Surgery Shift</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="div-surgery-report">
+                        <div>
+                            <div class="div-info-patient">
+                                <div><b>Patient Name:</b> <span>Lê Văn Đạt</span></div>
+                                <div><b>Gender:</b> <span>Nam</span></div>
+                                <div><b>Age:</b> <span>53</span></div>   
+                            </div>
+                            <div class="div-info-surgery-shift">
+                                <div><b>Specialty:</b> <span>Khoa Phẫu Thuật Chi Trên</span></div>
+                                <div><b>Surgery Name:</b> <span>Phẫu thuật kết hợp xương (KHX) gãy xương bã vai</span></div>
+                                <div><b>Type Of Surgery:</b> <span>Loại 1</span></div>
+                                <div><b>Start Time:</b> <span>7:30 18/02/2019</span></div>
+                                <div><b>End Time:</b> <span>9:30 18/02/2019</span></div>
+                            </div>
+                        </div>
+                        <br/>
+                        <b>Surgery Information Detail:</b>
+                        <div class="div-editable-information">
+                            <div class="div-ekip">
+                                <div><b>Performed Ekip:</b></div>
+                                <br/>
+                                <table class="table-ekip">
+                                    <tr>
+                                        <td><b>Surgeon:</b></td>
+                                        <td>Lê Hoàng Anh</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Surgeon:</b></td>
+                                        <td>Lê Hoàng Em</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Anesthesia Doctor:</b></td>
+                                        <td>Nguyễn Văn A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Anesthesia Doctor:</b></td>
+                                        <td>Nguyễn Văn B</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="div-procedure">
+                                <div><b>Surgery Procedure:</b></div>
+                                <br/>
+                                <textarea rows="10" cols="50">bn nằm nghiêng dưới mê NKQ
+Tiên cầm máu tại chỗ bằng nước cất và Addrenailin
+Rạch da theo hình L
+bóc tách cơ dưới gai bộc lộ ố gãy xương bả vai
+Thấy gãy cạnh tròng và cạnh ngoài xương bả vai
+                                </textarea>
+                            </div>
+                        </div>
+                        <br/>
+                        <input type="button" value="Preview Surgery Report"/>
+                        <a href="./viewSchedule.html"><button>Back</button></a>    
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
