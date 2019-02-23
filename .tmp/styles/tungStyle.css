@@ -1,0 +1,68 @@
+
+/* body {
+    font-family: 'Roboto', sans-serif;
+} */
+.title-surgery-shift h2{
+    text-align: center;
+}
+.div-schedule {
+    width: 100%;
+}
+.div-roomHeader {
+    width: 100%;
+    border: 1px solid black;
+}
+.div-roomHeaderItem {
+    border: 1px black solid;
+    width: 20%; 
+    max-width: 20%;
+    float: left;
+}
+.div-roomBodyItem {
+    border: 1px black solid;
+}
+/* View Schedule Item */
+.container-scheduleItem {
+    padding-left: 10%;
+    padding-right: 10%; 
+}
+.div-surgery-report {
+    /* display: flex; */
+    font-size: 18px;
+    color: black;
+    margin-top: 50px
+}
+.div-surgery-report span {
+}
+.div-surgery-report .div-info-patient {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+}
+.div-info-patient div {
+    margin-right: 15%;
+}
+.div-surgery-shift {
+
+}
+.div-editable-information {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    padding-top: 30px;
+}
+.div-ekip .table-ekip {
+    font-size: 18px;
+    color: black;
+}
+.div-ekip .table-ekip tr td{
+    padding-right: 40px;
+    padding-bottom: 10px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInR1bmdTdHlsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtBQUNBOztJQUVJO0FBQ0o7SUFDSSxtQkFBbUI7Q0FDdEI7QUFDRDtJQUNJLFlBQVk7Q0FDZjtBQUNEO0lBQ0ksWUFBWTtJQUNaLHdCQUF3QjtDQUMzQjtBQUNEO0lBQ0ksd0JBQXdCO0lBQ3hCLFdBQVc7SUFDWCxlQUFlO0lBQ2YsWUFBWTtDQUNmO0FBQ0Q7SUFDSSx3QkFBd0I7Q0FDM0I7QUFDRCx3QkFBd0I7QUFDeEI7SUFDSSxrQkFBa0I7SUFDbEIsbUJBQW1CO0NBQ3RCO0FBQ0Q7SUFDSSxvQkFBb0I7SUFDcEIsZ0JBQWdCO0lBQ2hCLGFBQWE7SUFDYixnQkFBZ0I7Q0FDbkI7QUFDRDtDQUNDO0FBQ0Q7SUFDSSxxQkFBYztJQUFkLGNBQWM7SUFDZCx3QkFBb0I7UUFBcEIsb0JBQW9CO0lBQ3BCLHFCQUE0QjtRQUE1Qiw0QkFBNEI7Q0FDL0I7QUFDRDtJQUNJLGtCQUFrQjtDQUNyQjtBQUNEOztDQUVDO0FBQ0Q7SUFDSSxxQkFBYztJQUFkLGNBQWM7SUFDZCx3QkFBb0I7UUFBcEIsb0JBQW9CO0lBQ3BCLDBCQUE4QjtRQUE5Qiw4QkFBOEI7SUFDOUIsa0JBQWtCO0NBQ3JCO0FBQ0Q7SUFDSSxnQkFBZ0I7SUFDaEIsYUFBYTtDQUNoQjtBQUNEO0lBQ0ksb0JBQW9CO0lBQ3BCLHFCQUFxQjtDQUN4QiIsImZpbGUiOiJ0dW5nU3R5bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXHJcbi8qIGJvZHkge1xyXG4gICAgZm9udC1mYW1pbHk6ICdSb2JvdG8nLCBzYW5zLXNlcmlmO1xyXG59ICovXHJcbi50aXRsZS1zdXJnZXJ5LXNoaWZ0IGgye1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG59XHJcbi5kaXYtc2NoZWR1bGUge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbn1cclxuLmRpdi1yb29tSGVhZGVyIHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbn1cclxuLmRpdi1yb29tSGVhZGVySXRlbSB7XHJcbiAgICBib3JkZXI6IDFweCBibGFjayBzb2xpZDtcclxuICAgIHdpZHRoOiAyMCU7IFxyXG4gICAgbWF4LXdpZHRoOiAyMCU7XHJcbiAgICBmbG9hdDogbGVmdDtcclxufVxyXG4uZGl2LXJvb21Cb2R5SXRlbSB7XHJcbiAgICBib3JkZXI6IDFweCBibGFjayBzb2xpZDtcclxufVxyXG4vKiBWaWV3IFNjaGVkdWxlIEl0ZW0gKi9cclxuLmNvbnRhaW5lci1zY2hlZHVsZUl0ZW0ge1xyXG4gICAgcGFkZGluZy1sZWZ0OiAxMCU7XHJcbiAgICBwYWRkaW5nLXJpZ2h0OiAxMCU7IFxyXG59XHJcbi5kaXYtc3VyZ2VyeS1yZXBvcnQge1xyXG4gICAgLyogZGlzcGxheTogZmxleDsgKi9cclxuICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgIGNvbG9yOiBibGFjaztcclxuICAgIG1hcmdpbi10b3A6IDUwcHhcclxufVxyXG4uZGl2LXN1cmdlcnktcmVwb3J0IHNwYW4ge1xyXG59XHJcbi5kaXYtc3VyZ2VyeS1yZXBvcnQgLmRpdi1pbmZvLXBhdGllbnQge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XHJcbn1cclxuLmRpdi1pbmZvLXBhdGllbnQgZGl2IHtcclxuICAgIG1hcmdpbi1yaWdodDogMTUlO1xyXG59XHJcbi5kaXYtc3VyZ2VyeS1zaGlmdCB7XHJcblxyXG59XHJcbi5kaXYtZWRpdGFibGUtaW5mb3JtYXRpb24ge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWFyb3VuZDtcclxuICAgIHBhZGRpbmctdG9wOiAzMHB4O1xyXG59XHJcbi5kaXYtZWtpcCAudGFibGUtZWtpcCB7XHJcbiAgICBmb250LXNpemU6IDE4cHg7XHJcbiAgICBjb2xvcjogYmxhY2s7XHJcbn1cclxuLmRpdi1la2lwIC50YWJsZS1la2lwIHRyIHRke1xyXG4gICAgcGFkZGluZy1yaWdodDogNDBweDtcclxuICAgIHBhZGRpbmctYm90dG9tOiAxMHB4O1xyXG59Il19 */
