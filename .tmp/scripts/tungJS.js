@@ -11,7 +11,7 @@ function loadSurgeryRoom(surgeryDay) {
         method: 'get',
         success: function success(room) {
             var _loop = function _loop(_index) {
-                strAppend1 += '<div class="div-roomHeaderItem"><span>' + room[_index].name + '</span><div id ="header-room-' + room[_index].id + '"></div>';
+                strAppend1 += '<div class="div-roomHeaderItem"><div class="div-room-name">' + room[_index].name + '</div><div id ="header-room-' + room[_index].id + '"></div>';
                 $.ajax({
                     url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
                     method: 'get',
@@ -19,9 +19,18 @@ function loadSurgeryRoom(surgeryDay) {
                     success: function success(shift) {
                         var strAppend2 = '';
                         for (var _index2 = 0; _index2 < shift.length; _index2++) {
-                            strAppend2 += '<a href="./viewScheduleItem.html"><div class="div-roomBodyItem">' +
+                            if (shift[_index2].estimatedStartDateTime == '13:00') {
+                                strAppend2 += '<div style="background-color: black; height: 50px"></div>';
+                            }
+                            if (shift[_index2].priorityNumber == 1) {
+                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                            } else if (shift[_index2].priorityNumber == 2) {
+                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                            } else {
+                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                            }
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></a>';
+                            strAppend2 += '<div><b>' + shift[_index2].catalogName + ' ' + shift[_index2].id + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></a>';
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }

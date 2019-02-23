@@ -9,8 +9,8 @@ function loadSurgeryRoom(surgeryDay) {
         method: 'get',
         success: function(room) {
             for (let index = 0; index < room.length; index++) {
-                strAppend1 += '<div class="div-roomHeaderItem"><span>' 
-                + room[index].name + '</span><div id ="header-room-' + room[index].id + '"></div>';
+                strAppend1 += '<div class="div-roomHeaderItem"><div class="div-room-name">' 
+                + room[index].name + '</div><div id ="header-room-' + room[index].id + '"></div>';
                 $.ajax({
                     url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
                     method: 'get',
@@ -18,9 +18,20 @@ function loadSurgeryRoom(surgeryDay) {
                     success: function(shift) {
                         var strAppend2 = '';
                         for (let index = 0; index < shift.length; index++) {
-                            strAppend2 += '<a href="./viewScheduleItem.html"><div class="div-roomBodyItem">' +
+                            if (shift[index].estimatedStartDateTime == '13:00') {
+                                strAppend2 += '<div style="background-color: black; height: 50px"></div>'
+                            }
+                            if (shift[index].priorityNumber == 1) {
+                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                            }
+                            else if (shift[index].priorityNumber == 2) {
+                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                            }
+                            else {
+                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                            }   
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            '<div><b>' + shift[index].catalogName + '</b></div>' +
+                            strAppend2 += '<div><b>' + shift[index].catalogName + ' ' + shift[index].id + '</b></div>' +
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
                             '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div>' +
                             '</div></a>';
