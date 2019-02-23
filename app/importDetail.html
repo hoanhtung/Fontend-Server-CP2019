@@ -39,11 +39,12 @@
             $("#navigation").load("./layout/navigation.html"); 
         })
     </script>
+    <title>Medical Supply Request Detail</title>
+    
 </head>
-<!-- ============================================================== -->
-<!-- import file  -->
-<!-- ============================================================== -->
-<body onload="getJSONfromSeesion()">
+
+<body onload="getImportDetail()">
+    
     <div class="dashboard-main-wrapper">
         <!-- header layout -->
         <div id="header"></div>
@@ -51,6 +52,7 @@
         <!-- end left sidebar -->
         <div id="navigation"></div>
         <!-- wrapper  -->
+
 
         <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
@@ -61,11 +63,11 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h2 class="pageheader-title">Import Surgery Profile </h2>
+                                <h2 class="pageheader-title">Import Surgery Profile</h2>
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#"
+                                            <li class="breadcrumb-item"><a href="medicalRequest.html"
                                                     class="breadcrumb-link">Dashboard</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Import Surgery
                                                 Profile</li>
@@ -80,60 +82,47 @@
                     <!-- ============================================================== -->
                     <div class="ecommerce-widget">
 
-                        <!-- ============================================================== -->
-                        <!-- import file  -->
-                        <!-- ============================================================== -->
                         <div class="row">
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
-                                <input type="file" onchange="ExcelExport(event)" id="file" />
-                            </div>
-                            <div class="card"></br></div> <!-- break line -->
+                            <!-- recent orders  -->
                             <!-- ============================================================== -->
-                            <!-- end of import file  -->
-                            <!-- ============================================================== -->
-                            <!-- surgery information  -->
-                            <!-- ============================================================== -->
-
                             <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
-                                    <h5 class="card-header">Surgery Profile Information</h5>
+                                    <h5 class="card-header">Medical supplies</h5>
                                     <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table" id="listSupply">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">No.</th>
+                                                        <th class="border-0">Code</th>
+                                                        <th class="border-0">Name</th>
+                                                        <th class="border-0">Quantity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                        <table class="table" id="profile">
-                                            <thead class="bg-light">
-                                                <tr class="border-0">
-                                                    <th class="border-0">Patient Name</th>
-                                                    <th class="border-0">Gender</th>
-                                                    <th class="border-0">Medical Record</th>
-                                                    <th class="border-0">Surgery Name</th>
-                                                    <th class="border-0">Surgeon</th>
-                                                    <th class="border-0">Surgery Excepted Date</th>
-                                                    <th class="border-0">Surgery Weight</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- ============================================================== -->
-                            <!-- end of surgery information  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-1">
-                                <input type="submit" value="Import All" onclick="saveSurgeryProfile()" />
-                                <input type="submit" value="Cancel"
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <!-- TODO: confirm supply method -->
+                                <input type="submit" value="Delete" onClick="deleteRecord();" />
+                                <input type="submit" value="Back"
                                     onClick="javascript:window.location.href='importList.html'" />
                             </div>
+                            <!-- ============================================================== -->
+                            <!-- end recent orders  -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            <!-- ============================================================== -->
-            <!-- end wrapper  -->
-            <!-- ============================================================== -->
-        </div>                        
-    </body>
+        
+    </div>
+    
+</body>
+
 </html>
