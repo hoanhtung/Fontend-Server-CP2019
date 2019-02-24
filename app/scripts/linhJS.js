@@ -1,10 +1,13 @@
 var EBSMSLocal = 'https://localhost:44372';
 
-var infoJON, suppyJSON;
+var no;
+var supplyJSON;
+var infoJSON;
+
 function getJSONfromSeesion() {
-    infoJON = JSON.parse(sessionStorage.getItem("infoObj"));
-    suppyJSON = JSON.parse(sessionStorage.getItem("supplyObj"));
-    parseInfo(infoJON);
+    infoJSON = JSON.parse(sessionStorage.getItem("infoObj"));
+    supplyJSON = JSON.parse(sessionStorage.getItem("supplyObj"));
+    parseInfo(infoJSON);
 }
 function ExcelExport(event) {
     var input = event.target;
@@ -19,11 +22,11 @@ function ExcelExport(event) {
             switch (sheetName) {
                 case "SurgeryProfile":
                     parseInfo(rowObj);
-                    infoJON = rowObj;
+                    infoJSON = rowObj;
                     sessionStorage.setItem('infoObj', JSON.stringify(rowObj));
                     break;
                 case "MedicalSupply":
-                    suppyJSON = rowObj;
+                    supplyJSON = rowObj;
                     sessionStorage.setItem('supplyObj', JSON.stringify(rowObj));
                     break;
             }
@@ -65,11 +68,11 @@ function parseInfo(jsonObj) {
 
 function saveSurgeryProfile() {
     alert("Surgery Profile Saved");
-            //TODO: call insert API
+    //TODO: call insert API
     $.ajax({
-        url: EBSMSLocal + "/api/PostOp/GetAllMedicalSupplyRequest",
+        url: EBSMSLocal + "/api/MedicalConfirm/GetAllMedicalSupplyRequest",
         method: "get",
-        success: function(data) {
+        success: function (data) {
             console.log(data[0].id);
         }
     })
@@ -79,11 +82,6 @@ function saveSurgeryProfile() {
 };
 
 
-
-
-var no;
-var supplyJSON;
-var infoJSON;
 function deleteRecord() {
     supplyJSON = JSON.parse(sessionStorage.getItem("supplyObj"));
     infoJSON = JSON.parse(sessionStorage.getItem("infoObj"));
@@ -140,4 +138,84 @@ function confirmSupply() {
     //TODO: send api with surgery code = surgeryCode;
 
     javascript: window.location.href = 'confirmMSRequest.html';
+}
+
+// === JS for MEDICAL SUPPLY CONFIRM ===
+
+// CONFIRM DETAIL
+var surgeryCode;
+
+function getRequestDetail() {
+    //get surgery code from url
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    surgeryCode = url.searchParams.get("code");
+    document.getElementById("sid").innerHTML = surgeryCode;
+    document.getElementById("name").innerHTML = url.searchParams.get("sname");
+    document.getElementById("patient").innerHTML = url.searchParams.get("pname");
+    $.ajax({
+        url: EBSMSLocal + "/api/MedicalConfirm/GetMedicalSupplyRequest",
+        method: "get",
+        data: { surgeryShiftId: surgeryCode },
+        success: function (data) {
+            var table = document.getElementById('listSupply').getElementsByTagName('tbody')[0];
+            for (var i = 0; i < data.length; i++) {
+                var newRow = table.insertRow(table.rows.length);
+                var newColumn;
+
+                newColumn = newRow.insertCell(0);
+                newColumn.appendChild(document.createTextNode(i + 1));
+                newColumn = newRow.insertCell(1);
+                newColumn.appendChild(document.createTextNode(data[i]["code"]));
+                newColumn = newRow.insertCell(2);
+                newColumn.appendChild(document.createTextNode(data[i]["name"]));
+                newColumn = newRow.insertCell(3);
+                newColumn.appendChild(document.createTextNode(data[i]["quantity"]));
+            }
+        }
+    })
+}
+//Send confirm MS
+function confirmSupply() {
+    $.ajax({
+        url: EBSMSLocal + "/api/MedicalConfirm/ConfirmMedicalRequest",
+        method: "get",
+        data: { surgeryShiftId: surgeryCode },
+        success: function (data) { }
+    })
+    window.location.href = 'confirmMSRequest.html';
+}
+
+//CONFIRM REQUEST
+//Get all medical supply request
+function getMedicalRequest() {
+    $.ajax({
+        url: EBSMSLocal + "/api/MedicalConfirm/GetAllMedicalSupplyRequest",
+        method: "get",
+        success: function (data) {
+            var table = document.getElementById('request').getElementsByTagName('tbody')[0];
+            for (var i = 0; i < data.length; i++) {
+                var newRow = table.insertRow(table.rows.length);
+                var newColumn;
+                newColumn = newRow.insertCell(0);
+                newColumn.appendChild(document.createTextNode(i + 1));
+
+                newColumn = newRow.insertCell(1);
+                var a = document.createElement('a');
+                a.appendChild(document.createTextNode(data[i]["id"]));
+                a.href = "requestDetail.html?code=" + data[i]["id"]
+                    + "&sname=" + data[i]["surgeryName"] + "&pname=" + data[i]["patientName"];
+                newColumn.appendChild(a);
+
+                newColumn = newRow.insertCell(2);
+                newColumn.appendChild(document.createTextNode(data[i]["surgeryCatalogId"]));
+                newColumn = newRow.insertCell(3);
+                newColumn.appendChild(document.createTextNode(data[i]["surgeryName"]));
+                newColumn = newRow.insertCell(4);
+                newColumn.appendChild(document.createTextNode(data[i]["patientName"]));
+                newColumn = newRow.insertCell(5);
+                newColumn.appendChild(document.createTextNode(data[i]["createdDate"]));
+            }
+        }
+    })
 }
