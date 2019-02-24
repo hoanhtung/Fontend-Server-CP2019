@@ -7,20 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
     <!-- endbuild -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
     <!-- build:css styles/mainTemplate.css -->
     <link rel="stylesheet" href="styles/mainTemplate.css">
     <!-- endbuild -->
     <title>Surgery Management System</title>
+    <script src="./scripts/linhJS.js"></script>
 </head>
 
-<body>
+<body onload="getRequestDetail()">
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
@@ -31,7 +36,9 @@
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
                 <a class="navbar-brand" href="./importFile.html">EBSMS</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
@@ -111,7 +118,18 @@
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
                     <div class="ecommerce-widget">
-
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card"> </br>
+                                    <h5>Surgery Shift ID </h5>
+                                    <h5 id="sid"></h5><br />
+                                    <h5>Patient </h5>
+                                    <h5 id="patient"></h5><br />
+                                    <h5>Surgery Name </h5>
+                                    <h5 id="name"></h5><br />
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <!-- recent orders  -->
                             <!-- ============================================================== -->
@@ -120,7 +138,7 @@
                                     <h5 class="card-header">Medical supplies need</h5>
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table" id="listSupply">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
                                                         <th class="border-0">No.</th>
@@ -130,30 +148,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>BG432S23X3</td>
-                                                        <td>Bông gòn</td>
-                                                        <td>10</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>DMT349S45D3</td>
-                                                        <td>Dao phẫu thuật</td>
-                                                        <td>3</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>GA25L45C3</td>
-                                                        <td>Gắp mỏ dài 35cm</td>
-                                                        <td>10</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>KIM2390S57X3</td>
-                                                        <td>Kìm phẫu thuật van tim</td>
-                                                        <td>2</td>
-                                                    </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -162,10 +157,9 @@
                             </div>
                             <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <!-- TODO: confirm supply method -->
-                                <input type="submit" value="Confirm"
-                                    onClick="javascript:window.location.href='medicalRequest.html'" />
+                                <input type="submit" value="Confirm" onClick="confirmSupply()" />
                                 <input type="submit" value="Back"
-                                    onClick="javascript:window.location.href='medicalRequest.html'" />
+                                    onClick="javascript:window.location.href='confirmMSRequest.html'" />
                             </div>
                             <!-- ============================================================== -->
                             <!-- end recent orders  -->

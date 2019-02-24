@@ -1,15 +1,15 @@
 {
   "name": "mocha",
   "homepage": "https://github.com/mochajs/mocha",
-  "version": "6.0.0",
-  "_release": "6.0.0",
+  "version": "6.0.1",
+  "_release": "6.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v6.0.0",
-    "commit": "1b0051ac7c8afc7685b13359006c6fd5325150d8"
+    "tag": "v6.0.1",
+    "commit": "e6cc00bced3035da7249a9dbe23c06029c148df4"
   },
   "_source": "https://github.com/mochajs/mocha.git",
-  "_target": "^6.0.0",
+  "_target": "^6.0.1",
   "_originalSource": "mocha",
   "_direct": true
 }

@@ -1,9 +1,8 @@
 <!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
+<html class="no-js" lang="">
+  <head>
     <meta charset="utf-8">
+<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -23,69 +22,53 @@
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <!-- endbower -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+=======
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fontend EBSMS</title>
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- build:css styles/vendor.css -->
+>>>>>>> 5b3af1a3905803427ba23e93641dc0c4ec9ad9ef
     <!-- bower:css -->
-    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <!-- endbower -->
-    <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
-            // $("#navigation").load("./layout/navigation.html"); 
-            $("#date-input").val(formatInputDate(new Date()));
-        })
-    </script>
-</head>
-<body onload="loadSurgeryRoom(convertDateToNumber(new Date()))">
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
-        <!-- header layout -->
-        <div id="header"></div>
-        <!-- navigation layout -->
-        <!-- end left sidebar -->
-        <!-- <div id="navigation"></div> -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        <div class="container-scheduleItem">
-            <div class="dashboard-ecommerce">
-                <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="page-header">
-                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
-                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()"/>
-                                <div>
-                                    <span style="color: #FF8A80"><b>Độ ưu tiên 1</b></span>
-                                    <span style="color: #FFFF8D"><b>Độ ưu tiên 2</b></span>
-                                    <span style="color: #C8E6C9"><b>Độ ưu tiên 3</b></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="ecommerce-widget">
-                        <div class="row">
-                            <div>
-                                <div class="div-schedule">
-                                    <div class="div-roomHeader" id="row-surgery-room">
-                                    </div>  
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    
+
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <a href="viewSchedule.html">Go to view schedule</a>
+    <div class="hero-unit">
+      <h1>'Allo, 'Allo!</h1>
+      <p>You now have</p>
+      <ul>
+        <li>HTML5 Boilerplate</li>
+        <li>Sass</li>
+        <li>Modernizr</li>
+        <li>jQuery</li>
+      </ul>
     </div>
+    
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 
-</body>
 
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+  </body>
 </html>

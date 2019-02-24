@@ -26,6 +26,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <!-- endbower -->
+    <script src="./scripts/linhJS.js"></script>
     <script>
         $(function() {
             $("#header").load("./layout/header.html"); 
@@ -34,7 +35,7 @@
     </script>
 </head>
 
-<body>
+<body onload="getMedicalRequest()">
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
@@ -80,30 +81,18 @@
                                     <h5 class="card-header">Pending Requests for Medical Supply</h5>
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table" id="request">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
                                                         <th class="border-0">No.</th>
-                                                        <th class="border-0">Surgery Code</th>
+                                                        <th class="border-0">Surgery Shift ID</th>
+                                                        <th class="border-0">Surgery Catalog Id</th>
                                                         <th class="border-0">Surgery Name</th>
                                                         <th class="border-0">Patient Name</th>
-                                                        <th class="border-0">Surgeon Name</th>
-                                                        <th class="border-0">Expected surgery day </th>
+                                                        <th class="border-0">Day Created</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="m-r-10"><a href="requestDetail.html">MMX34583</a></div>
-                                                        </td>
-                                                        <td>Trần Thị Công Lam</td>
-                                                        <td>Nguyễn Trần Công Lý </td>
-                                                        <td>Phẫu thuật ruột thừa</td>
-                                                        <td>15/03/2019</td>
-                                                    </tr>
-                                                    
-                                                    
                                                 </tbody>
                                             </table>
                                         </div>

@@ -3,11 +3,10 @@
   "private": true,
   "dependencies": {
     "jquery": "~2.1.1",
-    "modernizr": "~2.8.1",
-    "components-font-awesome": "^5.4.2"
+    "modernizr": "~2.8.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.0.0"
+    "mocha": "^6.0.1"
   }
 }

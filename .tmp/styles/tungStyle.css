@@ -1,0 +1,72 @@
+
+/* body {
+    font-family: 'Roboto', sans-serif;
+} */
+.title-surgery-shift h2{
+    text-align: center;
+}
+.div-schedule {
+    float: left;
+    display: inline;
+}
+.div-roomHeader {
+    border: 1px solid black;
+    text-align: center
+}
+.div-roomHeader .div-room-name {
+    background: skyblue;
+
+}
+.div-roomHeaderItem {
+    border: 1px black solid;
+    width: 195px; 
+    float: left;
+}
+.div-roomBodyItem {
+    border: 1px black solid;
+}
+/* View Schedule Item */
+.container-scheduleItem {
+    padding-left: 5%;
+    padding-right: 5%; 
+}
+.div-surgery-report {
+    /* display: flex; */
+    font-size: 18px;
+    color: black;
+    margin-top: 50px
+}
+.div-surgery-report span {
+}
+.div-surgery-report .div-info-patient {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+}
+.div-info-patient div {
+    margin-right: 15%;
+}
+.div-surgery-shift {
+
+}
+.div-editable-information {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    padding-top: 30px;
+}
+.div-ekip .table-ekip {
+    font-size: 18px;
+    color: black;
+}
+.div-ekip .table-ekip tr td{
+    padding-right: 40px;
+    padding-bottom: 10px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInR1bmdTdHlsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtBQUNBOztJQUVJO0FBQ0o7SUFDSSxtQkFBbUI7Q0FDdEI7QUFDRDtJQUNJLFlBQVk7SUFDWixnQkFBZ0I7Q0FDbkI7QUFDRDtJQUNJLHdCQUF3QjtJQUN4QixrQkFBa0I7Q0FDckI7QUFDRDtJQUNJLG9CQUFvQjs7Q0FFdkI7QUFDRDtJQUNJLHdCQUF3QjtJQUN4QixhQUFhO0lBQ2IsWUFBWTtDQUNmO0FBQ0Q7SUFDSSx3QkFBd0I7Q0FDM0I7QUFDRCx3QkFBd0I7QUFDeEI7SUFDSSxpQkFBaUI7SUFDakIsa0JBQWtCO0NBQ3JCO0FBQ0Q7SUFDSSxvQkFBb0I7SUFDcEIsZ0JBQWdCO0lBQ2hCLGFBQWE7SUFDYixnQkFBZ0I7Q0FDbkI7QUFDRDtDQUNDO0FBQ0Q7SUFDSSxxQkFBYztJQUFkLGNBQWM7SUFDZCx3QkFBb0I7UUFBcEIsb0JBQW9CO0lBQ3BCLHFCQUE0QjtRQUE1Qiw0QkFBNEI7Q0FDL0I7QUFDRDtJQUNJLGtCQUFrQjtDQUNyQjtBQUNEOztDQUVDO0FBQ0Q7SUFDSSxxQkFBYztJQUFkLGNBQWM7SUFDZCx3QkFBb0I7UUFBcEIsb0JBQW9CO0lBQ3BCLDBCQUE4QjtRQUE5Qiw4QkFBOEI7SUFDOUIsa0JBQWtCO0NBQ3JCO0FBQ0Q7SUFDSSxnQkFBZ0I7SUFDaEIsYUFBYTtDQUNoQjtBQUNEO0lBQ0ksb0JBQW9CO0lBQ3BCLHFCQUFxQjtDQUN4QiIsImZpbGUiOiJ0dW5nU3R5bGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXHJcbi8qIGJvZHkge1xyXG4gICAgZm9udC1mYW1pbHk6ICdSb2JvdG8nLCBzYW5zLXNlcmlmO1xyXG59ICovXHJcbi50aXRsZS1zdXJnZXJ5LXNoaWZ0IGgye1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG59XHJcbi5kaXYtc2NoZWR1bGUge1xyXG4gICAgZmxvYXQ6IGxlZnQ7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmU7XHJcbn1cclxuLmRpdi1yb29tSGVhZGVyIHtcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkIGJsYWNrO1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyXHJcbn1cclxuLmRpdi1yb29tSGVhZGVyIC5kaXYtcm9vbS1uYW1lIHtcclxuICAgIGJhY2tncm91bmQ6IHNreWJsdWU7XHJcblxyXG59XHJcbi5kaXYtcm9vbUhlYWRlckl0ZW0ge1xyXG4gICAgYm9yZGVyOiAxcHggYmxhY2sgc29saWQ7XHJcbiAgICB3aWR0aDogMTk1cHg7IFxyXG4gICAgZmxvYXQ6IGxlZnQ7XHJcbn1cclxuLmRpdi1yb29tQm9keUl0ZW0ge1xyXG4gICAgYm9yZGVyOiAxcHggYmxhY2sgc29saWQ7XHJcbn1cclxuLyogVmlldyBTY2hlZHVsZSBJdGVtICovXHJcbi5jb250YWluZXItc2NoZWR1bGVJdGVtIHtcclxuICAgIHBhZGRpbmctbGVmdDogNSU7XHJcbiAgICBwYWRkaW5nLXJpZ2h0OiA1JTsgXHJcbn1cclxuLmRpdi1zdXJnZXJ5LXJlcG9ydCB7XHJcbiAgICAvKiBkaXNwbGF5OiBmbGV4OyAqL1xyXG4gICAgZm9udC1zaXplOiAxOHB4O1xyXG4gICAgY29sb3I6IGJsYWNrO1xyXG4gICAgbWFyZ2luLXRvcDogNTBweFxyXG59XHJcbi5kaXYtc3VyZ2VyeS1yZXBvcnQgc3BhbiB7XHJcbn1cclxuLmRpdi1zdXJnZXJ5LXJlcG9ydCAuZGl2LWluZm8tcGF0aWVudCB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICAgIGp1c3RpZnktY29udGVudDogZmxleC1zdGFydDtcclxufVxyXG4uZGl2LWluZm8tcGF0aWVudCBkaXYge1xyXG4gICAgbWFyZ2luLXJpZ2h0OiAxNSU7XHJcbn1cclxuLmRpdi1zdXJnZXJ5LXNoaWZ0IHtcclxuXHJcbn1cclxuLmRpdi1lZGl0YWJsZS1pbmZvcm1hdGlvbiB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYXJvdW5kO1xyXG4gICAgcGFkZGluZy10b3A6IDMwcHg7XHJcbn1cclxuLmRpdi1la2lwIC50YWJsZS1la2lwIHtcclxuICAgIGZvbnQtc2l6ZTogMThweDtcclxuICAgIGNvbG9yOiBibGFjaztcclxufVxyXG4uZGl2LWVraXAgLnRhYmxlLWVraXAgdHIgdGR7XHJcbiAgICBwYWRkaW5nLXJpZ2h0OiA0MHB4O1xyXG4gICAgcGFkZGluZy1ib3R0b206IDEwcHg7XHJcbn0iXX0= */
