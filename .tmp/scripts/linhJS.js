@@ -95,7 +95,6 @@ function saveSurgeryProfile() {
         contentType: "application/json",
         dataType: "json",
         success: function success() {
-            // saveSurgeryProfileMedicalSupply();
             var supplyList = JSON.parse(sessionStorage.getItem("supplyObj"));
             var supplyJson = [];
             for (var s in supplyList) {
@@ -116,48 +115,6 @@ function saveSurgeryProfile() {
             sessionStorage.removeItem("supplyObj");
         }
     });
-
-    // var supplyList = JSON.parse(sessionStorage.getItem("supplyObj"));
-    // var supplyJson = [];
-    // for (var s in supplyList) {
-    //     supplyJson.push({
-    //         medicalSupplyId: Number(supplyList[s]["Code"]),
-    //         surgeryShiftCode: supplyList[s]["Surgery Shift Code"]
-    //     });
-    // }
-    // $.ajax({
-    //     url: EBSMSLocal + "/api/Import/ImportSurgeryShiftMedicalSupply",
-    //     method: "post",
-    //     crossDomain: true,
-    //     data: JSON.stringify(supplyJson),
-    //     contentType: "application/json",
-    //     dataType: "json"
-    // })
-    // sessionStorage.removeItem("infoObj");
-    // sessionStorage.removeItem("supplyObj");
-    // window.location.replace("importList.html");
-}
-
-function saveSurgeryProfileMedicalSupply() {
-    var supplyList = JSON.parse(sessionStorage.getItem("supplyObj"));
-    var supplyJson = [];
-    for (var s in supplyList) {
-        supplyJson.push({
-            medicalSupplyId: Number(supplyList[s]["Code"]),
-            surgeryShiftCode: supplyList[s]["Surgery Shift Code"]
-        });
-    }
-    console.log(supplyJson);
-    $.ajax({
-        url: EBSMSLocal + "/api/Import/ImportSurgeryShiftMedicalSupply",
-        method: "post",
-        crossDomain: true,
-        data: JSON.stringify(supplyJson),
-        contentType: "application/json",
-        dataType: "json"
-    });
-    sessionStorage.removeItem("infoObj");
-    sessionStorage.removeItem("supplyObj");
 }
 
 function deleteRecord() {
@@ -254,8 +211,15 @@ function confirmSupply() {
     $.ajax({
         url: EBSMSLocal + "/api/MedicalConfirm/ConfirmMedicalRequest",
         method: "get",
-        data: { surgeryShiftId: surgeryCode },
-        success: function success(data) {}
+        data: { surgeryShiftId: surgeryCode }
+    });
+    window.location.href = 'confirmMSRequest.html';
+}
+
+function confirmAllSupply() {
+    $.ajax({
+        url: EBSMSLocal + "/api/MedicalConfirm/ConfirmedAllSupplyRequest",
+        method: "get"
     });
     window.location.href = 'confirmMSRequest.html';
 }
