@@ -2,6 +2,7 @@
 
 //Get room show UI
 var EBSMSLocal = 'https://localhost:44372';
+var FontEndLocal = 'http://localhost:9000';
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
     var divRoom = $('#row-surgery-room');
@@ -23,14 +24,14 @@ function loadSurgeryRoom(surgeryDay) {
                                 strAppend2 += '<div style="background-color: black; height: 50px"></div>';
                             }
                             if (shift[_index2].priorityNumber == 1) {
-                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                                strAppend2 += '<div onclick="loadSurgeryShiftDetail(' + shift[_index2].id + ')"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
                             } else if (shift[_index2].priorityNumber == 2) {
-                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                                strAppend2 += '<a href="./viewScheduleItem.html/' + shift[_index2].id + '"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
                             } else {
-                                strAppend2 += '<a href="./viewScheduleItem.html"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                                strAppend2 += '<a href="./viewScheduleItem.html/' + shift[_index2].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                             }
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            strAppend2 += '<div><b>' + shift[_index2].catalogName + ' ' + shift[_index2].id + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></a>';
+                            strAppend2 += '<div><b>' + shift[_index2].catalogName + ' ' + shift[_index2].id + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></div>';
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }
@@ -62,6 +63,29 @@ function LoadSurgeryShiftByRoomAndDate() {
         }
     });
 }
+
+function loadSurgeryShiftDetail(surgeryShiftId) {
+
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftDetail/',
+        method: 'get',
+        data: { shiftId: surgeryShiftId },
+        success: function success(shift) {
+            console.log(shift);
+            $('#span-name').append(shift.patientName);
+            $('#span-gender').append(shift.gender);
+            $('#span-age').append(shift.age);
+            $('#span-specialty').append(shift.speciality);
+            $('#span-surgery-name').append(shift.surgeryName);
+            $('#span-surgery-type').append(shift.surgeryType);
+            $('#span-start-time').append(shift.startTime);
+            $('#span-end-time').append(shift.endTime);
+            $('#textarea-procedure').append(shift.procedure);
+            window.location.href = FontEndLocal + '/viewScheduleItem.html';
+        }
+    });
+}
+
 function getScheduleByDay() {
     var date = new Date($('#date-input').val());
     loadSurgeryRoom(convertDateToNumber(date));

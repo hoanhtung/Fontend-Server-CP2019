@@ -11,6 +11,9 @@
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
     <!-- endbuild -->
+    <!-- <script src="./js/tungJS.js"></script> -->
+    <script src="./scripts/tungJS.js"></script>
+    <!-- bower:js -->
     <!-- build:css styles/mainTemplate.css -->
     <link rel="stylesheet" href="styles/mainTemplate.css">
     <!-- endbuild -->
@@ -45,16 +48,16 @@
                     <div class="div-surgery-report">
                         <div>
                             <div class="div-info-patient">
-                                <div><b>Patient Name:</b> <span>Lê Văn Đạt</span></div>
-                                <div><b>Gender:</b> <span>Nam</span></div>
-                                <div><b>Age:</b> <span>53</span></div>   
+                                <div><b>Patient Name:</b> <span id="span-name"></span></div>
+                                <div><b>Gender:</b> <span id="span-gender"></span></div>
+                                <div><b>Age:</b> <span id="span-age"></span></div>   
                             </div>
                             <div class="div-info-surgery-shift">
-                                <div><b>Specialty:</b> <span>Khoa Phẫu Thuật Chi Trên</span></div>
-                                <div><b>Surgery Name:</b> <span>Phẫu thuật kết hợp xương (KHX) gãy xương bã vai</span></div>
-                                <div><b>Type Of Surgery:</b> <span>Loại 1</span></div>
-                                <div><b>Start Time:</b> <span>7:30 18/02/2019</span></div>
-                                <div><b>End Time:</b> <span>9:30 18/02/2019</span></div>
+                                <div><b>Specialty:</b> <span id="span-specialty"></span></div>
+                                <div><b>Surgery Name:</b> <span id="span-surgery-name"></span></div>
+                                <div><b>Type Of Surgery:</b> <span id="span-surgery-type"></span></div>
+                                <div><b>Start Time:</b> <span id="span-start-time"></span></div>
+                                <div><b>End Time:</b> <span id="span-end-time"></span></div>
                             </div>
                         </div>
                         <br/>
@@ -85,12 +88,7 @@
                             <div class="div-procedure">
                                 <div><b>Surgery Procedure:</b></div>
                                 <br/>
-                                <textarea rows="10" cols="50">bn nằm nghiêng dưới mê NKQ
-Tiên cầm máu tại chỗ bằng nước cất và Addrenailin
-Rạch da theo hình L
-bóc tách cơ dưới gai bộc lộ ố gãy xương bả vai
-Thấy gãy cạnh tròng và cạnh ngoài xương bả vai
-                                </textarea>
+                                <textarea id="textarea-procedure" rows="10" cols="50"></textarea>
                             </div>
                         </div>
                         <br/>
