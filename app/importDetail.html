@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
@@ -34,17 +35,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
-            $("#navigation").load("./layout/navigation.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
+            $("#navigation").load("./layout/navigation.html");
         })
     </script>
     <title>Medical Supply Request Detail</title>
-    
+
 </head>
 
 <body onload="getImportDetail()">
-    
+
     <div class="dashboard-main-wrapper">
         <!-- header layout -->
         <div id="header"></div>
@@ -83,8 +84,6 @@
                     <div class="ecommerce-widget">
 
                         <div class="row">
-                            <!-- recent orders  -->
-                            <!-- ============================================================== -->
                             <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header">Medical supplies</h5>
@@ -96,11 +95,9 @@
                                                         <th class="border-0">No.</th>
                                                         <th class="border-0">Code</th>
                                                         <th class="border-0">Name</th>
-                                                        <th class="border-0">Quantity</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -108,21 +105,18 @@
                                 </div>
                             </div>
                             <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
-                                <!-- TODO: confirm supply method -->
                                 <input type="submit" value="Delete" onClick="deleteRecord();" />
                                 <input type="submit" value="Back"
                                     onClick="javascript:window.location.href='importList.html'" />
                             </div>
-                            <!-- ============================================================== -->
-                            <!-- end recent orders  -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
-    
+
 </body>
 
 </html>
