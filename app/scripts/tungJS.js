@@ -106,4 +106,12 @@ function formatInputDate(date) {
     var dateString = [year, month, day].join('-');
     return dateString;
 }
+
+function makeSchedule() {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
+        method: 'get',
+    })
+    window.location.href = 'viewSchedule.html';
+}
  

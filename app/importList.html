@@ -84,7 +84,7 @@
                         <!-- import file  -->
                         <!-- ============================================================== -->
                         <div class="row">
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                            <div style="width: 100%" >
                                 <input type="file" onchange="ExcelExport(event)" id="file" />
                             </div>
                             <div class="card"></br></div> <!-- break line -->
@@ -94,11 +94,10 @@
                             <!-- surgery information  -->
                             <!-- ============================================================== -->
 
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                            <div style="width: 100%">
                                 <div class="card">
                                     <h5 class="card-header">Surgery Profile Information</h5>
                                     <div class="card-body p-0">
-
                                         <table class="table" id="profile">
                                             <thead class="bg-light">
                                                 <tr class="border-0">
@@ -112,7 +111,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -125,6 +123,8 @@
                                 <input type="submit" value="Import All" onclick="saveSurgeryProfile()" />
                                 <input type="submit" value="Cancel"
                                     onClick="javascript:window.location.href='importList.html'" />
+                                <input type="submit" value="Clear Import List"
+                                    onClick="removeSessionStorage()" />
                             </div>
                         </div>
                     </div>
