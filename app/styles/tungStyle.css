@@ -2,20 +2,25 @@
 /* body {
     font-family: 'Roboto', sans-serif;
 } */
+.table-no-schedule tr td{
+    padding: 10px;
+}
+
 .title-surgery-shift h2{
     text-align: center;
 }
 .div-schedule {
-    float: left;
-    display: inline;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
-.div-roomHeader {
-    border: 1px solid black;
-    text-align: center
+.div-roomHeaderItem {
+    width: 195px;
+    flex: none;
 }
-.div-roomHeader .div-room-name {
+.div-roomHeaderItem .div-room-name {
     background: skyblue;
-
 }
 .div-roomHeaderItem {
     border: 1px black solid;

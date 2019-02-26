@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- build:css styles/tungStyle.css -->
+    <link rel="stylesheet" href="styles/headerStyle.css">
+    <!-- endbuild -->
+    <!-- build:css styles/tungStyle.css -->
+    <link rel="stylesheet" href="styles/tungStyle.css">
+    <!-- endbuild -->
+    <!-- build:css styles/mainTemplate.css -->
+    <link rel="stylesheet" href="styles/mainTemplate.css">
+    <!-- endbuild -->
+    <title>Surgery Management System</title>
+    <!-- <script src="./js/tung-intraOp.js"></script> -->
+    <script src="./scripts/tungJS.js"></script>
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- bower:css -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+    <!-- endbower -->
+    <script>
+        $(function() {
+            $("#header").load("./layout/header.html"); 
+            // $("#navigation").load("./layout/navigation.html"); 
+        })
+    </script>
+</head>
+<body onload="loadSurgeryShiftNoSchedule()">
+    <div class="dashboard-main-wrapper">
+        <!-- header -->
+        <div id="header"></div>
+        <div id="div-shift-no-schedule"></div>  
+    </div>  
+</body>
+</html>

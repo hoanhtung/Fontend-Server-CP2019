@@ -25,6 +25,7 @@ function ExcelExport(event) {
 
             switch (sheetName) {
                 case 'SurgeryProfile':
+                console.log(rowObj);
                     parseImportInfo(rowObj);
                     sessionStorage.setItem('infoObj', JSON.stringify(rowObj));
                     break;
@@ -57,8 +58,13 @@ function parseImportInfo(jsonObj) {
         newColumn = newRow.insertCell(4);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgeon Name']));
         newColumn = newRow.insertCell(5);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] +
+        if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
+            newColumn.appendChild(document.createTextNode('N/A'));
+        }
+        else {
+            newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] +
             ' - ' + jsonObj[i]['Expected Time']));
+        }
         newColumn = newRow.insertCell(6);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Weight']));
     }
@@ -70,10 +76,13 @@ function saveSurgeryProfile() {
     for (var sh in shift) {
         var gender = -1;
         var proStartDate = '', proEndDate = '';
-        if (shift[sh]['Expected Date'] != 'NULL') {
+        if (shift[sh]['Expected Date'] != undefined && shift[sh]['Expected Time'] != undefined) {
             var day = shift[sh]['Expected Date'];
+            console.log(shift[sh]['Expected Time']);
             var start = shift[sh]['Expected Time'].split(' - ')[0];
+            console.log(start);
             var end = shift[sh]['Expected Time'].split(' - ')[1];
+            console.log(end);
             proStartDate = day + ' ' + start;
             proEndDate = day + ' ' + end;
         }
@@ -87,7 +96,7 @@ function saveSurgeryProfile() {
             'yearOfBirth': Number(shift[sh]['Patient DOB']),
             'surgeryCatalogID': Number(shift[sh]['Surgery Code']),
             'surgeryShiftCode': shift[sh]['Surgery Shift Code'],
-            'surgoenId': Number(shift[sh]['SurgeonID']),
+            'surgeonId': Number(shift[sh]['SurgeonID']),
             'proposedStartDateTime': proStartDate,
             'proposedEndDateTime': proEndDate
         })
@@ -228,7 +237,6 @@ function confirmSupply() {
 }
 
 function confirmAllSupply(){
-    alert('asdasdas');
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmedAllSupplyRequest',
         method: 'get',

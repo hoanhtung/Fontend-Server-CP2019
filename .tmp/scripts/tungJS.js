@@ -104,6 +104,13 @@ function formatInputDate(date) {
     var dateString = [year, month, day].join('-');
     return dateString;
 }
+function formatDateToDateTimeString(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    var year = date.getFullYear();
+    var dateString = [day, month, year].join('/');
+    return dateString;
+}
 
 function makeSchedule() {
     $.ajax({
@@ -111,5 +118,26 @@ function makeSchedule() {
         method: 'get'
     });
     window.location.href = 'viewSchedule.html';
+}
+function loadSurgeryShiftNoSchedule() {
+    var div_shift = $('#div-shift-no-schedule');
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsNoSchedule',
+        method: 'get',
+        success: function success(data) {
+            var container = '<table class="table-no-schedule"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Proposed Time</th><th>Schedule Time</th>' + '<th></th><th>Priority Number</th></tr></thead>';
+            for (var i = 0; i < data.length; i++) {
+                container += '<tr><td>' + (i + 1) + '</td><td>' + data[i].surgeryShiftId + '</td><td>';
+                if (data[i].proposedStartDateTime != undefined && data[i].proposedEndDateTime != undefined) {
+                    container += data[i].proposedStartDateTime.split('T')[0] + ' ' + data[i].proposedStartDateTime.split('T')[1] + ' - ' + data[i].proposedEndDateTime.split('T')[1];
+                }
+                container += '</td>'
+                // + '<td>' + data[i].priorityNumber + '</td>'
+                + '<td>' + data[i].scheduleDate + '</td>' + '<td>' + data[i].priorityNumber + '</td></tr>';
+            }
+            container += '</table>';
+            div_shift.append(container);
+        }
+    });
 }
 //# sourceMappingURL=tungJS.js.map

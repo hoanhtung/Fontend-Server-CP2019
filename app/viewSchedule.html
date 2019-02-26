@@ -39,13 +39,8 @@
     <!-- main wrapper -->
     <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
-        <!-- header layout -->
+        <!-- header -->
         <div id="header"></div>
-        <!-- navigation layout -->
-        <!-- end left sidebar -->
-        <!-- <div id="navigation"></div> -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
         <div class="container-scheduleItem">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
@@ -57,6 +52,8 @@
                             <div class="page-header">
                                 <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()"/>
+                                <a href="./viewShiftNoSchedule.html">View shift no schedule</a>
+                                <input type="submit" value="Make Schedule" onClick="makeSchedule()" />
                                 <div>
                                     <span style="color: #FF8A80"><b>Độ ưu tiên 1</b></span>
                                     <span style="color: #FFFF8D"><b>Độ ưu tiên 2</b></span>
@@ -69,13 +66,7 @@
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
                     <div class="ecommerce-widget">
-                        <div class="row">
-                            <div>
-                                <div class="div-schedule">
-                                    <div class="div-roomHeader" id="row-surgery-room">
-                                    </div>  
-                                </div>
-                            </div>
+                        <div class="div-schedule" id="row-surgery-room">
                         </div>
                     </div>
                 </div>
