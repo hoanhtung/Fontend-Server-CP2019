@@ -32,11 +32,15 @@
         })
     </script>
 </head>
-<body onload="loadSurgeryShiftNoSchedule()">
+<body onload="loadSurgeryShiftNoSchedule(); loadSurgeryShiftNoScheduleByProposedTime()">
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
-        <div id="div-shift-no-schedule"></div>  
+        <div>
+            <div id="div-shift-no-schedule"></div>  
+            <h2>Proposed Time</h2>
+            <div id="div-shift-proposed"></div>  
+        </div>
     </div>  
 </body>
 </html>

@@ -128,7 +128,7 @@ function saveSurgeryProfile() {
                     sessionStorage.removeItem('infoObj');
                     sessionStorage.removeItem('supplyObj');
                     alert('Import successfully!');
-                    window.location.href = 'importList.html';
+                    window.location.href = 'confirmMSRequest.html';
                 }
             });
         }
@@ -239,7 +239,7 @@ function confirmAllSupply() {
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmedAllSupplyRequest',
         method: 'get'
     });
-    window.location.href = 'confirmMSRequest.html';
+    window.location.href = 'viewSchedule.html';
 }
 //Get all medical supply request
 function getMedicalRequest() {

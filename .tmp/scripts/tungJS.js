@@ -20,9 +20,9 @@ function loadSurgeryRoom(surgeryDay) {
                     success: function success(shift) {
                         var strAppend2 = '';
                         for (var _index2 = 0; _index2 < shift.length; _index2++) {
-                            if (shift[_index2].estimatedStartDateTime == '13:00') {
-                                strAppend2 += '<div style="background-color: black; height: 50px"></div>';
-                            }
+                            // if (shift[index].estimatedStartDateTime == '13:00') {
+                            //     strAppend2 += '<div style="background-color: black; height: 50px"></div>'
+                            // }
                             if (shift[_index2].priorityNumber == 1) {
                                 strAppend2 += '<div onclick="loadSurgeryShiftDetail(' + shift[_index2].id + ')"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
                             } else if (shift[_index2].priorityNumber == 2) {
@@ -119,13 +119,37 @@ function makeSchedule() {
     });
     window.location.href = 'viewSchedule.html';
 }
+
+function makeScheduleProposedTime() {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/MakeScheduleProposedTime',
+        method: 'get'
+    });
+    window.location.href = 'viewSchedule.html';
+}
+
 function loadSurgeryShiftNoSchedule() {
     var div_shift = $('#div-shift-no-schedule');
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsNoSchedule',
         method: 'get',
         success: function success(data) {
-            var container = '<table class="table-no-schedule"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Proposed Time</th><th>Schedule Time</th>' + '<th></th><th>Priority Number</th></tr></thead>';
+            var container = '<table class="table-no-schedule"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Confirm Time</th><th>Schedule Time</th>' + '<th>Priority Number</th><th>ExpectedDuration</th></tr></thead>';
+            for (var i = 0; i < data.length; i++) {
+                container += '<tr><td>' + (i + 1) + '</td><td>' + data[i].surgeryShiftId + '</td>' + '<td>' + data[i].confirmDate + '</td>' + '<td>' + data[i].scheduleDate + '</td>' + '<td>' + data[i].priorityNumber + '</td>' + '<td>' + data[i].expectedSurgeryDuration + '</td></tr>';
+            }
+            container += '</table>';
+            div_shift.append(container);
+        }
+    });
+}
+function loadSurgeryShiftNoScheduleByProposedTime() {
+    var div_shift = $('#div-shift-proposed');
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftNoScheduleByProposedTime',
+        method: 'get',
+        success: function success(data) {
+            var container = '<table class="table-no-schedule"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Proposed Time</th><th>Schedule Time</th>' + '<th>Priority Number</th></th><th>ExpectedDuration</th></tr></thead>';
             for (var i = 0; i < data.length; i++) {
                 container += '<tr><td>' + (i + 1) + '</td><td>' + data[i].surgeryShiftId + '</td><td>';
                 if (data[i].proposedStartDateTime != undefined && data[i].proposedEndDateTime != undefined) {
@@ -133,7 +157,7 @@ function loadSurgeryShiftNoSchedule() {
                 }
                 container += '</td>'
                 // + '<td>' + data[i].priorityNumber + '</td>'
-                + '<td>' + data[i].scheduleDate + '</td>' + '<td>' + data[i].priorityNumber + '</td></tr>';
+                + '<td>' + data[i].scheduleDate + '</td>' + '<td>' + data[i].priorityNumber + '</td>' + '<td>' + data[i].expectedSurgeryDuration + '</td></tr>';
             }
             container += '</table>';
             div_shift.append(container);

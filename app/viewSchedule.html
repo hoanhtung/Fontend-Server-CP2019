@@ -52,8 +52,9 @@
                             <div class="page-header">
                                 <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()"/>
-                                <a href="./viewShiftNoSchedule.html">View shift no schedule</a>
+                                <input type="submit" value="View Shift No Schedule" onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <input type="submit" value="Make Schedule" onClick="makeSchedule()" />
+                                <input type="submit" value="Make Schedule Proposed Time" onClick="makeScheduleProposedTime()" />
                                 <div>
                                     <span style="color: #FF8A80"><b>Độ ưu tiên 1</b></span>
                                     <span style="color: #FFFF8D"><b>Độ ưu tiên 2</b></span>
