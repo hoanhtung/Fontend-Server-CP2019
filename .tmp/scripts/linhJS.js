@@ -2,18 +2,6 @@
 
 var EBSMSLocal = 'https://localhost:44372';
 
-function removeSessionStorage() {
-    sessionStorage.removeItem('infoObj');
-    sessionStorage.removeItem('supplyObj');
-    javascript: window.location.href = 'importList.html';
-}
-
-function getJSONfromSession() {
-    var infoJSON = JSON.parse(sessionStorage.getItem('infoObj'));
-    var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
-    if (infoJSON != null) parseImportInfo(infoJSON);
-}
-
 function ExcelExport(event) {
     var input = event.target;
     var reader = new FileReader();
@@ -44,23 +32,25 @@ function parseImportInfo(jsonObj) {
         var newColumn;
 
         newColumn = newRow.insertCell(0);
+        // var checkBox = document.createElement("input");
+        // checkBox.setAttribute("type", "checkbox");
+        // checkBox.setAttribute("value", jsonObj[i]['Surgery Shift Code']);
+        // checkBox.setAttribute("class", "checkbox");
+        // newColumn.appendChild(checkBox);
+        newColumn = newRow.insertCell(1);
+        newColumn.appendChild(document.createTextNode(i + 1));
+        newColumn = newRow.insertCell(2);
         var a = document.createElement('a');
         a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
-        a.href = 'importDetail.html?no=' + jsonObj[i]['Surgery Shift Code'];
+        a.href = '#';
+        a.setAttribute("onclick", "getImportDetail(" + jsonObj[i]['Surgery Shift Code'] + ");");
         newColumn.appendChild(a);
-
-        newColumn = newRow.insertCell(1);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
-        newColumn = newRow.insertCell(2);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Medical Record']));
         newColumn = newRow.insertCell(3);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Name']));
+        newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
         newColumn = newRow.insertCell(4);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgeon Name']));
+        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Name']));
         newColumn = newRow.insertCell(5);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] + ' - ' + jsonObj[i]['Expected Time']));
-        newColumn = newRow.insertCell(6);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Weight']));
     }
 }
 
@@ -127,95 +117,17 @@ function saveSurgeryProfile() {
     });
 }
 
-function deleteRecord() {
+function getImportDetail(id) {
+    var messesage;
     var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
-    var infoJSON = JSON.parse(sessionStorage.getItem('infoObj'));
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var no = url.searchParams.get('no');
-
-    for (var i = 0; i < infoJSON.length; i++) {
-        if (infoJSON[i]['Surgery Shift Code'] == no) {
-            delete infoJSON[i];
-            break;
-        }
-    }
     for (var i = 0; i < supplyJSON.length; i++) {
-        if (supplyJSON[i]['Surgery Shift Code'] == no) {
-            delete supplyJSON[i];
-            i--;
+        if (supplyJSON[i]['Surgery Shift Code'] == id) {
+            messesage = messesage + "No." + (i + 1) + supplyJSON[i]['Code'] + "\t" + supplyJSON[i]['Name'] + "\n";
         }
     }
-    sessionStorage.removeItem('infoJSON');
-    sessionStorage.removeItem('supplyJSON');
-    sessionStorage.setItem('infoObj', JSON.stringify(infoJSON));
-    sessionStorage.setItem('supplyJSON', JSON.stringify(supplyJSON));
-    javascript: window.location.href = 'importList.html';
+    alert(messesage);
 }
 
-function parseJSONImportDetail(jsonObj) {
-    var table = document.getElementById('listSupply').getElementsByTagName('tbody')[0];
-    var supplyJSON = jsonObj;
-    var j = 0;
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var no = url.searchParams.get('no');
-    for (var i = 0; i < supplyJSON.length; i++) {
-        if (supplyJSON[i]['Surgery Shift Code'] == no) {
-            var newRow = table.insertRow(table.rows.length);
-            var newColumn;
-
-            newColumn = newRow.insertCell(0);
-            newColumn.appendChild(document.createTextNode(++j));
-            newColumn = newRow.insertCell(1);
-            newColumn.appendChild(document.createTextNode(supplyJSON[i]['Code']));
-            newColumn = newRow.insertCell(2);
-            newColumn.appendChild(document.createTextNode(supplyJSON[i]['Name']));
-        }
-    }
-}
-
-function getImportDetail() {
-    //get surgery code from url
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var no = url.searchParams.get('no');
-
-    var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
-    parseJSONImportDetail(supplyJSON);
-}
-
-// === JS for MEDICAL SUPPLY CONFIRM ===
-var surgeryCode;
-
-function getRequestDetail() {
-    //get surgery code from url
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    surgeryCode = url.searchParams.get('code');
-    document.getElementById('sid').innerHTML = surgeryCode;
-    document.getElementById('name').innerHTML = url.searchParams.get('sname');
-    document.getElementById('patient').innerHTML = url.searchParams.get('pname');
-    $.ajax({
-        url: EBSMSLocal + '/api/MedicalConfirm/GetMedicalSupplyRequest',
-        method: 'get',
-        data: { surgeryShiftId: surgeryCode },
-        success: function success(data) {
-            var table = document.getElementById('listSupply').getElementsByTagName('tbody')[0];
-            for (var i = 0; i < data.length; i++) {
-                var newRow = table.insertRow(table.rows.length);
-                var newColumn;
-
-                newColumn = newRow.insertCell(0);
-                newColumn.appendChild(document.createTextNode(i + 1));
-                newColumn = newRow.insertCell(1);
-                newColumn.appendChild(document.createTextNode(data[i]['code']));
-                newColumn = newRow.insertCell(2);
-                newColumn.appendChild(document.createTextNode(data[i]['name']));
-            }
-        }
-    });
-}
 //Send confirm MS
 function confirmSupply() {
     $.ajax({
@@ -227,12 +139,26 @@ function confirmSupply() {
 }
 
 function confirmAllSupply() {
-    alert('asdasdas');
+    // alert('asdasdas');
+
+    var id = [];
+    var checkboxS = document.getElementsByClassName("checkbox");
+    for (var i = 0; i < checkboxS.length; i++) {
+        if (checkboxS[i].checked) {
+            id.push({ id: Number(checkboxS[i].value) });
+        }
+    }
+    console.log(JSON.stringify(id));
     $.ajax({
-        url: EBSMSLocal + '/api/MedicalConfirm/ConfirmedAllSupplyRequest',
-        method: 'get'
+        url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
+        method: 'post',
+        data: JSON.stringify(id),
+        success: function success() {
+            alert('success');
+            // window.location.href = 'confirmMSRequest.html';
+        }
     });
-    window.location.href = 'confirmMSRequest.html';
+    // window.location.href = 'confirmMSRequest.html';
 }
 //Get all medical supply request
 function getMedicalRequest() {
@@ -242,26 +168,44 @@ function getMedicalRequest() {
         success: function success(data) {
             var table = document.getElementById('request').getElementsByTagName('tbody')[0];
             for (var i = 0; i < data.length; i++) {
+                var id = data[i]['id'];
                 var newRow = table.insertRow(table.rows.length);
                 var newColumn;
                 newColumn = newRow.insertCell(0);
-                newColumn.appendChild(document.createTextNode(i + 1));
-
+                var checkBox = document.createElement("input");
+                checkBox.setAttribute("type", "checkbox");
+                checkBox.setAttribute("value", id);
+                checkBox.setAttribute("class", "checkbox");
+                newColumn.appendChild(checkBox);
                 newColumn = newRow.insertCell(1);
-                var a = document.createElement('a');
-                a.appendChild(document.createTextNode(data[i]['id']));
-                a.href = 'requestDetail.html?code=' + data[i]['id'] + '&sname=' + data[i]['surgeryName'] + '&pname=' + data[i]['patientName'];
-                newColumn.appendChild(a);
-
+                newColumn.appendChild(document.createTextNode(data[i]['patientName']));
                 newColumn = newRow.insertCell(2);
-                newColumn.appendChild(document.createTextNode(data[i]['surgeryCatalogId']));
+                newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
                 newColumn = newRow.insertCell(3);
                 newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
                 newColumn = newRow.insertCell(4);
-                newColumn.appendChild(document.createTextNode(data[i]['patientName']));
-                newColumn = newRow.insertCell(5);
-                newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
+                var a = document.createElement('a');
+                a.href = "#";
+                a.appendChild(document.createTextNode("..."));
+                a.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");
+                newColumn.appendChild(a);
             }
+        }
+    });
+}
+
+function getMedicalRequestDetail(id) {
+    //get surgery code from url
+    $.ajax({
+        url: EBSMSLocal + '/api/MedicalConfirm/GetMedicalSupplyRequest',
+        method: 'get',
+        data: { surgeryShiftId: id },
+        success: function success(data) {
+            var messesage = "no";
+            for (var i = 0; i < data.length; i++) {
+                messesage = messesage + "no." + (i + 1) + "" + data[i]["name"] + "\n";
+            }
+            alert(messesage);
         }
     });
 }
