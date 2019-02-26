@@ -14,6 +14,7 @@ function ExcelExport(event) {
 
             switch (sheetName) {
                 case 'SurgeryProfile':
+                    console.log(rowObj);
                     parseImportInfo(rowObj);
                     sessionStorage.setItem('infoObj', JSON.stringify(rowObj));
                     break;
@@ -51,6 +52,13 @@ function parseImportInfo(jsonObj) {
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Name']));
         newColumn = newRow.insertCell(5);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] + ' - ' + jsonObj[i]['Expected Time']));
+        if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
+            newColumn.appendChild(document.createTextNode('N/A'));
+        } else {
+            newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] + ' - ' + jsonObj[i]['Expected Time']));
+        }
+        newColumn = newRow.insertCell(6);
+        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Weight']));
     }
 }
 
@@ -61,10 +69,13 @@ function saveSurgeryProfile() {
         var gender = -1;
         var proStartDate = '',
             proEndDate = '';
-        if (shift[sh]['Expected Date'] != 'NULL') {
+        if (shift[sh]['Expected Date'] != undefined && shift[sh]['Expected Time'] != undefined) {
             var day = shift[sh]['Expected Date'];
+            console.log(shift[sh]['Expected Time']);
             var start = shift[sh]['Expected Time'].split(' - ')[0];
+            console.log(start);
             var end = shift[sh]['Expected Time'].split(' - ')[1];
+            console.log(end);
             proStartDate = day + ' ' + start;
             proEndDate = day + ' ' + end;
         }
@@ -78,7 +89,7 @@ function saveSurgeryProfile() {
             'yearOfBirth': Number(shift[sh]['Patient DOB']),
             'surgeryCatalogID': Number(shift[sh]['Surgery Code']),
             'surgeryShiftCode': shift[sh]['Surgery Shift Code'],
-            'surgoenId': Number(shift[sh]['SurgeonID']),
+            'surgeonId': Number(shift[sh]['SurgeonID']),
             'proposedStartDateTime': proStartDate,
             'proposedEndDateTime': proEndDate
         });
@@ -110,7 +121,7 @@ function saveSurgeryProfile() {
                     sessionStorage.removeItem('infoObj');
                     sessionStorage.removeItem('supplyObj');
                     alert('Import successfully!');
-                    window.location.href = 'importList.html';
+                    window.location.href = 'confirmMSRequest.html';
                 }
             });
         }
@@ -139,8 +150,6 @@ function confirmSupply() {
 }
 
 function confirmAllSupply() {
-    // alert('asdasdas');
-
     var id = [];
     var checkboxS = document.getElementsByClassName("checkbox");
     for (var i = 0; i < checkboxS.length; i++) {
@@ -158,7 +167,7 @@ function confirmAllSupply() {
             // window.location.href = 'confirmMSRequest.html';
         }
     });
-    // window.location.href = 'confirmMSRequest.html';
+    window.location.href = 'viewSchedule.html';
 }
 //Get all medical supply request
 function getMedicalRequest() {
