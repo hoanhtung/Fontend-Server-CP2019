@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/headerStyle.css">
     <link rel="stylesheet" href="styles/tungStyle.css">
     <link rel="stylesheet" href="styles/mainTemplate.css">
@@ -19,12 +20,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
-            $("#navigation").load("./layout/navigation.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
+            $("#navigation").load("./layout/navigation.html");
         })
     </script>
 </head>
+
 <body>
     <div class="dashboard-main-wrapper">
         <!-- header layout -->
@@ -66,7 +68,7 @@
                         <!-- import file  -->
                         <!-- ============================================================== -->
                         <div class="row">
-                            <div style="width: 100%" >
+                            <div style="width: 100%">
                                 <input type="file" onchange="ExcelExport(event)" id="file" />
                             </div>
                             <div class="card"></br></div> <!-- break line -->
@@ -110,9 +112,10 @@
                 </div>
             </div>
         </div>
-            <!-- ============================================================== -->
-            <!-- end wrapper  -->
-            <!-- ============================================================== -->
-        </div>                        
-    </body>
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+</body>
+
 </html>

@@ -139,23 +139,21 @@ function confirmSupply() {
 }
 
 function confirmAllSupply() {
-    // alert('asdasdas');
-
     var id = [];
     var checkboxS = document.getElementsByClassName("checkbox");
     for (var i = 0; i < checkboxS.length; i++) {
         if (checkboxS[i].checked) {
-            id.push({ id: Number(checkboxS[i].value) });
+            var value = Number(checkboxS[i].value);
+            id.push(value);
         }
     }
-    console.log(JSON.stringify(id));
+    console.log(id);
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
         method: 'post',
         data: JSON.stringify(id),
         success: function success() {
             alert('success');
-            // window.location.href = 'confirmMSRequest.html';
         }
     });
     // window.location.href = 'confirmMSRequest.html';
@@ -201,9 +199,9 @@ function getMedicalRequestDetail(id) {
         method: 'get',
         data: { surgeryShiftId: id },
         success: function success(data) {
-            var messesage = "no";
+            var messesage = "";
             for (var i = 0; i < data.length; i++) {
-                messesage = messesage + "no." + (i + 1) + "" + data[i]["name"] + "\n";
+                messesage = messesage + "no. " + (i + 1) + " " + data[i]["name"] + ".\n";
             }
             alert(messesage);
         }
