@@ -22,21 +22,18 @@ function loadSurgeryRoom(surgeryDay) {
                     success: function success(shift) {
                         var strAppend2 = '';
                         for (var _index2 = 0; _index2 < shift.length; _index2++) {
-                            // if (shift[index].estimatedStartDateTime == '13:00') {
-                            //     strAppend2 += '<div style="background-color: black; height: 50px"></div>'
-                            // }
                             if (shift[_index2].priorityNumber == 1) {
-                                strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[_index2].id + '"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
-                                // strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                                // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
                             } else if (shift[_index2].priorityNumber == 2) {
-                                strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[_index2].id + '"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
-                                // strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                                // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
                             } else {
-                                strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[_index2].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
-                                // strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                                // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                             }
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            strAppend2 += '<div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></a>';
+                            strAppend2 += '<div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></div>';
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }
@@ -169,101 +166,6 @@ function loadSurgeryShiftNoScheduleByProposedTime() {
             }
             container += '</table>';
             div_shift.append(container);
-        }
-    });
-}
-//================================Phuc==================================
-function loadAvailableRoomByStartEnd(start, end) {
-    $.ajax({
-        url: EBSMSLocal + '/api/Schedule/GetAvailableRoom/',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify({
-            startDate: start,
-            endDate: end
-        }),
-        method: 'post',
-        success: function success(response) {
-            var select = $('#availableRoom');
-            var wrapper = $('#changeRoomWrapper');
-            wrapper.css('visibility', 'hidden');
-            select.empty();
-            console.log(response);
-            if (Array.isArray(response)) {
-                var options = response.map(function (e) {
-                    var opt = $('<option></option>');
-                    opt.val(e);
-                    opt.text(getRoomById(e).name);
-                    return opt;
-                });
-                options.forEach(function (e) {
-                    select.append(e);
-                });
-                wrapper.css('visibility', 'visible');
-            }
-        }
-    });
-}
-function loadAvailableRoomByHourMinute(hour, minute) {
-    $.ajax({
-        url: EBSMSLocal + '/api/Schedule/GetAvailableRoomForDuration/',
-        data: {
-            hour: hour,
-            minute: minute
-        },
-        method: 'get',
-        success: function success(response) {
-            var select = $('#availableDurationRoom');
-            var wrapper = $('#changeRoomDurationWrapper');
-            wrapper.css('visibility', 'hidden');
-            select.empty();
-            console.log(response);
-            if (Array.isArray(response)) {
-                var options = response.map(function (e) {
-                    var opt = $('<option></option>');
-                    opt.val(e.roomId + ';' + e.startDateTime + ';' + e.endDateTime);
-                    opt.text(getRoomById(e.roomId).name + ' --- startDateTime: ' + e.startDateTime.replace('T', ' - ') + ' - endDateTime: ' + e.endDateTime.replace('T', ' - '));
-                    return opt;
-                });
-                options.forEach(function (e) {
-                    select.append(e);
-                });
-                wrapper.css('visibility', 'visible');
-            }
-        }
-    });
-}
-function changeSchedule(shiftId, start, end, roomId) {
-    $.ajax({
-        url: EBSMSLocal + '/api/Schedule/ChangeSchedule/',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify({
-            id: shiftId,
-            estimatedStartDateTime: start,
-            estimatedEndDateTime: end,
-            roomId: roomId
-        }),
-        method: 'post',
-        success: function success() {
-            console.log('Kudo iz da bezt!');
-        }
-    });
-}
-function changeScheduleDuration(shiftId, start, end, roomId) {
-    $.ajax({
-        url: EBSMSLocal + '/api/Schedule/ChangeScheduleForDuration/',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify({
-            id: shiftId,
-            estimatedStartDateTime: start,
-            estimatedEndDateTime: end,
-            roomId: roomId
-        }),
-        method: 'post',
-        success: function success() {
-            console.log('Kudo iz da bezt!');
         }
     });
 }

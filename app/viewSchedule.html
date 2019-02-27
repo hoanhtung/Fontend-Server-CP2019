@@ -21,12 +21,15 @@
     <!-- <script src="./js/tung-intraOp.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
     <!-- <script src="./scripts/phucJS.js"></script> -->
+    <script src="./scripts/phucJS.js"></script>
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <!-- endbower -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- bower:css -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- endbower -->
     <script>
         $(function () {
@@ -36,7 +39,6 @@
         })
     </script>
 </head>
-
 <body onload="loadSurgeryRoom(convertDateToNumber(new Date()))">
     <!-- ============================================================== -->
     <!-- main wrapper -->
@@ -95,70 +97,57 @@
                             <div class="col px-0">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="startend-tab" data-toggle="tab" href="#startend"
-                                            role="tab" aria-controls="startend" aria-selected="true">Start - End</a>
+                                        <a class="nav-link active" id="startend-tab" data-toggle="tab" href="#startend" role="tab" aria-controls="startend" aria-selected="true">Start - End</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="duration-tab" data-toggle="tab" href="#duration"
-                                            role="tab" aria-controls="duration" aria-selected="false">Duration</a>
+                                        <a class="nav-link" id="duration-tab" data-toggle="tab" href="#duration" role="tab" aria-controls="duration" aria-selected="false">Duration</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="startend" role="tabpanel"
-                                        aria-labelledby="startend-tab">
+                                    <div class="tab-pane fade show active" id="startend" role="tabpanel" aria-labelledby="startend-tab">
                                         <div class="container-fluid">
                                             <div class="row">
-                                                <div class="col py-3"
-                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                <div class="col py-3" style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
                                                     <div class="form-group">
                                                         <label for="startTime">Start Date Time</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                            id="startTime" />
+                                                        <input type="datetime-local" class="form-control" id="startTime"/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="endTime">End Date Time</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                            id="endTime" />
+                                                        <input type="datetime-local" class="form-control" id="endTime"/>
                                                     </div>
-                                                    <button id="checkSchedule" type="button"
-                                                        class="btn btn-success">Check</button>
+                                                    <button id="checkSchedule" type="button" class="btn btn-success">Check</button>
                                                     <div id="changeRoomWrapper" class="mt-3">
                                                         <div class="form-group">
                                                             <label for="availableRoom">Available Room</label>
                                                             <select class="form-control" id="availableRoom"></select>
                                                         </div>
-                                                        <button id="changeRoom" type="button"
-                                                            class="btn btn-success">Change</button>
+                                                        <button id="changeRoom" type="button" class="btn btn-success">Change</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="duration" role="tabpanel"
-                                        aria-labelledby="duration-tab">
+                                    <div class="tab-pane fade" id="duration" role="tabpanel" aria-labelledby="duration-tab">
                                         <div class="container-fluid">
                                             <div class="row">
-                                                <div class="col py-3"
-                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                <div class="col py-3" style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
                                                     <div class="form-group">
                                                         <label for="hour">Hour</label>
-                                                        <input type="number" class="form-control" id="hour" />
+                                                        <input type="number" class="form-control" id="hour"/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="minute">Minute</label>
-                                                        <input type="number" class="form-control" id="minute" />
+                                                        <input type="number" class="form-control" id="minute"/>
                                                     </div>
-                                                    <button id="checkScheduleDuration" type="button"
-                                                        class="btn btn-success">Check</button>
+                                                    <button id="checkScheduleDuration" type="button" class="btn btn-success">Check</button>
                                                     <div id="changeRoomDurationWrapper" class="mt-3">
                                                         <div class="form-group">
                                                             <label for="availableDurationRoom">Available Room</label>
-                                                            <select class="form-control"
-                                                                id="availableDurationRoom"></select>
+                                                            <select class="form-control" id="availableDurationRoom"></select>
                                                         </div>
-                                                        <button id="changeRoomDuration" type="button"
-                                                            class="btn btn-success">Change</button>
-                                                    </div>
+                                                        <button id="changeRoomDuration" type="button" class="btn btn-success">Change</button>
+                                                    </div>                                
                                                 </div>
                                             </div>
                                         </div>
@@ -174,43 +163,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $('#changeTimeModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var scheduleIndex = button.data('schedule-index');
-            $('#changeRoomWrapper').css('visibility', 'hidden');
-            $('#changeRoom').data('shift-id', scheduleIndex);
-            $('#changeRoomDurationWrapper').css('visibility', 'hidden');
-            $('#changeRoomDuration').data('shift-id', scheduleIndex);
-        });
-        $('#checkSchedule').click(function () {
-            var start = new Date($('#startTime').val()).toJSON();
-            var end = new Date($('#endTime').val()).toJSON();
-            loadAvailableRoomByStartEnd(start, end);
-        });
-        $('#checkScheduleDuration').click(function () {
-            var hour = $('#hour').val();
-            var minute = $('#minute').val();
-            loadAvailableRoomByHourMinute(hour, minute);
-        });
-        $('#changeRoom').click(function () {
-            var shiftId = $(this).data('shift-id');
-            var start = new Date($('#startTime').val()).toJSON();
-            var end = new Date($('#endTime').val()).toJSON();
-            var roomId = Number.parseInt($('#availableRoom').val());
-            changeSchedule(shiftId, start, end, roomId);
-        });
-        $('#changeRoomDuration').click(function () {
-            var shiftId = $(this).data('shift-id');
-            var room = $('#availableDurationRoom').val();
-            var roomArr = room.split(';');
-            var roomId = Number.parseInt(roomArr[0]);
-            var start = roomArr[1];
-            var end = roomArr[2];
-            changeScheduleDuration(shiftId, start, end, roomId);
-        });
-    </script>
 </body>
-
 </html>
