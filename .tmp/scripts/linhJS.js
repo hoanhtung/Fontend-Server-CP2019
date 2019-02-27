@@ -1,6 +1,7 @@
 'use strict';
 
 var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'https://localhost:5001';
 
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
@@ -236,8 +237,8 @@ function confirmSupply() {
 
 function confirmAllSupply() {
     $.ajax({
-        url: EBSMSLocal + '/api/MedicalConfirm/ConfirmedAllSupplyRequest',
-        method: 'get'
+        url: EBSMSLocal + '/api/MedicalConfirm/ConfirmAll',
+        method: 'post'
     });
     window.location.href = 'viewSchedule.html';
 }
