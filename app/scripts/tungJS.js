@@ -37,13 +37,9 @@ function loadSurgeryRoom(surgeryDay) {
                             strAppend2 += '<div class="info-shift"><div><b>' + shift[index].id + '</b></div>' +
                             '<div><b>' + shift[index].catalogName + '</b></div>' +
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
-<<<<<<< HEAD
-                            '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div>' +
-=======
                             '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div></div>' +
                             '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>'+
                             '<a href="javascript:void(0)" class="btn btn-primary" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal">Edit <i class="far fa-edit"/></a></div>' +
->>>>>>> 3d0261fd7458f7d550d5ad68c737c545803eb1c1
                             '</div></a>';
                         }
                         $('#header-room-' + room[index].id).append(strAppend2);
