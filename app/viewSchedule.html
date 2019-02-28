@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="styles/jquery-ui.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts/jquery-ui.js"></script>
+    <script src="scripts/login.js"></script>
     <script>
 
         var roomList = null;
@@ -359,6 +360,7 @@
                         $('#affected ul.list-group').append(getAffectedTemplate(element));
                     });
                     $('#affected').removeClass('fade');
+                    loadSurgeryRoom(convertDateToNumber(new Date($('#date-input').val())));
                 }
                 alert('Swap successful');
             }, er => {

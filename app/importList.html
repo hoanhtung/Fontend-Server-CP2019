@@ -19,6 +19,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="scripts/login.js"></script>
     <script>
         $(function () {
             $("#header").load("./layout/header.html");
@@ -80,8 +82,8 @@
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: flex-end; width: 100%;">
-                                <input style="margin-right: 20px" class="btn btn-success" type="submit"
-                                    value="Import" onclick="saveSurgeryProfile()" />
+                                <input style="margin-right: 20px" class="btn btn-success" type="submit" value="Import"
+                                    onclick="saveSurgeryProfile()" />
                                 <input class="btn btn-danger" type="submit" value="Clear List"
                                     onClick="removeSessionStorage()" />
                             </div>
