@@ -25,6 +25,20 @@ body {
 }
 .div-roomBodyItem {
     outline: 1px black solid;
+    position: relative;
+}
+.div-roomBodyItem .info-shift {
+    z-index: 1;
+}
+.mybuttonoverlap{
+	position: absolute;
+    z-index: 2;
+    display: none;
+    top: 25px;
+    left: 30px;
+}
+.div-roomBodyItem:hover .mybuttonoverlap{ 
+	display:block;
 }
 /* View Schedule Item */
 .container-scheduleItem {

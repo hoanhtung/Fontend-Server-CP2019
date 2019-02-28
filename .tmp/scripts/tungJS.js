@@ -24,16 +24,20 @@ function loadSurgeryRoom(surgeryDay) {
                         for (var _index2 = 0; _index2 < shift.length; _index2++) {
                             if (shift[_index2].priorityNumber == 1) {
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
-                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                                strAppend2 += '<div style="background-color: #FF8A80" class="div-roomBodyItem">';
                             } else if (shift[_index2].priorityNumber == 2) {
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
-                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                                strAppend2 += '<div style="background-color: #FFFF8D" class="div-roomBodyItem">';
                             } else {
-                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                                strAppend2 += '<div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                             }
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
+<<<<<<< HEAD
                             strAppend2 += '<div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></a>';
+=======
+                            strAppend2 += '<div class="info-shift"><div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div></div>' + '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[_index2].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>' + '<a href="javascript:void(0)" class="btn btn-primary" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal">Edit <i class="far fa-edit"/></a></div>' + '</div></a>';
+>>>>>>> 3d0261fd7458f7d550d5ad68c737c545803eb1c1
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }
