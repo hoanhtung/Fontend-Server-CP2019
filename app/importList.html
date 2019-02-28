@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="styles/headerStyle.css">
     <link rel="stylesheet" href="styles/tungStyle.css">
     <link rel="stylesheet" href="styles/mainTemplate.css">
+    <!-- bower:css -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <title>Surgery Management System</title>
 
     <script src="./scripts/linhJS.js"></script>
@@ -102,10 +104,10 @@
                             <!-- ============================================================== -->
                             <!-- end of surgery information  -->
                             <!-- ============================================================== -->
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-1">
-                                <input type="submit" value="Import All" onclick="saveSurgeryProfile()" />
-                                <input type="submit" value="Cancel"
+                            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                                <input class="btn btn-danger" type="submit" value="Clear List"
                                     onClick="javascript:window.location.href='importList.html'" />
+                                <input style="margin-left: 20px" class="btn btn-success" type="submit" value="Import All" onclick="saveSurgeryProfile()" />
                             </div>
                         </div>
                     </div>

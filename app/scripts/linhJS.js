@@ -43,7 +43,10 @@ function parseImportInfo(jsonObj) {
         var a = document.createElement('a');
         a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
         a.href = '#';
-        a.setAttribute("onclick", "getImportDetail(" + jsonObj[i]['Surgery Shift Code'] + ");");
+        let surgeryShiftCode = jsonObj[i]['Surgery Shift Code'];
+        a.addEventListener("click", () => {
+            getImportDetail(surgeryShiftCode);
+        });
         newColumn.appendChild(a);
         newColumn = newRow.insertCell(3);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
@@ -127,14 +130,15 @@ function saveSurgeryProfile() {
 }
 
 function getImportDetail(id) {
-    var messesage;
+    var messesage = "";
     var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
     for (var i = 0; i < supplyJSON.length; i++) {
         if (supplyJSON[i]['Surgery Shift Code'] == id) {
             messesage = messesage + "No." + (i + 1) + supplyJSON[i]['Code']
-                + "\t" + supplyJSON[i]['Name'] + "\n";
+                + " " + supplyJSON[i]['Name'] + "\n";
         }
     }
+    console.log(messesage);
     alert(messesage);
 }
 
@@ -151,19 +155,23 @@ function confirmSupply() {
 
 
 function confirmAllSupply() {
-    var id = [];
+    var ids = [];
     var checkboxS = document.getElementsByClassName("checkbox");
     for (var i = 0; i < checkboxS.length; i++) {
         if (checkboxS[i].checked) {
             var value = Number(checkboxS[i].value);
-            id.push(value);
+            var id = {id: value};
+            ids.push(id);
         }
     }
-    console.log(id);
+    console.log(ids);
+    console.log(JSON.stringify(ids));
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
         method: 'post',
-        data: JSON.stringify(id),
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(ids),
         success: function () {
             alert('success');
         }
@@ -185,14 +193,14 @@ function getMedicalRequest() {
                 var checkBox = document.createElement("input");
                 checkBox.setAttribute("type", "checkbox");
                 checkBox.setAttribute("value", id);
-                checkBox.setAttribute("class", "checkbox");
+                checkBox.setAttribute("class", "checkbox chkSurgery");
                 newColumn.appendChild(checkBox);
                 newColumn = newRow.insertCell(1);
                 newColumn.appendChild(document.createTextNode(data[i]['patientName']));
                 newColumn = newRow.insertCell(2);
                 newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
                 newColumn = newRow.insertCell(3);
-                newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
+                newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
                 newColumn = newRow.insertCell(4);
                 var a = document.createElement('a');
                 a.href = "#";
@@ -212,6 +220,7 @@ function getMedicalRequestDetail(id) {
         method: 'get',
         data: { surgeryShiftId: id },
         success: function (data) {
+            console.log(data);
             var messesage = "";
             for (var i = 0; i < data.length; i++) {
                 messesage = messesage + "no. " + (i + 1) + " " + data[i]["name"] + ".\n";
@@ -219,4 +228,12 @@ function getMedicalRequestDetail(id) {
             alert(messesage);
         }
     })
+}
+
+function selectAllCheckboxes(event) {
+    var chkSurgery = $(".chkSurgery");
+    var checked = event.checked === true;
+    for (let i = 0; i < chkSurgery.length; i++) {
+        chkSurgery[i].checked = checked;
+    }
 }

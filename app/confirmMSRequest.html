@@ -25,6 +25,8 @@
     <!-- endbuild -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- bower:css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <!-- endbower -->
     <script src="./scripts/linhJS.js"></script>
     <script src="./scripts/tungJS.js"></script>
@@ -85,7 +87,7 @@
                                             <table class="table" id="request">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
-                                                        <th class="border-0"></th>
+                                                        <th class="border-0"><input type="checkbox" onchange="selectAllCheckboxes(this)"/></th>
                                                         <th class="border-0">Patient Name</th>
                                                         <th class="border-0">Surgery Name</th>
                                                         <th class="border-0">Day Created</th>
@@ -102,7 +104,7 @@
                             <!-- ============================================================== -->
                             <!-- end recent orders  -->
                             <div style="width: 100%">
-                                <input type="submit" value="Confirm All" onClick="confirmAllSupply();" />                               
+                                <input class="btn btn-success" style="float: right" type="submit" value="Confirm" onClick="confirmAllSupply();" />                               
                             </div>
                         </div>
                     </div>
