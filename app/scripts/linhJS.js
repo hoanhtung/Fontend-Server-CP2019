@@ -13,7 +13,7 @@ function ExcelExport(event) {
 
             switch (sheetName) {
                 case 'SurgeryProfile':
-                console.log(rowObj);
+                    console.log(rowObj);
                     parseImportInfo(rowObj);
                     sessionStorage.setItem('infoObj', JSON.stringify(rowObj));
                     break;
@@ -58,7 +58,7 @@ function parseImportInfo(jsonObj) {
         }
         else {
             newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] +
-            ' - ' + jsonObj[i]['Expected Time']));
+                ' - ' + jsonObj[i]['Expected Time']));
         }
     }
 }
@@ -73,13 +73,11 @@ function saveSurgeryProfile() {
             var day = shift[sh]['Expected Date'];
             console.log(shift[sh]['Expected Time']);
             var start = shift[sh]['Expected Time'].split(' - ')[0];
-            console.log(start);
             var end = shift[sh]['Expected Time'].split(' - ')[1];
-            console.log(end);
             proStartDate = day + ' ' + start;
             proEndDate = day + ' ' + end;
         }
-        if (shift[sh]['Gender'] == 'Male') gender = 1;
+        if (shift[sh]['Gender'] == 'M') gender = 1;
         shiftInfo.push({
             'expectedSurgeryDuration': shift[sh]['Surgery Weight'],
             'priorityNumber': Number(shift[sh]['Priority']),
@@ -160,7 +158,7 @@ function confirmAllSupply() {
     for (var i = 0; i < checkboxS.length; i++) {
         if (checkboxS[i].checked) {
             var value = Number(checkboxS[i].value);
-            var id = {id: value};
+            var id = { id: value };
             ids.push(id);
         }
     }
@@ -184,6 +182,8 @@ function getMedicalRequest() {
         url: EBSMSLocal + '/api/MedicalConfirm/GetAllMedicalSupplyRequest',
         method: 'get',
         success: function (data) {
+            console.log(data);
+            alert("success");
             var table = document.getElementById('request').getElementsByTagName('tbody')[0];
             for (var i = 0; i < data.length; i++) {
                 var id = data[i]['id'];
@@ -221,11 +221,16 @@ function getMedicalRequestDetail(id) {
         data: { surgeryShiftId: id },
         success: function (data) {
             console.log(data);
-            var messesage = "";
+            var messesage = "MEDICAL SUPPLY NEEDS\n";
             for (var i = 0; i < data.length; i++) {
                 messesage = messesage + "no. " + (i + 1) + " " + data[i]["name"] + ".\n";
             }
-            alert(messesage);
+            // alert(messesage);
+            var dialog = document.getElementById("myDialog");
+            dialog.style.top = ((window.innerHeight / 2) - (dialog.offsetHeight / 2)) + 'px';
+            dialog.style.left = ((window.innerWidth / 2) - (dialog.offsetWidth / 2)) + 'px';
+            dialog.innerHTML = messesage;
+            dialog.showModal();
         }
     })
 }
@@ -236,4 +241,5 @@ function selectAllCheckboxes(event) {
     for (let i = 0; i < chkSurgery.length; i++) {
         chkSurgery[i].checked = checked;
     }
+
 }
