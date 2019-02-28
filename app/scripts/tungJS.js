@@ -1,5 +1,6 @@
 //Get room show UI
-var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'https://localhost:44372';
+var EBSMSLocal = 'http://192.168.100.180:5000';
 // var EBSMSLocal = 'https://localhost:5001';
 
 var FontEndLocal = 'http://localhost:9000';
@@ -23,22 +24,24 @@ function loadSurgeryRoom(surgeryDay) {
                         for (let index = 0; index < shift.length; index++) {
                             if (shift[index].priorityNumber == 1) {
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
-                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
+                                strAppend2 += '<div style="background-color: #FF8A80" class="div-roomBodyItem">';
                             }
                             else if (shift[index].priorityNumber == 2) {
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
-                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                                strAppend2 += '<div style="background-color: #FFFF8D" class="div-roomBodyItem">';
                             }
                             else {
-                                strAppend2 += '<a href="javascript:void(0)" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                                strAppend2 += '<div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                             }   
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            strAppend2 += '<div><b>' + shift[index].id + '</b></div>' +
+                            strAppend2 += '<div class="info-shift"><div><b>' + shift[index].id + '</b></div>' +
                             '<div><b>' + shift[index].catalogName + '</b></div>' +
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
-                            '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div>' +
-                            '</div></div>';
+                            '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div></div>' +
+                            '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>'+
+                            '<a href="javascript:void(0)" class="btn btn-primary" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal">Edit <i class="far fa-edit"/></a></div>' +
+                            '</div></a>';
                         }
                         $('#header-room-' + room[index].id).append(strAppend2);
                     }
