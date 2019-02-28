@@ -1,3 +1,4 @@
+// var FontEndLocal = 'http://localhost:9000';
 //================================Phuc==================================
 function convertDatetimeToString(date) {
     var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
@@ -14,8 +15,8 @@ function loadAvailableRoomByStartEnd(start, end) {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({
-            startDate: start,
-            endDate: end
+            startDate: convertDatetimeToString(start),
+            endDate: convertDatetimeToString(end)
         }),
         method: 'post',
         success: function(response) {

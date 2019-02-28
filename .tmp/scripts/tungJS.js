@@ -1,10 +1,10 @@
 'use strict';
 
 //Get room show UI
-var EBSMSLocal = 'https://localhost:44372';
-// var EBSMSLocal = 'https://localhost:5001';
+// var EBSMSLocal = 'https://localhost:44372';
+var EBSMSLocal = 'http://192.168.100.180:5000';
 
-var FontEndLocal = 'http://localhost:9000';
+// var FontEndLocal = 'http://localhost:9000';
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
     var divRoom = $('#row-surgery-room');
@@ -33,7 +33,7 @@ function loadSurgeryRoom(surgeryDay) {
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                             }
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            strAppend2 += '<div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></div>';
+                            strAppend2 += '<div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div>' + '</div></a>';
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }
@@ -107,7 +107,7 @@ function loadSurgeryShiftNoSchedule() {
             if (data.length != 0) {
                 var container = '<table id="table-no-schedule" class="table"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Confirm Time</th><th>Proposed Time</th><th>Schedule Time</th>' + '<th>Priority Number</th><th>ExpectedDuration</th></tr></thead>';
                 for (var i = 0; i < data.length; i++) {
-                    container += '<tr><td>' + (i + 1) + '</td>' + '<td>' + data[i].surgeryShiftId + '</td>' + '<td>' + data[i].confirmDate.split('T')[0] + ' ' + data[i].confirmDate.split('T')[1] + '</td>';
+                    container += '<tr><td>' + (i + 1) + '</td>' + '<td>' + data[i].surgeryShiftId + '</td>' + '<td>' + data[i].confirmDate.split('T')[0] + ' ' + data[i].confirmDate.split('T')[1].split('.')[0] + '</td>';
                     if (data[i].proposedStartDateTime != undefined && data[i].proposedEndDateTime != undefined) {
                         container += '<td>' + data[i].proposedStartDateTime.split('T')[0] + ' | ' + data[i].proposedStartDateTime.split('T')[1] + ' - ' + data[i].proposedEndDateTime.split('T')[1] + '</td>';
                     } else {

@@ -71,8 +71,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
                                 <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
-                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()" />
-                                <input type="datetime-local" onchange="console.log(new Date($(this).val()))" />  <br/> <br/>
+                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()" /> <br/> <br/>
                                 <input  class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <div style="float: right">
@@ -202,8 +201,8 @@
             $('#changeRoomDuration').data('shift-id', scheduleIndex);
         });
         $('#checkSchedule').click(function () {
-            var start = new Date($('#startTime').val()).toJSON();
-            var end = new Date($('#endTime').val()).toJSON();
+            var start = new Date($('#startTime').val());
+            var end = new Date($('#endTime').val());
             loadAvailableRoomByStartEnd(start, end);
         });
         $('#checkScheduleDuration').click(function () {
@@ -213,8 +212,8 @@
         });
         $('#changeRoom').click(function () {
             var shiftId = $(this).data('shift-id');
-            var start = new Date($('#startTime').val()).toJSON();
-            var end = new Date($('#endTime').val()).toJSON();
+            var start = new Date($('#startTime').val());
+            var end = new Date($('#endTime').val());
             var roomId = Number.parseInt($('#availableRoom').val());
             changeSchedule(shiftId, start, end, roomId);
         });

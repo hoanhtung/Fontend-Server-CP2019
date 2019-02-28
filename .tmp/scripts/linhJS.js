@@ -1,8 +1,6 @@
 'use strict';
 
-var EBSMSLocal = 'https://localhost:44372';
-// var EBSMSLocal = 'https://localhost:5001';
-
+var EBSMSLocal = 'http://192.168.100.180:5000';
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
     sessionStorage.removeItem('supplyObj');
