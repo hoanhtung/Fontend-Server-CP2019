@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use strict';
 
 var EBSMSLocal = 'http://192.168.100.180:5000';
@@ -272,3 +273,5 @@ function getMedicalRequest() {
     });
 }
 //# sourceMappingURL=linhJS.js.map
+=======
+>>>>>>> e3f8073b0821727702a0e16cfbdf0e019f6920ce
