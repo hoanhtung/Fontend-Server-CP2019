@@ -1,9 +1,6 @@
 
-/* body {
+body {
     font-family: 'Roboto', sans-serif;
-} */
-.table-no-schedule tr td{
-    padding: 10px;
 }
 
 .title-surgery-shift h2{
@@ -15,20 +12,19 @@
     flex-direction: row;
     flex-wrap: nowrap;
 }
-.div-roomHeaderItem {
-    width: 195px;
-    flex: none;
-}
 .div-roomHeaderItem .div-room-name {
-    background: skyblue;
+    background: gray;
+    color: aliceblue;
+    font-weight: bold;
+    height: 40px;
 }
 .div-roomHeaderItem {
-    border: 1px black solid;
-    width: 195px; 
+    outline: 1px black solid;
+    width: 20%;
     float: left;
 }
 .div-roomBodyItem {
-    border: 1px black solid;
+    outline: 1px black solid;
 }
 /* View Schedule Item */
 .container-scheduleItem {

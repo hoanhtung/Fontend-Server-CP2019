@@ -55,10 +55,7 @@ function LoadSurgeryShiftByRoomAndDate() {
         data: { roomId: room[index].id, dayNumber: surgeryDay },
         success: function success(shift) {
             for (var _index3 = 0; _index3 < shift.length; _index3++) {
-                strAppend += '<a href="./viewScheduleItem.html?Id=' + shift[_index3].id + '"><div class="div-roomBodyItem">' +
-                // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                // 'Phẫu thuật xương' +
-                shift[_index3].catelogName + 'Patient: ' + shift[_index3].patientName + 'Time: ' + shift[_index3].estimatedStartDateTime + '-' + shift[_index3].estimatedEndDateTime;
+                strAppend += '<a href="./viewScheduleItem.html?Id=' + shift[_index3].id + '"><div class="div-roomBodyItem">' + shift[_index3].catelogName + 'Patient: ' + shift[_index3].patientName + 'Time: ' + shift[_index3].estimatedStartDateTime + '-' + shift[_index3].estimatedEndDateTime;
                 '</div></a>';
             }
         }
@@ -85,32 +82,6 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
     });
 }
 
-function getScheduleByDay() {
-    var date = new Date($('#date-input').val());
-    loadSurgeryRoom(convertDateToNumber(date));
-}
-function convertDateToNumber(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-    var year = date.getFullYear();
-    var dateNumber = [year, month, day].join('');
-    return dateNumber;
-}
-function formatInputDate(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-    var year = date.getFullYear();
-    var dateString = [year, month, day].join('-');
-    return dateString;
-}
-function formatDateToDateTimeString(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-    var year = date.getFullYear();
-    var dateString = [day, month, year].join('/');
-    return dateString;
-}
-
 function makeSchedule() {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
@@ -133,18 +104,22 @@ function loadSurgeryShiftNoSchedule() {
         url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsNoSchedule',
         method: 'get',
         success: function success(data) {
-            var container = '<table class="table-no-schedule"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Confirm Time</th><th>Proposed Time</th><th>Schedule Time</th>' + '<th>Priority Number</th><th>ExpectedDuration</th></tr></thead>';
-            for (var i = 0; i < data.length; i++) {
-                container += '<tr><td>' + (i + 1) + '</td>' + '<td>' + data[i].surgeryShiftId + '</td>' + '<td>' + data[i].confirmDate.split('T')[0] + ' ' + data[i].confirmDate.split('T')[1] + '</td>';
-                if (data[i].proposedStartDateTime != undefined && data[i].proposedEndDateTime != undefined) {
-                    container += '<td>' + data[i].proposedStartDateTime.split('T')[0] + ' | ' + data[i].proposedStartDateTime.split('T')[1] + ' - ' + data[i].proposedEndDateTime.split('T')[1] + '</td>';
-                } else {
-                    container += '<td>N/A</td>';
+            if (data.length != 0) {
+                var container = '<table id="table-no-schedule" class="table"><thead><tr><th>No.</th><th>Shift ID</th>' + '<th>Confirm Time</th><th>Proposed Time</th><th>Schedule Time</th>' + '<th>Priority Number</th><th>ExpectedDuration</th></tr></thead>';
+                for (var i = 0; i < data.length; i++) {
+                    container += '<tr><td>' + (i + 1) + '</td>' + '<td>' + data[i].surgeryShiftId + '</td>' + '<td>' + data[i].confirmDate.split('T')[0] + ' ' + data[i].confirmDate.split('T')[1] + '</td>';
+                    if (data[i].proposedStartDateTime != undefined && data[i].proposedEndDateTime != undefined) {
+                        container += '<td>' + data[i].proposedStartDateTime.split('T')[0] + ' | ' + data[i].proposedStartDateTime.split('T')[1] + ' - ' + data[i].proposedEndDateTime.split('T')[1] + '</td>';
+                    } else {
+                        container += '<td>N/A</td>';
+                    }
+                    container += '<td>' + data[i].scheduleDate.split('T')[0] + '</td>' + '<td>' + data[i].priorityNumber + '</td>' + '<td>' + data[i].expectedSurgeryDuration + '</td></tr>';
                 }
-                container += '<td>' + data[i].scheduleDate.split('T')[0] + '</td>' + '<td>' + data[i].priorityNumber + '</td>' + '<td>' + data[i].expectedSurgeryDuration + '</td></tr>';
+                container += '</table>';
+                div_shift.append(container);
+            } else {
+                div_shift.append('<h2>Not found no schedule surgery shift</h2>');
             }
-            container += '</table>';
-            div_shift.append(container);
         }
     });
 }
@@ -175,11 +150,7 @@ function setPostStatus(surgeryShiftId) {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId,
         method: 'post',
-        contentType: 'application/json',
-        dataType: 'json',
-        // data: JSON.stringify({shiftId: surgeryShiftId}),
         success: function success(data) {
-            console.log(data);
             if (data == true) {
                 alert('Change postoperative status successfully!');
             } else {
@@ -187,5 +158,31 @@ function setPostStatus(surgeryShiftId) {
             }
         }
     });
+}
+
+function getScheduleByDay() {
+    var date = new Date($('#date-input').val());
+    loadSurgeryRoom(convertDateToNumber(date));
+}
+function convertDateToNumber(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    var year = date.getFullYear();
+    var dateNumber = [year, month, day].join('');
+    return dateNumber;
+}
+function formatInputDate(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    var year = date.getFullYear();
+    var dateString = [year, month, day].join('-');
+    return dateString;
+}
+function formatDateToDateTimeString(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    var year = date.getFullYear();
+    var dateString = [day, month, year].join('/');
+    return dateString;
 }
 //# sourceMappingURL=tungJS.js.map
