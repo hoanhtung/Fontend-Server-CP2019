@@ -1,6 +1,8 @@
 //Get room show UI
-var EBSMSLocal = 'http://localhost:50794';
+// var EBSMSLocal = 'http://localhost:50794';
 // var EBSMSLocal = 'http://192.168.100.180:5000';
+// var EBSMSLocal = 'http://localhost:5000';
+var EBSMSLocal = 'https://localhost:44372';
 
 // var FontEndLocal = 'http://localhost:9000';
 function loadSurgeryRoom(surgeryDay) {

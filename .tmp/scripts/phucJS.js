@@ -105,4 +105,37 @@ function changeScheduleDuration(shiftId, start, end, roomId) {
         }
     });
 }
+
+function changeSchedulePriority(shiftId, value) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/ChangeShiftPriority',
+        method: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            id: shiftId,
+            changeLogDescription: '',
+            newPriority: value
+        })
+    }).then(function (sc) {
+        return alert('Success');
+    }, function (er) {
+        return alert('Fail');
+    });
+}
+
+function changeIntraoperative(shiftId, status) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/ChangeShiftStatus',
+        method: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            shiftId: shiftId,
+            currentStatus: status
+        })
+    }).then(function (sc) {
+        return alert('Success');
+    }, function (er) {
+        return alert('Fail');
+    });
+}
 //# sourceMappingURL=phucJS.js.map
