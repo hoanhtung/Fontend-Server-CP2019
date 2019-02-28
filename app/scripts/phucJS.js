@@ -19,20 +19,20 @@ function loadAvailableRoomByStartEnd(start, end) {
             endDate: convertDatetimeToString(end)
         }),
         method: 'post',
-        success: function(response) {
+        success: function (response) {
             var select = $('#availableRoom');
             var wrapper = $('#changeRoomWrapper');
             wrapper.css('visibility', 'hidden');
             select.empty();
             console.log(response);
             if (Array.isArray(response)) {
-                var options = response.map(function(e) {
+                var options = response.map(function (e) {
                     var opt = $('<option></option>');
                     opt.val(e);
                     opt.text(getRoomById(e).name);
                     return opt;
                 });
-                options.forEach(function(e) {
+                options.forEach(function (e) {
                     select.append(e);
                 });
                 wrapper.css('visibility', 'visible');
@@ -48,20 +48,20 @@ function loadAvailableRoomByHourMinute(hour, minute) {
             minute: minute
         },
         method: 'get',
-        success: function(response) {
+        success: function (response) {
             var select = $('#availableDurationRoom');
             var wrapper = $('#changeRoomDurationWrapper');
             wrapper.css('visibility', 'hidden');
             select.empty();
             console.log(response);
             if (Array.isArray(response)) {
-                var options = response.map(function(e) {
+                var options = response.map(function (e) {
                     var opt = $('<option></option>');
                     opt.val(`${e.roomId};${e.startDateTime};${e.endDateTime}`);
                     opt.text(`${getRoomById(e.roomId).name} --- startDateTime: ${e.startDateTime.replace('T', ' - ')} - endDateTime: ${e.endDateTime.replace('T', ' - ')}`);
                     return opt;
                 });
-                options.forEach(function(e) {
+                options.forEach(function (e) {
                     select.append(e);
                 });
                 wrapper.css('visibility', 'visible');
@@ -81,7 +81,7 @@ function changeSchedule(shiftId, start, end, roomId) {
             roomId: roomId
         }),
         method: 'post',
-        success: function() {
+        success: function () {
             console.log('Kudo iz da bezt!');
         }
     });
@@ -98,8 +98,34 @@ function changeScheduleDuration(shiftId, start, end, roomId) {
             roomId: roomId
         }),
         method: 'post',
-        success: function() {
+        success: function () {
             console.log('Kudo iz da bezt!');
         }
     });
+}
+
+
+function changeSchedulePriority(shiftId, value) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/ChangeShiftPriority',
+        method: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            id: shiftId,
+            changeLogDescription: '',
+            newPriority: value
+        }),
+    }).then(sc => alert('Success'), er =>  alert('Fail'));
+}
+
+function changeIntraoperative(shiftId, status){
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/ChangeShiftStatus',
+        method: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            shiftId: shiftId,
+            currentStatus: status,
+        }),
+    }).then(sc => alert('Success'), er =>  alert('Fail'));
 }
