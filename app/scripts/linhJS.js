@@ -141,12 +141,12 @@ function saveSurgeryProfile() {
 }
 
 function getImportDetail(id) {
-    var messesage = "";
+    var messesage = '';
     var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
     for (var i = 0; i < supplyJSON.length; i++) {
         if (supplyJSON[i]['Surgery Shift Code'] == id) {
-            messesage = messesage + "No." + (i + 1) + supplyJSON[i]['Code']
-                + " " + supplyJSON[i]['Name'] + "\n";
+            messesage = messesage + 'No.' + (i + 1) + supplyJSON[i]['Code']
+                + ' ' + supplyJSON[i]['Name'] + '\n';
         }
     }
     console.log(messesage);
@@ -167,7 +167,7 @@ function confirmSupply() {
 
 function confirmAllSupply() {
     var ids = [];
-    var checkboxS = document.getElementsByClassName("checkbox");
+    var checkboxS = document.getElementsByClassName('checkbox');
     for (var i = 0; i < checkboxS.length; i++) {
         if (checkboxS[i].checked) {
             var value = Number(checkboxS[i].value);
@@ -175,8 +175,6 @@ function confirmAllSupply() {
             ids.push(id);
         }
     }
-    console.log(ids);
-    console.log(JSON.stringify(ids));
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
         method: 'post',
@@ -187,7 +185,7 @@ function confirmAllSupply() {
             alert('success');
         }
     })
-    // window.location.href = 'confirmMSRequest.html';
+    window.location.href = 'viewShiftNoSchedule.html';
 }
 //Get all medical supply request
 function getMedicalRequest() {

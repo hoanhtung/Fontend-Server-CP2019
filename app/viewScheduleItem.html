@@ -45,40 +45,81 @@
                             </div>
                         </div>
                     </div>
-                    <div class="div-surgery-report">
-                        <div>
-                            <div class="div-info-patient">
-                                <div><b>Patient Name:</b> <span id="span-name"></span></div>
-                                <div><b>Gender:</b> <span id="span-gender"></span></div>
-                                <div><b>Age:</b> <span id="span-age"></span></div>
-                            </div>
-                            <div class="div-info-surgery-shift">
-                                <div><b>Specialty:</b> <span id="span-specialty"></span></div>
-                                <div><b>Surgery Name:</b> <span id="span-surgery-name"></span></div>
-                                <div><b>Type Of Surgery:</b> <span id="span-surgery-type"></span></div>
-                                <div><b>Start Time:</b> <span id="span-start-time"></span></div>
-                                <div><b>End Time:</b> <span id="span-end-time"></span></div>
-                            </div>
-                        </div>
-                        <br />
+                    <div class="div-surgery-report form-group">
+                        <table class="table table-borderless table-information-shift">
+                            <tr>
+                                <td><b>Patient:</b></td>
+                                <td id="span-name"></td>
+                                <td><b>Gender:</b></td>
+                                <td id="span-gender"></td>
+                                <td><b>Age:</b></td>
+                                <td id="span-age"></td>
+                            </tr>
+                            <tr>
+                                <td ><b>Specialty:</b></td>
+                                <td id="span-specialty"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Surgery Name:</b></td>
+                                <td id="span-surgery-name"></td>
+                                <td><b>Type Of Surgery:</b></td>
+                                <td id="span-surgery-type"></td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Start Time:</b></td>
+                                <td id="span-start-time"></td>
+                                <td><b>End Time:</b></td>
+                                <td id="span-end-time"></td>
+                            </tr>
+   
+                        </table>
+                        <hr />
                         <b>Surgery Information Detail:</b>
-                        <div class="div-editable-information">
-                            <div class="div-ekip">
+                        <div class="div-editable-information row">
+                            <div class="div-ekip col-6">
                                 <div><b>Performed Ekip:</b></div>
                                 <br />
                                 <table class="table-ekip">
+                                        
                                 </table>
                             </div>
-                            <div class="div-procedure">
+                            <div class="div-procedure col-6">
                                 <div><b>Surgery Procedure:</b></div>
                                 <br />
-                                <textarea id="textarea-procedure" rows="10" cols="50"></textarea>
+                                <textarea style="padding: 30px" id="textarea-procedure" rows="20" cols="50">
+- Thì 1:Mở bụng:
++ Mở bụng đường trắng giữa dưới rốn, có thể kéo lên trên rốn nếu cần
++ Thăm dò toàn bộ ổ bụng
+- Thì 2:Vét hạch chậu:
++ Cắt dây chằng tròn càng xa tử cung càng tốt, sát về phía thành chậu
++ Cắt dây chằng tử cung- buồng trứng, nếu có chỉ định cắt buồng trứng thì cắt
+dây chằng thắt lưng –buồng trứng
++ Mở phúc mạc song song với hướng đi của động mạch chậu ngoài
++ Bộc lộ niệu quản
+74
++ Vét hạch chậu dọc theo động mạch chậu ngoài, tĩnh mạch chậu ngoài, động
+mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây thần kinh bịt
+- Thì 3:Cắt tử cung
++ Cắt lá phúc mạc ở túi cùng trước, đẩy bàng quang xuống thấp
++ Cắt động mạch tử cung
++ Cắt 2 dây chằng tử cung- cùng, đẩy trực tràng xuống
++ Cắt tử cung hoàn toàn
++ Khâu mỏm âm đạo
++ Kiểm tra cầm máu, kiểm tra niệu quản, bàng quang
++ Đóng bụng theo các lớp giải phẫu
+                                </textarea>
                             </div>
                         </div>
-                        <br />
-                        <input class="btn btn-info" type="button" value="Preview Surgery Report" />
-                        <input class="btn btn-success" type="button" value="Complete Surgery Shift" onclick="setPostStatus(window.location.search.split('=')[1])"/> <br />
+                        <br/>
+                        <br/>
                         <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
+                        <div style="float: right">
+                            <input style="margin-right: 20px;" class="btn btn-info" type="button" value="Preview Surgery Report" />
+                            <input class="btn btn-success" type="button" value="Complete Surgery Shift" onclick="setPostStatus(window.location.search.split('=')[1])"/> <br />
+                        </div>
+                        
+                        
                     </div>
 
                 </div>
