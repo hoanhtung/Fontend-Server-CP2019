@@ -1,29 +1,44 @@
 
-/* body {
+body {
     font-family: 'Roboto', sans-serif;
-} */
+}
+
 .title-surgery-shift h2{
     text-align: center;
 }
 .div-schedule {
-    float: left;
-    display: inline;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
-.div-roomHeader {
-    border: 1px solid black;
-    text-align: center
-}
-.div-roomHeader .div-room-name {
-    background: skyblue;
-
+.div-roomHeaderItem .div-room-name {
+    background: gray;
+    color: aliceblue;
+    font-weight: bold;
+    height: 40px;
 }
 .div-roomHeaderItem {
-    border: 1px black solid;
-    width: 195px; 
+    outline: 1px black solid;
+    width: 20%;
     float: left;
 }
 .div-roomBodyItem {
-    border: 1px black solid;
+    outline: 1px black solid;
+    position: relative;
+}
+.div-roomBodyItem .info-shift {
+    z-index: 1;
+}
+.mybuttonoverlap{
+	position: absolute;
+    z-index: 2;
+    display: none;
+    top: 25px;
+    left: 30px;
+}
+.div-roomBodyItem:hover .mybuttonoverlap{ 
+	display:block;
 }
 /* View Schedule Item */
 .container-scheduleItem {

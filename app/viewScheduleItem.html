@@ -1,10 +1,12 @@
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
@@ -23,13 +25,14 @@
     <!-- endbower -->
     <title>Surgery Management System</title>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
         })
     </script>
 </head>
-<body>
+
+<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1])">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -47,7 +50,7 @@
                             <div class="div-info-patient">
                                 <div><b>Patient Name:</b> <span id="span-name"></span></div>
                                 <div><b>Gender:</b> <span id="span-gender"></span></div>
-                                <div><b>Age:</b> <span id="span-age"></span></div>   
+                                <div><b>Age:</b> <span id="span-age"></span></div>
                             </div>
                             <div class="div-info-surgery-shift">
                                 <div><b>Specialty:</b> <span id="span-specialty"></span></div>
@@ -57,45 +60,67 @@
                                 <div><b>End Time:</b> <span id="span-end-time"></span></div>
                             </div>
                         </div>
-                        <br/>
+                        <br />
                         <b>Surgery Information Detail:</b>
                         <div class="div-editable-information">
                             <div class="div-ekip">
                                 <div><b>Performed Ekip:</b></div>
-                                <br/>
+                                <br />
                                 <table class="table-ekip">
-                                    <tr>
-                                        <td><b>Surgeon:</b></td>
-                                        <td>Lê Hoàng Anh</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Surgeon:</b></td>
-                                        <td>Lê Hoàng Em</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Anesthesia Doctor:</b></td>
-                                        <td>Nguyễn Văn A</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Anesthesia Doctor:</b></td>
-                                        <td>Nguyễn Văn B</td>
-                                    </tr>
                                 </table>
                             </div>
                             <div class="div-procedure">
                                 <div><b>Surgery Procedure:</b></div>
-                                <br/>
+                                <br />
                                 <textarea id="textarea-procedure" rows="10" cols="50"></textarea>
                             </div>
                         </div>
-                        <br/>
-                        <input type="button" value="Preview Surgery Report"/>
-                        <a href="./viewSchedule.html"><button>Back</button></a>    
+                        <br />
+                        <input class="btn btn-info" type="button" value="Preview Surgery Report" />
+                        <input class="btn btn-success" type="button" value="Complete Surgery Shift" onclick="setPostStatus(window.location.search.split('=')[1])"/> <br />
+                        <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        $('#changeTimeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var scheduleIndex = button.data('schedule-index');
+            $('#changeRoomWrapper').css('visibility', 'hidden');
+            $('#changeRoom').data('shift-id', scheduleIndex);
+            $('#changeRoomDurationWrapper').css('visibility', 'hidden');
+            $('#changeRoomDuration').data('shift-id', scheduleIndex);
+        });
+        $('#checkSchedule').click(function () {
+            var start = new Date($('#startTime').val()).toJSON();
+            var end = new Date($('#endTime').val()).toJSON();
+            loadAvailableRoomByStartEnd(start, end);
+        });
+        $('#checkScheduleDuration').click(function () {
+            var hour = $('#hour').val();
+            var minute = $('#minute').val();
+            loadAvailableRoomByHourMinute(hour, minute);
+        });
+        $('#changeRoom').click(function () {
+            var shiftId = $(this).data('shift-id');
+            var start = new Date($('#startTime').val()).toJSON();
+            var end = new Date($('#endTime').val()).toJSON();
+            var roomId = Number.parseInt($('#availableRoom').val());
+            changeSchedule(shiftId, start, end, roomId);
+        });
+        $('#changeRoomDuration').click(function () {
+            var shiftId = $(this).data('shift-id');
+            var room = $('#availableDurationRoom').val();
+            var roomArr = room.split(';');
+            var roomId = Number.parseInt(roomArr[0]);
+            var start = roomArr[1];
+            var end = roomArr[2];
+            changeScheduleDuration(shiftId, start, end, roomId);
+        });
+    </script>
 </body>
+
 </html>
