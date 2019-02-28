@@ -485,5 +485,6 @@ iframe {
   }
 }
 
-
-
+table tr:not(thead):hover{
+  background-color: #00FFFF;
+}
