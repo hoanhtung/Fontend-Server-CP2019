@@ -8,27 +8,25 @@
     <link rel="stylesheet" href="styles/headerStyle.css">
     <link rel="stylesheet" href="styles/tungStyle.css">
     <link rel="stylesheet" href="styles/mainTemplate.css">
-    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <title>Surgery Management System</title>
 
-    <script src="./scripts/linhJS.js"></script>
-    <script src="./scripts/main.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+    <script src="./scripts/linhJS.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(function () {
             $("#header").load("./layout/header.html");
             $("#navigation").load("./layout/navigation.html");
         })
     </script>
+    <title>Medical Supply Request Detail</title>
 </head>
-
-<body onload="getJSONfromSession()">
+<body onload="parseImportDetail();">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div id="navigation"></div>
@@ -38,11 +36,11 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h2 class="pageheader-title">Import Surgery Profile </h2>
+                                <h2 class="pageheader-title">Import Surgery Profile</h2>
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#"
+                                            <li class="breadcrumb-item"><a href="medicalRequest.html"
                                                     class="breadcrumb-link">Dashboard</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Import Surgery
                                                 Profile</li>
@@ -54,35 +52,28 @@
                     </div>
                     <div class="ecommerce-widget">
                         <div class="row">
-                            <div style="width: 100%">
-                                <input type="file" onchange="ExcelExport(event)" id="file" />
-                            </div>
-                            <div class="card"></br></div>
-                            <div style="width: 100%">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
-                                    <h5 class="card-header">Surgery Profile Information</h5>
+                                    <h5 class="card-header">Medical supplies</h5>
                                     <div class="card-body p-0">
-                                        <table class="table" id="profile">
-                                            <thead class="bg-light">
-                                                <tr class="border-0">
-                                                    <th class="border-0">No.</th>
-                                                    <th class="border-0">Patient Name</th>
-                                                    <th class="border-0">Gender</th>
-                                                    <th class="border-0">Surgery Name</th>
-                                                    <th class="border-0">Surgery Excepted Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="table" id="listSupply">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">No.</th>
+                                                        <th class="border-0">Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; justify-content: flex-end; width: 100%;">
-                                <input style="margin-right: 20px" class="btn btn-success" type="submit"
-                                    value="Import All" onclick="saveSurgeryProfile()" />
-                                <input class="btn btn-danger" type="submit" value="Clear List"
-                                    onClick="removeSessionStorage()" />
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <input type="submit" value="Back" class="btn btn-danger"
+                                    onClick="javascript:window.location.href='importList.html'" />
                             </div>
                         </div>
                     </div>

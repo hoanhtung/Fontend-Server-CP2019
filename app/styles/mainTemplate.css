@@ -484,7 +484,3 @@ iframe {
     opacity: 1;
   }
 }
-
-table tr:not(thead):hover{
-  background-color: #00FFFF;
-}

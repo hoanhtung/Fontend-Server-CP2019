@@ -1,4 +1,4 @@
 'use strict';
 
-console.log('\'Allo \'Allo!');
+var EBSMSLocal = 'https://localhost:44372';
 //# sourceMappingURL=main.js.map

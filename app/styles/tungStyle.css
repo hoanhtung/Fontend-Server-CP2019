@@ -35,7 +35,7 @@ body {
     z-index: 2;
     display: none;
     top: 25px;
-    left: 30px;
+    left: 25px;
 }
 .div-roomBodyItem:hover .mybuttonoverlap{ 
 	display:block;
@@ -51,24 +51,18 @@ body {
     color: black;
     margin-top: 50px
 }
-.div-surgery-report span {
-}
-.div-surgery-report .div-info-patient {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-.div-info-patient div {
-    margin-right: 15%;
-}
-.div-surgery-shift {
 
+.table-information-shift tr td:first-child {
+    width: 15%;
+}
+.table-information-shift tr td:nth-child(3) {
+    width: 15%;
 }
 .div-editable-information {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding-top: 30px;
+    padding-top: 50px;
 }
 .div-ekip .table-ekip {
     font-size: 18px;

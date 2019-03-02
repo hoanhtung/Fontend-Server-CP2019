@@ -1,1 +1,1 @@
-console.log('\'Allo \'Allo!');
+var EBSMSLocal = 'https://localhost:44372';

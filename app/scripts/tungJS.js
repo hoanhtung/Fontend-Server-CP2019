@@ -1,9 +1,6 @@
 //Get room show UI
-// var EBSMSLocal = 'https://localhost:44372';
-var EBSMSLocal = 'http://192.168.100.180:5000';
-// var EBSMSLocal = 'https://localhost:5001';
+var EBSMSLocal = 'https://localhost:44372';
 
-var FontEndLocal = 'http://localhost:9000';
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
     var divRoom = $('#row-surgery-room');
@@ -40,7 +37,7 @@ function loadSurgeryRoom(surgeryDay) {
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
                             '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div></div>' +
                             '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>'+
-                            '<a href="javascript:void(0)" class="btn btn-primary" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal">Edit <i class="far fa-edit"/></a></div>' +
+                            '<a href="javascript:void(0)" class="btn btn-primary" data-priority="'+ shift[index].priorityNumber +'" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>' +
                             '</div></a>';
                         }
                         $('#header-room-' + room[index].id).append(strAppend2);
@@ -119,7 +116,7 @@ function loadSurgeryShiftNoSchedule() {
                 for (var i = 0; i < data.length; i++) {
                     container += '<tr><td>' + (i + 1) + '</td>' 
                                 + '<td>' +  data[i].surgeryShiftId + '</td>'
-                                + '<td>' + data[i].confirmDate.split('T')[0] + ' ' + data[i].confirmDate.split('T')[1] + '</td>';
+                                + '<td>' + data[i].confirmDate.split('T')[0] + ' ' + data[i].confirmDate.split('T')[1].split('.')[0] + '</td>';
                     if (data[i].proposedStartDateTime != undefined 
                         && data[i].proposedEndDateTime != undefined) {
                         container += '<td>' + data[i].proposedStartDateTime.split('T')[0] 
