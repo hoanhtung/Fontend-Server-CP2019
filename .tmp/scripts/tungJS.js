@@ -1,11 +1,10 @@
 'use strict';
 
-//Get room show UI
-// var EBSMSLocal = 'https://localhost:44372';
-// var EBSMSLocal = 'http://192.168.100.180:5000';
-var EBSMSLocal = 'http://localhost:5000';
-
+// var EBSMSLocal = 'http://10.82.139.179:5000';
 // var FontEndLocal = 'http://localhost:9000';
+// var EBSMSLocal = 'http://127.20.10.7:5000';
+// var EBSMSLocal = 'http://localhost:5000';
+var EBSMSLocal = 'https://localhost:44372';
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
     var divRoom = $('#row-surgery-room');
@@ -34,7 +33,7 @@ function loadSurgeryRoom(surgeryDay) {
                                 // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
                             }
                             // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            strAppend2 += '<div class="info-shift"><div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div></div>' + '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[_index2].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>' + '<a href="javascript:void(0)" class="btn btn-primary" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>' + '</div></a>';
+                            strAppend2 += '<div class="info-shift"><div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div></div>' + '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[_index2].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>' + '<a href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index2].priorityNumber + '" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>' + '</div></a>';
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }

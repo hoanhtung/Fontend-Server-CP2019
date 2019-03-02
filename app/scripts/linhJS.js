@@ -1,5 +1,7 @@
+
 // var EBSMSLocal = 'http://192.168.100.180:5000';
-var EBSMSLocal = 'http://localhost:5000';
+// var EBSMSLocal = 'http://10.82.139.179:5000';
+// var EBSMSLocal = 'http://127.20.10.7:5000';
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
     sessionStorage.removeItem('supplyObj');
@@ -56,7 +58,7 @@ function parseImportInfo(jsonObj) {
         a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
         a.href = '#';
         let surgeryShiftCode = jsonObj[i]['Surgery Shift Code'];
-        a.addEventListener("click", () => {
+        a.addEventListener('click', () => {
             getImportDetail(surgeryShiftCode);
         });
         newColumn.appendChild(a);
@@ -200,10 +202,10 @@ function getMedicalRequest() {
                 var newRow = table.insertRow(table.rows.length);
                 var newColumn;
                 newColumn = newRow.insertCell(0);
-                var checkBox = document.createElement("input");
-                checkBox.setAttribute("type", "checkbox");
-                checkBox.setAttribute("value", id);
-                checkBox.setAttribute("class", "checkbox chkSurgery");
+                var checkBox = document.createElement('input');
+                checkBox.setAttribute('type', 'checkbox');
+                checkBox.setAttribute('value', id);
+                checkBox.setAttribute('class', 'checkbox chkSurgery');
                 newColumn.appendChild(checkBox);
                 newColumn = newRow.insertCell(1);
                 newColumn.appendChild(document.createTextNode(data[i]['patientName']));
@@ -213,9 +215,9 @@ function getMedicalRequest() {
                 newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
                 newColumn = newRow.insertCell(4);
                 var a = document.createElement('a');
-                a.href = "#";
-                a.appendChild(document.createTextNode("..."));
-                a.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");
+                a.href = '#';
+                a.appendChild(document.createTextNode('...'));
+                a.setAttribute('onclick', 'getMedicalRequestDetail(" + id + ");');
                 newColumn.appendChild(a);
 
             }
@@ -231,9 +233,9 @@ function getMedicalRequestDetail(id) {
         data: { surgeryShiftId: id },
         success: function (data) {
             console.log(data);
-            var messesage = "";
+            var messesage = '';
             for (var i = 0; i < data.length; i++) {
-                messesage = messesage + "no. " + (i + 1) + " " + data[i]["name"] + ".\n";
+                messesage = messesage + 'no. ' + (i + 1) + ' ' + data[i]['name'] + '.\n';
             }
             alert(messesage);
         }
@@ -241,7 +243,7 @@ function getMedicalRequestDetail(id) {
 }
 
 function selectAllCheckboxes(event) {
-    var chkSurgery = $(".chkSurgery");
+    var chkSurgery = $('.chkSurgery');
     var checked = event.checked === true;
     for (let i = 0; i < chkSurgery.length; i++) {
         chkSurgery[i].checked = checked;

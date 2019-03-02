@@ -1,6 +1,7 @@
 'use strict';
 
 // var FontEndLocal = 'http://localhost:9000';
+// var EBSMSLocal = 'http://localhost:5000';
 //================================Phuc==================================
 function convertDatetimeToString(date) {
     var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
@@ -103,6 +104,39 @@ function changeScheduleDuration(shiftId, start, end, roomId) {
         success: function success() {
             console.log('Kudo iz da bezt!');
         }
+    });
+}
+
+function changeSchedulePriority(shiftId, value) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/ChangeShiftPriority',
+        method: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            id: shiftId,
+            changeLogDescription: '',
+            newPriority: value
+        })
+    }).then(function (sc) {
+        return alert('Success');
+    }, function (er) {
+        return alert('Fail');
+    });
+}
+
+function changeIntraoperative(shiftId, status) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/ChangeShiftStatus',
+        method: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            shiftId: shiftId,
+            currentStatus: status
+        })
+    }).then(function (sc) {
+        return alert('Success');
+    }, function (er) {
+        return alert('Fail');
     });
 }
 //# sourceMappingURL=phucJS.js.map

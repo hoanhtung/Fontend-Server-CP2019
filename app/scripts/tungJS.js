@@ -1,9 +1,9 @@
-//Get room show UI
-// var EBSMSLocal = 'https://localhost:44372';
-// var EBSMSLocal = 'http://192.168.100.180:5000';
-var EBSMSLocal = 'http://localhost:5000';
 
+// var EBSMSLocal = 'http://10.82.139.179:5000';
 // var FontEndLocal = 'http://localhost:9000';
+// var EBSMSLocal = 'http://127.20.10.7:5000';
+// var EBSMSLocal = 'http://localhost:5000';
+var EBSMSLocal = 'https://localhost:44372';
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
     var divRoom = $('#row-surgery-room');
@@ -40,7 +40,7 @@ function loadSurgeryRoom(surgeryDay) {
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
                             '<div><b>Time:</b> ' + shift[index].estimatedStartDateTime + ' - ' + shift[index].estimatedEndDateTime + '</div></div>' +
                             '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>'+
-                            '<a href="javascript:void(0)" class="btn btn-primary" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>' +
+                            '<a href="javascript:void(0)" class="btn btn-primary" data-priority="'+ shift[index].priorityNumber +'" data-schedule-index="' + shift[index].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>' +
                             '</div></a>';
                         }
                         $('#header-room-' + room[index].id).append(strAppend2);

@@ -38,7 +38,6 @@
 
     <!-- endbower -->
     <script>
-
         var roomList = null;
         $.ajax({
             url: EBSMSLocal + '/api/Schedule/GetSurgeryRooms/',
@@ -73,14 +72,10 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
                                 <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
-                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()" /> <br/> <br/>
-                                <input  class="btn btn-success" type="submit" value="View Shift No Schedule"
-                                    onClick="window.location.href = 'viewShiftNoSchedule.html';" />
-                                <div style="float: right">
-                                    <span style="color: #FF8A80"><b>Độ ưu tiên 1</b></span> 
-                                    <span style="color: #FFFF8D"><b>Độ ưu tiên 2</b></span> 
-                                    <span style="color: #C8E6C9"><b>Độ ưu tiên 3</b></span>
-                                </div>
+                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()" /> <br />
+                                <br />
+                                <input class="btn btn-success" type="submit" value="View Shift No Schedule"
+                                    onClick="window.location.href = 'viewShiftNoSchedule.html';" /> 
                             </div>
                         </div>
                     </div>
@@ -120,6 +115,14 @@
                                         <a class="nav-link" id="duration-tab" data-toggle="tab" href="#duration"
                                             role="tab" aria-controls="duration" aria-selected="false">Duration</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="priority-tab" data-toggle="tab" href="#priority"
+                                            role="tab" aria-controls="priority" aria-selected="false">Priority</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="status-tab" data-toggle="tab" href="#status" role="tab"
+                                            aria-controls="status" aria-selected="false">Status</a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="startend" role="tabpanel"
@@ -131,12 +134,12 @@
                                                     <div class="form-group">
                                                         <label for="startTime">Start Date Time</label>
                                                         <input type="datetime-local" class="form-control"
-                                                            id="startTime"/>
+                                                            id="startTime" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="endTime">End Date Time</label>
                                                         <input type="datetime-local" class="form-control"
-                                                            id="endTime"/>
+                                                            id="endTime" />
                                                     </div>
                                                     <button id="checkSchedule" type="button"
                                                         class="btn btn-success">Check</button>
@@ -181,6 +184,45 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="priority" role="tabpanel"
+                                        aria-labelledby="priority-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="priorityInput">Priority</label>
+                                                        <select class="form-control" name="priorityInput"
+                                                            id="priorityInput">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                        </select>
+                                                    </div>
+                                                    <button id="changePriority" class="btn btn-success">Change
+                                                        Priority</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <button id="changeIntraoperative" class="btn btn-success">Change To
+                                                        Intraoperative</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -197,10 +239,14 @@
         $('#changeTimeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var scheduleIndex = button.data('schedule-index');
+            var priotityNumber = button.data('priority');
             $('#changeRoomWrapper').css('visibility', 'hidden');
             $('#changeRoom').data('shift-id', scheduleIndex);
             $('#changeRoomDurationWrapper').css('visibility', 'hidden');
             $('#changeRoomDuration').data('shift-id', scheduleIndex);
+            $('#changePriority').data('shift-id', scheduleIndex);
+            $('#changeIntraoperative').data('shift-id', scheduleIndex);
+            $('#priorityInput').val(priotityNumber);
         });
         $('#checkSchedule').click(function () {
             var start = new Date($('#startTime').val());
@@ -228,6 +274,17 @@
             var end = roomArr[2];
             changeScheduleDuration(shiftId, start, end, roomId);
         });
+
+        $('#changePriority').on('click', function () {
+            var value = $('#priorityInput').val();
+            var shiftId = $(this).data('shift-id');
+            changeSchedulePriority(shiftId, value);
+        })
+
+        $('#changeIntraoperative').on('click', function () {
+            var shiftId = $(this).data('shift-id');
+            changeIntraoperative(shiftId, "Preoperative");
+        })
 
     </script>
 </body>
