@@ -32,14 +32,14 @@
         })
     </script>
 </head>
-<body onload="loadSurgeryShiftNoSchedule(); loadSurgeryShiftNoScheduleByProposedTime()">
+<body onload="loadSurgeryShiftNoSchedule()"> 
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
-        <div>
-            <div id="div-shift-no-schedule"></div>  
-            <h2>Proposed Time</h2>
-            <div id="div-shift-proposed"></div>  
+        <div style="padding: 10px">
+            <a href="./viewSchedule.html"><button class="btn btn-primary">Back</button></a>   
+            <input id="btn-make-schedule" class="btn btn-primary" type="submit" value="Make Schedule" onClick="makeSchedule()"/>
+            <div style="padding: 3%" id="div-shift-no-schedule"></div>  
         </div>
     </div>  
 </body>

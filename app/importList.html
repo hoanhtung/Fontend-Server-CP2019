@@ -1,16 +1,18 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/headerStyle.css">
     <link rel="stylesheet" href="styles/tungStyle.css">
     <link rel="stylesheet" href="styles/mainTemplate.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <title>Surgery Management System</title>
 
     <script src="./scripts/linhJS.js"></script>
+    <script src="./scripts/main.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -19,27 +21,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
-            $("#navigation").load("./layout/navigation.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
+            $("#navigation").load("./layout/navigation.html");
         })
     </script>
 </head>
-<body>
-    <div class="dashboard-main-wrapper">
-        <!-- header layout -->
-        <div id="header"></div>
-        <!-- navigation layout -->
-        <!-- end left sidebar -->
-        <div id="navigation"></div>
-        <!-- wrapper  -->
 
+<body onload="getJSONfromSession()">
+    <div class="dashboard-main-wrapper">
+        <div id="header"></div>
+        <div id="navigation"></div>
         <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
@@ -57,25 +52,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="ecommerce-widget">
-
-                        <!-- ============================================================== -->
-                        <!-- import file  -->
-                        <!-- ============================================================== -->
                         <div class="row">
-                            <div style="width: 100%" >
+                            <div style="width: 100%">
                                 <input type="file" onchange="ExcelExport(event)" id="file" />
                             </div>
-                            <div class="card"></br></div> <!-- break line -->
-                            <!-- ============================================================== -->
-                            <!-- end of import file  -->
-                            <!-- ============================================================== -->
-                            <!-- surgery information  -->
-                            <!-- ============================================================== -->
-
+                            <div class="card"></br></div>
                             <div style="width: 100%">
                                 <div class="card">
                                     <h5 class="card-header">Surgery Profile Information</h5>
@@ -83,7 +65,6 @@
                                         <table class="table" id="profile">
                                             <thead class="bg-light">
                                                 <tr class="border-0">
-                                                    <th class="border-0"></th>
                                                     <th class="border-0">No.</th>
                                                     <th class="border-0">Patient Name</th>
                                                     <th class="border-0">Gender</th>
@@ -97,22 +78,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- ============================================================== -->
-                            <!-- end of surgery information  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-1">
-                                <input type="submit" value="Import All" onclick="saveSurgeryProfile()" />
-                                <input type="submit" value="Cancel"
-                                    onClick="javascript:window.location.href='importList.html'" />
+                            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                                <input style="margin-right: 20px" class="btn btn-success" type="submit"
+                                    value="Import All" onclick="saveSurgeryProfile()" />
+                                <input class="btn btn-danger" type="submit" value="Clear List"
+                                    onClick="removeSessionStorage()" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-            <!-- ============================================================== -->
-            <!-- end wrapper  -->
-            <!-- ============================================================== -->
-        </div>                        
-    </body>
+    </div>
+</body>
 </html>
