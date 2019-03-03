@@ -42,21 +42,6 @@ function parseImportInfo(jsonObj) {
         newRow = table.insertRow(table.rows.length);
 
         newColumn = newRow.insertCell(0);
-<<<<<<< .merge_file_a13620
-        // var checkBox = document.createElement("input");
-        // checkBox.setAttribute("type", "checkbox");
-        // checkBox.setAttribute("value", jsonObj[i]['Surgery Shift Code']);
-        // checkBox.setAttribute("class", "checkbox");
-        // newColumn.appendChild(checkBox);
-        newColumn = newRow.insertCell(1);
-        newColumn.appendChild(document.createTextNode(i + 1));
-        newColumn = newRow.insertCell(2);
-        var a = document.createElement('a');
-        a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
-        a.href = '#';
-        a.setAttribute("onclick", "getImportDetail(" + jsonObj[i]['Surgery Shift Code'] + ");");
-        newColumn.appendChild(a);
-=======
         newColumn.appendChild(document.createTextNode(i + 1));
         newColumn = newRow.insertCell(1);
         a = document.createElement('a');
@@ -70,16 +55,9 @@ function parseImportInfo(jsonObj) {
         newColumn.appendChild(a);
         newColumn = newRow.insertCell(2);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
->>>>>>> .merge_file_a03972
         newColumn = newRow.insertCell(3);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
         newColumn = newRow.insertCell(4);
-<<<<<<< .merge_file_a13620
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Name']));
-        newColumn = newRow.insertCell(5);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] + ' - ' + jsonObj[i]['Expected Time']));
-=======
->>>>>>> .merge_file_a03972
         if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
             newColumn.appendChild(document.createTextNode('N/A'));
         } else {
@@ -158,13 +136,6 @@ function saveSurgeryProfile() {
 }
 
 function getImportDetail(id) {
-<<<<<<< .merge_file_a13620
-    var messesage;
-    var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
-    for (var i = 0; i < supplyJSON.length; i++) {
-        if (supplyJSON[i]['Surgery Shift Code'] == id) {
-            messesage = messesage + "No." + (i + 1) + supplyJSON[i]['Code'] + "\t" + supplyJSON[i]['Name'] + "\n";
-=======
     window.location.href = 'importDetail.html?Id=' + id;
 }
 function parseImportDetail() {
@@ -181,40 +152,10 @@ function parseImportDetail() {
             newColumn.appendChild(document.createTextNode(++j));
             newColumn = newRow.insertCell(1);
             newColumn.appendChild(document.createTextNode(supplyJSON[i]['Name']));
->>>>>>> .merge_file_a03972
         }
     }
-    alert(messesage);
 }
 
-<<<<<<< .merge_file_a13620
-//Send confirm MS
-function confirmSupply() {
-    $.ajax({
-        url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
-        method: 'get',
-        data: { surgeryShiftId: surgeryCode }
-    });
-    window.location.href = 'confirmMSRequest.html';
-}
-
-function confirmAllSupply() {
-    var id = [];
-    var checkboxS = document.getElementsByClassName("checkbox");
-    for (var i = 0; i < checkboxS.length; i++) {
-        if (checkboxS[i].checked) {
-            id.push({ id: Number(checkboxS[i].value) });
-        }
-    }
-    console.log(JSON.stringify(id));
-    $.ajax({
-        url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
-        method: 'post',
-        data: JSON.stringify(id),
-        success: function success() {
-            alert('success');
-            // window.location.href = 'confirmMSRequest.html';
-=======
 function confirmAllSupply() {
     var ids = [];
     var checkboxS = document.getElementsByClassName('checkbox');
@@ -234,7 +175,6 @@ function confirmAllSupply() {
         success: function success() {
             alert('success');
             // window.location.href = 'viewShiftNoSchedule.html';
->>>>>>> .merge_file_a03972
         }
     });
 }
@@ -253,33 +193,18 @@ function getMedicalRequest() {
                 var checkBox = document.createElement("input");
                 checkBox.setAttribute("type", "checkbox");
                 checkBox.setAttribute("value", id);
-<<<<<<< .merge_file_a13620
-                checkBox.setAttribute("class", "checkbox");
-=======
                 checkBox.setAttribute("class", "checkbox chkSurgery");
->>>>>>> .merge_file_a03972
                 newColumn.appendChild(checkBox);
                 newColumn = newRow.insertCell(1);
                 newColumn.appendChild(document.createTextNode(data[i]['patientName']));
                 newColumn = newRow.insertCell(2);
-<<<<<<< .merge_file_a13620
-                newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
-                newColumn = newRow.insertCell(3);
-                newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
-                newColumn = newRow.insertCell(4);
-                var a = document.createElement('a');
-                a.href = "#";
-                a.appendChild(document.createTextNode("..."));
-                a.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");
-                newColumn.appendChild(a);
-=======
                 newColumn.appendChild(document.createTextNode(data[i]['surgeryName']));
                 newColumn = newRow.insertCell(3);
                 newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
                 newColumn = newRow.insertCell(4);
 
                 var button = document.createElement('button');
-                button.appendChild(document.createTextNode("Supply"));
+                button.appendChild(document.createTextNode("View Detail"));
                 button.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");
                 button.setAttribute("id", "myBtn");
                 button.setAttribute("type", "button");
@@ -287,36 +212,27 @@ function getMedicalRequest() {
                 button.setAttribute("data-target", "#myModal");
                 button.setAttribute("class", "btn btn-primary");
                 newColumn.appendChild(button);
->>>>>>> .merge_file_a03972
             }
         }
     });
 }
 
 function getMedicalRequestDetail(id) {
-<<<<<<< .merge_file_a13620
-    //get surgery code from url
-=======
->>>>>>> .merge_file_a03972
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/GetMedicalSupplyRequest',
         method: 'get',
         data: { surgeryShiftId: id },
         success: function success(data) {
-<<<<<<< .merge_file_a13620
-            var messesage = "no";
-            for (var i = 0; i < data.length; i++) {
-                messesage = messesage + "no." + (i + 1) + "" + data[i]["name"] + "\n";
+            var messesage = '';
+            if (data.length == 0) {
+                messesage = 'Not found medical supplies request';
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    messesage = messesage + '<p>' + (i + 1) + '. ' + data[i]['name'] + '</p>';
+                }
             }
-            alert(messesage);
-=======
-            var messesage = "";
-            for (var i = 0; i < data.length; i++) {
-                messesage = messesage + "<p>" + (i + 1) + ". " + data[i]["name"] + "</p>";
-            }
-            document.getElementById("mheader").innerHTML = "<h4>Medical Supply Detail</h4><p>Surgery Shift Id - " + id + "</p>";
-            document.getElementById("mbody").innerHTML = messesage;
->>>>>>> .merge_file_a03972
+            document.getElementById('mheader').innerHTML = '<h4>Medical Supply Detail</h4><p>Surgery Shift Id - ' + id + '</p>';
+            document.getElementById('mbody').innerHTML = messesage;
         }
     });
 }
