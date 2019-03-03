@@ -24,7 +24,6 @@ function loadSurgeryRoom(surgeryDay) {
                             if (estimatedEnd < new Date()) {
                                 strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
                             }
-
                             else {
                                 strAppend2 += '<div class="div-roomBodyItem">';
                             }   
@@ -182,7 +181,7 @@ function checkSetPostStatus(surgeryId) {
         data: {shiftId: surgeryId},
         success: function(data) {
             if (data == 1) {
-                $('#btn-change-post-status').show();
+                $('#checkSetPostStatus').show();
             } 
             else if (data == 2) {
                 $('#btn-change-post-status').attr('style', 'cursor: not-allowed').attr('disabled', '');    

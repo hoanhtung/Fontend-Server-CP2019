@@ -68,6 +68,8 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
         method: 'get',
         data: { shiftId: surgeryShiftId },
         success: function success(shift) {
+            console.log(shift);
+            $('#span-id').append(shift.id);
             $('#span-name').append(shift.patientName);
             $('#span-gender').append(shift.gender);
             $('#span-age').append(shift.age);
@@ -157,7 +159,7 @@ function checkSetPostStatus(surgeryId) {
         data: { shiftId: surgeryId },
         success: function success(data) {
             if (data == 1) {
-                $('#btn-change-post-status').show();
+                $('#checkSetPostStatus').show();
             } else if (data == 2) {
                 $('#btn-change-post-status').attr('style', 'cursor: not-allowed').attr('disabled', '');
             } else {
