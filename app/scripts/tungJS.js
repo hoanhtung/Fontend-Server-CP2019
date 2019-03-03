@@ -72,7 +72,6 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
         method: 'get',
         data: { shiftId: surgeryShiftId},
         success: function(shift) {
-            console.log(shift);
             $('#span-name').append(shift.patientName);
             $('#span-gender').append(shift.gender);
             $('#span-age').append(shift.age);
@@ -165,11 +164,31 @@ function loadSurgeryShiftNoScheduleByProposedTime() {
         }
     })
  }
+function checkSetPostStatus(surgeryId) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/CheckPostStatus/',
+        method: 'get',
+        data: {shiftId: surgeryId},
+        success: function(data) {
+            if (data == 1) {
+                $('#btn-change-post-status').show();
+            } 
+            else if (data == 2) {
+                $('#btn-change-post-status').attr('style', 'cursor: not-allowed').attr('disabled', '');    
+            }
+            else {
+                $('#btn-change-post-status').hide();
+            }
+        }
+    })
+}
 
 function setPostStatus(surgeryShiftId) {   
-    alert(surgeryShiftId);
+    const roomPost = $('#roomPost').val();
+    const bedPost = $('#bedPost').val();
     $.ajax({
-        url:  EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId='+ surgeryShiftId,
+        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + 
+        '&roomPost=' + roomPost + '&bedPost=' + bedPost,
         method: 'post',
         success: function(data) {
             if (data == true) {
@@ -177,6 +196,7 @@ function setPostStatus(surgeryShiftId) {
             } else {
                 alert('Fail!');
             }
+            checkSetPostStatus(surgeryShiftId)
         }
     })
 }
@@ -205,4 +225,12 @@ function formatDateToDateTimeString(date) {
     var year = date.getFullYear();
     var dateString = [day, month, year].join('/');
     return dateString;
+}
+function formatDateToString(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    var year = date.getFullYear();
+    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    return [hour, minute].join(':') + ' ' + [day, month, year].join('/')  ;
 }
