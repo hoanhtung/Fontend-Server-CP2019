@@ -17,6 +17,7 @@
     <!-- endbuild -->
     <!-- <script src="./js/tungJS.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
+    <script src="./scripts/vinhJS.js"></script>
     <!-- bower:js -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -45,6 +46,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="span-id" class="d-none"></div>
                     <div class="div-surgery-report form-group">
                         <table class="table table-borderless table-information-shift">
                             <tr>
@@ -56,7 +58,7 @@
                                 <td id="span-age"></td>
                             </tr>
                             <tr>
-                                <td ><b>Specialty:</b></td>
+                                <td><b>Specialty:</b></td>
                                 <td id="span-specialty"></td>
                             </tr>
                             <tr>
@@ -71,12 +73,14 @@
                                 <td><b>End Time:</b></td>
                                 <td id="span-end-time"></td>
                             </tr>
-   
+
                         </table>
                         <hr />
                         <div>
-                            <span id="btn-show-shift-info" class="title-part button-show"><i class="far fa-plus-square"></i> Surgery Information Detail:</span>
-                            <span id="btn-hide-shift-info" class="title-part button-show"><i class="far fa-minus-square"></i> Surgery Information Detail:</span>
+                            <span id="btn-show-shift-info" class="title-part button-show"><i
+                                    class="far fa-plus-square"></i> Surgery Information Detail:</span>
+                            <span id="btn-hide-shift-info" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Surgery Information Detail:</span>
                             <div id="div-ekip-procedure" class="div-editable-information row">
                                 <div class="div-ekip col-6">
                                     <div><b>Performed Ekip:</b></div>
@@ -127,65 +131,149 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="div-postoperative">
-                            <span id="btn-show-postop" class="title-part button-show"><i class="far fa-plus-square"></i> Postoperative Stage:</span>
-                            <span id="btn-hide-postop" class="title-part button-show"><i class="far fa-minus-square"></i> Postoperative Stage:</span>
+                        <div>
+                            <span id="btn-show-postop" class="title-part button-show"><i class="far fa-plus-square"></i>
+                                Treatment Reports:</span>
+                            <span id="btn-hide-postop" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Treatment Reports:</span>
+                            <div id="div-postoperative" class="div-editable-information row">
+                                <div class="col-12">
+                                    <a href="javascript:void(0)" class="btn btn-primary float-right"
+                                        data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
+                                        data-target="#treatmentModal">New Treatment Report</a>
+                                </div>
+                                <div class="col-12">
+                                    <div style="padding: 3%" id="div-treatment-table"></div>
+                                </div>
+
+                            </div>
                         </div>
-                        <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
-                        <div style="float: right">
-                            <input style="margin-right: 20px;" class="btn btn-info" type="button" value="Preview Surgery Report" />
-                            <input class="btn btn-success" data-toggle="modal" data-target="#myModal" type="button" value="Complete Surgery Shift"/> <br />
+                        <div>
+                            <span id="btn-show-healthcare" class="title-part button-show"><i
+                                    class="far fa-plus-square"></i>
+                                Healthcare Reports:</span>
+                            <span id="btn-hide-healthcare" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Healthcare Reports:</span>
+                            <div id="div-healthcare" class="div-editable-information row">
+                                <div class="col-12">
+                                    <div style="padding: 3%" id="div-healthcare-table"></div>
+                                </div>
+
+                            </div>
                         </div>
+                    </div>
+
+                    <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
+                    <div style="float: right">
+                        <input style="margin-right: 20px;" class="btn btn-info" type="button"
+                            value="Preview Surgery Report" />
+                        <input class="btn btn-success" data-toggle="modal" data-target="#myModal" type="button"
+                            value="Complete Surgery Shift" /> <br />
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- onclick="setPostStatus(window.location.search.split('=')[1])" -->
     <!-- The Modal -->
     <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-            
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Change Postoperative Status</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="">
-                    <div class="form-group">
-                        <span><b>Actual Surgery End Time:</b></span> <br/>
-                        <span id="actualEndTime"></span>
-                    </div>
-                    <div class="form-group">
-                        <span><b>Assigned Nurse:</b></span>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Nguyễn Thị Hằng</option>
-                            <option>Nguyễn Thị Hằng A</option>
-                            <option>Nguyễn Thị Hằng B</option>
-                        </select>
-                    </div>
 
-                    <span><b>Room</b></span>
-                    <input type="text" class="form-control"/>
-                    <span><b>Bed</b></span>
-                    <input type="text" class="form-control"/>
-                </form>
-            </div>
-            
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Change Status</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-            
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Postoperative Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <span><b>Actual Surgery End Time:</b></span> <br />
+                            <span id="actualEndTime"></span>
+                        </div>
+                        <div class="form-group">
+                            <span><b>Assigned Nurse:</b></span>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Nguyễn Thị Hằng</option>
+                                <option>Nguyễn Thị Hằng A</option>
+                                <option>Nguyễn Thị Hằng B</option>
+                            </select>
+                        </div>
+
+                        <span><b>Room</b></span>
+                        <input type="text" class="form-control" />
+                        <span><b>Bed</b></span>
+                        <input type="text" class="form-control" />
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Change Status</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
     </div>
-      
+    <!-- The TreatMent Modal -->
+    <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TreatMent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col px-0">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="treatment-tab" data-toggle="tab"
+                                            href="#treatment" role="tab" aria-controls="treatment"
+                                            aria-selected="true">New Treatment Report</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="treatment" role="tabpanel"
+                                        aria-labelledby="treatment-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="progressiveDisease">Progressive Disease</label>
+                                                        <textarea class="form-control" rows="5"
+                                                            id="progressiveDisease"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="medicalRequirement">Medical Requirement</label>
+                                                        <textarea class="form-control" rows="5"
+                                                            id="medicalRequirement"></textarea>
+                                                    </div>
+                                                    <button id="createTreatment" type="button"
+                                                        class="btn btn-success float-right">Create</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  -->
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
 
         // ==========Surgery Report==============
@@ -204,9 +292,55 @@
         });
 
         // ==========Postoperative==============
-        $('#btn-hide-postop').hide();
 
+
+        $('#btn-hide-postop').hide();
+        $('#div-postoperative').hide();
+        $('#btn-show-postop').click(function () {
+            var shiftId = $('#span-id').text();
+            $('#div-postoperative').show();
+            $('#btn-hide-postop').show();
+            $('#btn-show-postop').hide();
+            loadTreatmentReport(shiftId);
+        });
+        $('#btn-hide-postop').click(function () {
+            $('#div-postoperative').hide();
+            $('#btn-show-postop').show();
+            $('#btn-hide-postop').hide();
+        });
         $('#actualEndTime').append(new Date());
+
+        $('#treatmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var scheduleIndex = button.data('schedule-index');
+            $('#createTreatment').data('shift-id', scheduleIndex);
+        });
+
+        $('#createTreatment').click(() => {
+            // var shiftId = $(this).data('shift-id');
+            var shiftId = $('#span-id').text();
+            var progressiveDisease = $('#progressiveDisease').val();
+            var medicalRequirement = $('#medicalRequirement').val();
+            console.log(`${shiftId}, ${progressiveDisease}, ${medicalRequirement}`);
+            createTreatmentReport(shiftId, progressiveDisease, medicalRequirement);
+        })
+
+        // =======================Healthcare========================================
+        $('#btn-hide-healthcare').hide();
+        $('#div-healthcare').hide();
+        $('#btn-show-healthcare').click(function () {
+            var shiftId = $('#span-id').text();
+            $('#div-healthcare').show();
+            $('#btn-hide-healthcare').show();
+            $('#btn-show-healthcare').hide();
+            loadHealthcareReport(shiftId);
+        });
+        $('#btn-hide-healthcare').click(function () {
+            $('#div-healthcare').hide();
+            $('#btn-show-healthcare').show();
+            $('#btn-hide-healthcare').hide();
+            $('#div-healthcare-table').empty();
+        });
     </script>
 </body>
 

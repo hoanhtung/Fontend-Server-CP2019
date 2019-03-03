@@ -73,6 +73,7 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
         data: { shiftId: surgeryShiftId},
         success: function(shift) {
             console.log(shift);
+            $('#span-id').append(shift.id);
             $('#span-name').append(shift.patientName);
             $('#span-gender').append(shift.gender);
             $('#span-age').append(shift.age);
