@@ -75,8 +75,8 @@ function changeSchedule(shiftId, start, end, roomId) {
         dataType: 'json',
         data: JSON.stringify({
             id: shiftId,
-            estimatedStartDateTime: start,
-            estimatedEndDateTime: end,
+            estimatedStartDateTime: convertDatetimeToString(start),
+            estimatedEndDateTime: convertDatetimeToString(end),
             roomId: roomId
         }),
         method: 'post',
