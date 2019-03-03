@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-
-// var EBSMSLocal = 'http://192.168.100.180:5000';
-// var EBSMSLocal = 'http://10.82.139.179:5000';
-// var EBSMSLocal = 'http://127.20.10.7:5000';
->>>>>>> c292e964e96d35931f448162f71044e6e5e5db5b
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
     sessionStorage.removeItem('supplyObj');

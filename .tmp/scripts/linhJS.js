@@ -202,7 +202,6 @@ function getMedicalRequest() {
                 newColumn = newRow.insertCell(3);
                 newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
                 newColumn = newRow.insertCell(4);
-<<<<<<< HEAD
 
                 var button = document.createElement('button');
                 button.appendChild(document.createTextNode("View Detail"));
@@ -213,13 +212,6 @@ function getMedicalRequest() {
                 button.setAttribute("data-target", "#myModal");
                 button.setAttribute("class", "btn btn-primary");
                 newColumn.appendChild(button);
-=======
-                var a = document.createElement('a');
-                a.href = '#';
-                a.appendChild(document.createTextNode('...'));
-                a.setAttribute('onclick', 'getMedicalRequestDetail(" + id + ");');
-                newColumn.appendChild(a);
->>>>>>> c292e964e96d35931f448162f71044e6e5e5db5b
             }
         }
     });
@@ -231,7 +223,6 @@ function getMedicalRequestDetail(id) {
         method: 'get',
         data: { surgeryShiftId: id },
         success: function success(data) {
-<<<<<<< HEAD
             var messesage = '';
             if (data.length == 0) {
                 messesage = 'Not found medical supplies request';
@@ -239,12 +230,6 @@ function getMedicalRequestDetail(id) {
                 for (var i = 0; i < data.length; i++) {
                     messesage = messesage + '<p>' + (i + 1) + '. ' + data[i]['name'] + '</p>';
                 }
-=======
-            console.log(data);
-            var messesage = '';
-            for (var i = 0; i < data.length; i++) {
-                messesage = messesage + 'no. ' + (i + 1) + ' ' + data[i]['name'] + '.\n';
->>>>>>> c292e964e96d35931f448162f71044e6e5e5db5b
             }
             document.getElementById('mheader').innerHTML = '<h4>Medical Supply Detail</h4><p>Surgery Shift Id - ' + id + '</p>';
             document.getElementById('mbody').innerHTML = messesage;
