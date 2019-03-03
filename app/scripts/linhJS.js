@@ -112,6 +112,10 @@ function saveSurgeryProfile() {
             'proposedEndDateTime': proEndDate
         })
     }
+    if(shiftInfo.length == 0){
+        alert("There're NOTHING to import !!!");
+        return;
+    }
     $.ajax({
         url: EBSMSLocal + '/api/Import/ImportSurgeryShift',
         method: 'post',
@@ -125,7 +129,7 @@ function saveSurgeryProfile() {
                 supplyJson.push({
                     medicalSupplyId: Number(supplyList[s]['Code']),
                     surgeryShiftCode: supplyList[s]['Surgery Shift Code']
-                    // ,quantity: supplyList[s]['Quantity'] TODO: *
+                    ,quantity: supplyList[s]['Quantity']
                 });
             }
             $.ajax({
@@ -191,6 +195,10 @@ function confirmAllSupply() {
             var id = { id: value };
             ids.push(id);
         }
+    }
+    if(ids.length == 0){
+        alert("There're nothing to confirm !!");
+        return;
     }
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
@@ -258,9 +266,9 @@ function getMedicalRequestDetail(id) {
                     "<th class=\"border-0\">No.</th><th class=\"border-0\">Name</th><th class=\"border-0\">Quantity</th>"
                 "</tr></thead>";
                 for (var i = 0; i < data.length; i++) {
-                    messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>1</td></tr>";
+                    // messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>1</td></tr>";
                     //show quantity in detail TODO: Uncomment below row
-                    //messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
+                    messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
                 }
                 messesage = messesage + "</table>";
             }
