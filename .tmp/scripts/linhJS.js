@@ -212,7 +212,6 @@ function confirmAllSupply() {
             window.location.href = 'viewShiftNoSchedule.html';
         }
     });
-    window.location.href = 'viewSchedule.html';
 }
 //Get all medical supply request
 function getMedicalRequest() {
@@ -263,9 +262,14 @@ function getMedicalRequestDetail(id) {
             if (data.length == 0) {
                 messesage = 'Not found medical supplies request';
             } else {
+                messesage = "<table class=\"table\"><thead><tr class=\"border-0\">" + "<th class=\"border-0\">No.</th><th class=\"border-0\">Name</th><th class=\"border-0\">Quantity</th>";
+                "</tr></thead>";
                 for (var i = 0; i < data.length; i++) {
-                    messesage = messesage + '<p>' + (i + 1) + '. ' + data[i]['name'] + '</p>';
+                    messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>1</td></tr>";
+                    //show quantity in detail TODO: Uncomment below row
+                    //messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
                 }
+                messesage = messesage + "</table>";
             }
             document.getElementById('mheader').innerHTML = '<h4>Medical Supply Detail</h4><p>Surgery Shift Id - ' + id + '</p>';
             document.getElementById('mbody').innerHTML = messesage;
