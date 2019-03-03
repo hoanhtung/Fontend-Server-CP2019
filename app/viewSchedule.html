@@ -33,8 +33,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- bower:css -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="styles/jquery-ui.css">
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="scripts/jquery-ui.js"></script>
 
     <!-- endbower -->
     <script>
@@ -55,7 +57,12 @@
     </script>
 </head>
 
-<body onload="loadSurgeryRoom(convertDateToNumber(new Date()))">
+<body onload="loadSurgeryRoom(convertDateToNumber())">
+    <style>
+        .ui-front {
+            z-index: 90000;
+        }
+    </style>
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
@@ -75,9 +82,13 @@
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()" /> <br />
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
-                                    onClick="window.location.href = 'viewShiftNoSchedule.html';" /> 
+                                    onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <div style="float: right">
-                                    <div style="display: inline;"><div style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;"></div><span><b>Completed</b></span></div>
+                                    <div style="display: inline;">
+                                        <div
+                                            style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;">
+                                        </div><span><b>Completed</b></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -125,6 +136,10 @@
                                     <li class="nav-item">
                                         <a class="nav-link" id="status-tab" data-toggle="tab" href="#status" role="tab"
                                             aria-controls="status" aria-selected="false">Status</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="swap-tab" data-toggle="tab" href="#swap" role="tab"
+                                            aria-controls="swap" aria-selected="false">Swap</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
@@ -226,6 +241,31 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="swap" role="tabpanel" aria-labelledby="swap-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="shift1">Shift 1</label>
+                                                        <input type="number" class="form-control" id="shift1" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="shift2">Shift 2</label>
+                                                        <input type="number" class="form-control" id="shift2" />
+                                                    </div>
+                                                    <button id="swapButton" disabled
+                                                        class="btn btn-success">Swap</button>
+                                                    <div id="affected" class="fade mt-4">
+                                                        <li class="list-group-item active  mt-4">Affected Shifts</li>
+                                                        <ul class="list-group list-group-item"
+                                                            style="max-height: 300px; overflow-y: auto">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -239,6 +279,7 @@
     </div>
 
     <script>
+        let listShiftId = [];
         $('#changeTimeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var scheduleIndex = button.data('schedule-index');
@@ -250,7 +291,72 @@
             $('#changePriority').data('shift-id', scheduleIndex);
             $('#changeIntraoperative').data('shift-id', scheduleIndex);
             $('#priorityInput').val(priotityNumber);
+
+            $.get(EBSMSLocal + '/api/Schedule/GetSwapableShifts')
+                .then(res => {
+                    listShiftId = res;
+                    $('#shift1, #shift2').autocomplete({
+                        source: listShiftId.map(el => el + ''),
+                        select: (event, ui) => {
+                            validateStatus(ui, event.target);
+                        }
+                    });
+                }, er => { })
         });
+        $('#changeTimeModal').on('hidden.bs.modal', function (event) {
+            const s1 = $('#shift1').val('');
+            const s2 = $('#shift2').val('');
+            $('#affected').addClass('fade');
+            $('#affected ul.list-group').empty();
+        });
+        $('#shift1, #shift2').on('input', () => {
+            validateStatus();
+        });
+        function disabledSwapButton() {
+            $('#swapButton').attr('disabled', true);
+        }
+        function validateStatus(data = null, target = null) {
+            if (!$('#affected').hasClass('fade')) {
+                $('#affected').addClass('fade');
+            }
+            if (data && data.item) {
+                $(target).val(data.item.value);
+            }
+            const s1 = $('#shift1').val();
+            const s2 = $('#shift2').val();
+            if (s1 !== '' && s2 !== '' && s1 !== s2 && listShiftId.indexOf(Number.parseInt(s1)) !== -1 && listShiftId.indexOf(Number.parseInt(s2)) !== -1) {
+                $('#swapButton').removeAttr('disabled');
+            } else {
+                disabledSwapButton();
+            }
+        }
+        $('#swapButton').on('click', () => {
+            const s1 = $('#shift1').val();
+            const s2 = $('#shift2').val();
+            $('#affected').addClass('fade');
+            $('#affected ul.list-group').empty();
+            $.ajax({
+                method: 'post',
+                url: EBSMSLocal + '/api/Schedule/SwapShifts',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "firstShiftId": s1,
+                    "secondShiftId": s2
+                }),
+                dataType: 'json'
+            }).then(sc => {
+                if (sc instanceof Array) {
+                    sc.forEach(element => {
+                        $('#affected ul.list-group').append(getAffectedTemplate(element));
+                    });
+                    $('#affected').removeClass('fade');
+                }
+                alert('Swap successful');
+            }, er => {
+
+                alert('Swap fail');
+            })
+        })
         $('#checkSchedule').click(function () {
             var start = new Date($('#startTime').val());
             var end = new Date($('#endTime').val());
@@ -289,6 +395,70 @@
             changeIntraoperative(shiftId, "Preoperative");
         })
 
+        function convertDateStringToDate(dateString) {
+            console.log(new Date(dateString));
+            return new Date(dateString).getDate() + '/' + (new Date(dateString).getMonth() + 1) + '/' + new Date(dateString).getFullYear() + ' ' + new Date(dateString).getHours() + ' : ' + (new Date(dateString).getMinutes() > 10 ? new Date(dateString).getMinutes() : ('0' +  new Date(dateString).getMinutes()));
+        }
+
+        function getAffectedTemplate(data) {
+            const template1 = `<li class="list-group-item" style="background: lightcyan;">
+                                                                <div class="row">
+                                                                    <div class="col-4 mb-2">
+                                                                        <b class="block-data">Shift Id: </b>
+                                                                    </div>
+                                                                    <div class="col-8 mb-2">
+                                                                        ${data.shiftId}
+                                                                    </div>
+                                                                    <div class="col-4 mb-2">
+                                                                        <b class="block-data">Old Start-End: </b>
+                                                                    </div>
+                                                                    <div class="col-8 mb-2">
+                                                                        ${convertDateStringToDate(data.oldStart)} - ${convertDateStringToDate(data.oldEnd)}
+                                                                    </div>
+                                                                    <div class="col-4 mb-2">
+                                                                        <b class="block-data">New Start-End: </b>
+                                                                    </div>
+                                                                    <div class="col-8 mb-2">
+                                                                        ${convertDateStringToDate(data.newStart)} - ${convertDateStringToDate(data.newEnd)}
+                                                                    </div>
+                                                                    <div class="col-4 mb-2">
+                                                                        <b class="block-data">Old Room: </b>
+                                                                    </div>
+                                                                    <div class="col-8 mb-2">
+                                                                        ${data.oldRoomName}
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <b class="block-data">New Room: </b>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        ${data.newRoomName}
+                                                                    </div>
+                                                                </div>
+                                                            </li>`
+            const template2 = `<li class="list-group-item" style="background: lightcyan;">
+                                                                <div class="row">
+                                                                    <div class="col-4 mb-2">
+                                                                        <b class="block-data">Shift Id: </b>
+                                                                    </div>
+                                                                    <div class="col-8 mb-2">
+                                                                        ${data.shiftId}
+                                                                    </div>
+                                                                    <div class="col-4 mb-2">
+                                                                        <b class="block-data">Old Room: </b>
+                                                                    </div>
+                                                                    <div class="col-8 mb-2">
+                                                                        ${data.oldRoomName}
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <b class="block-data">New Room: </b>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        ${data.newRoomName}
+                                                                    </div>
+                                                                </div>
+                                                            </li>`
+            return (data.newStart === '0001-01-01T00:00:00' && data.newEnd === '0001-01-01T00:00:00') ? template2 : template1;
+        }
     </script>
 </body>
 
