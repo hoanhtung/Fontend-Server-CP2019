@@ -217,10 +217,10 @@ function getMedicalRequest() {
                 var newRow = table.insertRow(table.rows.length);
                 var newColumn;
                 newColumn = newRow.insertCell(0);
-                var checkBox = document.createElement("input");
-                checkBox.setAttribute("type", "checkbox");
-                checkBox.setAttribute("value", id);
-                checkBox.setAttribute("class", "checkbox chkSurgery");
+                var checkBox = document.createElement('input');
+                checkBox.setAttribute('type', 'checkbox');
+                checkBox.setAttribute('value', id);
+                checkBox.setAttribute('class', 'checkbox chkSurgery');
                 newColumn.appendChild(checkBox);
                 newColumn = newRow.insertCell(1);
                 newColumn.appendChild(document.createTextNode(data[i]['patientName']));
@@ -231,7 +231,7 @@ function getMedicalRequest() {
                 newColumn = newRow.insertCell(4);
 
                 var button = document.createElement('button');
-                button.appendChild(document.createTextNode("Supply"));
+                button.appendChild(document.createTextNode("View Detail"));
                 button.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");
                 button.setAttribute("id", "myBtn");
                 button.setAttribute("type", "button");
@@ -251,18 +251,22 @@ function getMedicalRequestDetail(id) {
         method: 'get',
         data: { surgeryShiftId: id },
         success: function (data) {
-            var messesage = "";
-            for (var i = 0; i < data.length; i++) {
-                messesage = messesage + "<p>" + (i + 1) + ". " + data[i]["name"] + "</p>";
-            }
-            document.getElementById("mheader").innerHTML = "<h4>Medical Supply Detail</h4><p>Surgery Shift Id - " + id + "</p>";
-            document.getElementById("mbody").innerHTML = messesage;
+            var messesage = '';
+            if (data.length == 0) {
+                messesage = 'Not found medical supplies request';
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    messesage = messesage + '<p>' + (i + 1) + '. ' + data[i]['name'] + '</p>';
+                }
+            }           
+            document.getElementById('mheader').innerHTML = '<h4>Medical Supply Detail</h4><p>Surgery Shift Id - ' + id + '</p>';
+            document.getElementById('mbody').innerHTML = messesage;
         }
     })
 }
 
 function selectAllCheckboxes(event) {
-    var chkSurgery = $(".chkSurgery");
+    var chkSurgery = $('.chkSurgery');
     var checked = event.checked === true;
     for (let i = 0; i < chkSurgery.length; i++) {
         chkSurgery[i].checked = checked;
