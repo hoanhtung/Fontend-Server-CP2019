@@ -20,18 +20,20 @@ function loadSurgeryRoom(surgeryDay) {
                     success: function success(shift) {
                         var strAppend2 = '';
                         for (var _index2 = 0; _index2 < shift.length; _index2++) {
-                            if (shift[_index2].priorityNumber == 1) {
-                                // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FF8A80" class="div-roomBodyItem">';
-                                strAppend2 += '<div style="background-color: #FF8A80" class="div-roomBodyItem">';
-                            } else if (shift[_index2].priorityNumber == 2) {
-                                // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #FFFF8D" class="div-roomBodyItem">';
-                                strAppend2 += '<div style="background-color: #FFFF8D" class="div-roomBodyItem">';
+                            var estimatedStart = new Date(shift[_index2].estimatedStartDateTime);
+                            var estimatedEnd = new Date(shift[_index2].estimatedEndDateTime);
+                            if (estimatedEnd < new Date()) {
+                                strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
                             } else {
-                                strAppend2 += '<div style="background-color: #C8E6C9" class="div-roomBodyItem">';
-                                // strAppend2 += '<a href="./viewScheduleItem.html?id=' + shift[index].id + '"><div style="background-color: #C8E6C9" class="div-roomBodyItem">';
+                                strAppend2 += '<div class="div-roomBodyItem">';
                             }
-                            // 'Surgeon:' + 'Nguyễn Hoàng Anh' +
-                            strAppend2 += '<div class="info-shift"><div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + shift[_index2].estimatedStartDateTime + ' - ' + shift[_index2].estimatedEndDateTime + '</div></div>' + '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[_index2].id + '" class="btn btn-info">View <i class="far fa-eye"/></a>' + '<a href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index2].priorityNumber + '" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>' + '</div></a>';
+                            strAppend2 += '<div class="info-shift"><div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + convertDateToTime(estimatedStart) + ' - ' + convertDateToTime(estimatedEnd) + '</div></div>' + '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[_index2].id + '" class="btn btn-info">View<i class="far fa-eye"/></a>';
+                            if (estimatedEnd < new Date()) {
+                                strAppend2 += '</div>';
+                            } else {
+                                strAppend2 += '<a href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index2].priorityNumber + '" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>';
+                            }
+                            strAppend2 += '</div></a>';
                         }
                         $('#header-room-' + room[_index].id).append(strAppend2);
                     }
@@ -66,7 +68,6 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
         method: 'get',
         data: { shiftId: surgeryShiftId },
         success: function success(shift) {
-            console.log(shift);
             $('#span-name').append(shift.patientName);
             $('#span-gender').append(shift.gender);
             $('#span-age').append(shift.age);
@@ -142,11 +143,28 @@ function loadSurgeryShiftNoScheduleByProposedTime() {
         }
     });
 }
+function checkSetPostStatus(surgeryId) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/CheckPostStatus/',
+        method: 'get',
+        data: { shiftId: surgeryId },
+        success: function success(data) {
+            if (data == 1) {
+                $('#btn-change-post-status').show();
+            } else if (data == 2) {
+                $('#btn-change-post-status').attr('style', 'cursor: not-allowed').attr('disabled', '');
+            } else {
+                $('#btn-change-post-status').hide();
+            }
+        }
+    });
+}
 
 function setPostStatus(surgeryShiftId) {
-    alert(surgeryShiftId);
+    var roomPost = $('#roomPost').val();
+    var bedPost = $('#bedPost').val();
     $.ajax({
-        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId,
+        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost,
         method: 'post',
         success: function success(data) {
             if (data == true) {
@@ -154,6 +172,7 @@ function setPostStatus(surgeryShiftId) {
             } else {
                 alert('Fail!');
             }
+            checkSetPostStatus(surgeryShiftId);
         }
     });
 }
@@ -169,6 +188,11 @@ function convertDateToNumber(date) {
     var dateNumber = [year, month, day].join('');
     return dateNumber;
 }
+function convertDateToTime(date) {
+    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    return [hour, minute].join(':');
+}
 function formatInputDate(date) {
     var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
     var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
@@ -182,5 +206,13 @@ function formatDateToDateTimeString(date) {
     var year = date.getFullYear();
     var dateString = [day, month, year].join('/');
     return dateString;
+}
+function formatDateToString(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    var year = date.getFullYear();
+    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    return [hour, minute].join(':') + ' ' + [day, month, year].join('/');
 }
 //# sourceMappingURL=tungJS.js.map

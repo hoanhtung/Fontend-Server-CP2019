@@ -33,7 +33,7 @@
     </script>
 </head>
 
-<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1])">
+<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1]); checkSetPostStatus(window.location.search.split('=')[1])">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -275,7 +275,6 @@
         </div>
     </div>
     <script>
-
         // ==========Surgery Report==============
         $('#btn-hide-shift-info').hide();
         $('#div-ekip-procedure').hide();
