@@ -84,9 +84,16 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
 function makeSchedule() {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
-        method: 'get'
+        method: 'get',
+        success: function success(data) {
+            // console.log(data.m_StringValue);
+            $('#content-schedule-notification').html(data.m_StringValue);
+            // $(window).on('load', function() {
+            //     $('#modal-schedule-notification').modal('show');
+            // });
+        }
     });
-    window.location.href = 'viewSchedule.html';
+    // window.location.href = 'viewSchedule.html';
 }
 
 function makeScheduleProposedTime() {
