@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+
+// var EBSMSLocal = 'http://192.168.100.180:5000';
+// var EBSMSLocal = 'http://10.82.139.179:5000';
+// var EBSMSLocal = 'http://127.20.10.7:5000';
+>>>>>>> c292e964e96d35931f448162f71044e6e5e5db5b
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
     sessionStorage.removeItem('supplyObj');
@@ -46,7 +53,7 @@ function parseImportInfo(jsonObj) {
         a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
         a.href = '#';
         let surgeryShiftCode = jsonObj[i]['Surgery Shift Code'];
-        a.addEventListener("click", () => {
+        a.addEventListener('click', () => {
             getImportDetail(surgeryShiftCode);
         });
         newColumn.appendChild(a);
@@ -182,10 +189,10 @@ function getMedicalRequest() {
                 var newRow = table.insertRow(table.rows.length);
                 var newColumn;
                 newColumn = newRow.insertCell(0);
-                var checkBox = document.createElement("input");
-                checkBox.setAttribute("type", "checkbox");
-                checkBox.setAttribute("value", id);
-                checkBox.setAttribute("class", "checkbox chkSurgery");
+                var checkBox = document.createElement('input');
+                checkBox.setAttribute('type', 'checkbox');
+                checkBox.setAttribute('value', id);
+                checkBox.setAttribute('class', 'checkbox chkSurgery');
                 newColumn.appendChild(checkBox);
                 newColumn = newRow.insertCell(1);
                 newColumn.appendChild(document.createTextNode(data[i]['patientName']));
@@ -231,7 +238,7 @@ function getMedicalRequestDetail(id) {
 }
 
 function selectAllCheckboxes(event) {
-    var chkSurgery = $(".chkSurgery");
+    var chkSurgery = $('.chkSurgery');
     var checked = event.checked === true;
     for (let i = 0; i < chkSurgery.length; i++) {
         chkSurgery[i].checked = checked;
