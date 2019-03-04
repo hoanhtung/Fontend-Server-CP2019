@@ -292,4 +292,22 @@ function selectAllCheckboxes(event) {
         chkSurgery[i].checked = checked;
     }
 }
+
+function searchSchedule() {
+    var infoShift = document.getElementsByClassName('info-shift');
+    for (var i = 0; i < infoShift.length; i++) {
+        infoShift[i].style.display = "block";
+    }
+    var keyword = document.getElementById('keyword').value;
+    console.log(keyword);
+    if (keyword == "") return;
+    for (var i = 0; i < infoShift.length; i++) {
+        var str = infoShift[i].innerHTML;
+        console.log(str);
+        if (str.includes(keyword)) {
+            continue;
+        }
+        infoShift[i].style.display = "none";
+    }
+}
 //# sourceMappingURL=linhJS.js.map

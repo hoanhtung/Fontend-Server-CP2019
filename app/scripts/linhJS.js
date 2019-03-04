@@ -112,7 +112,7 @@ function saveSurgeryProfile() {
             'proposedEndDateTime': proEndDate
         })
     }
-    if(shiftInfo.length == 0){
+    if (shiftInfo.length == 0) {
         alert("There're NOTHING to import !!!");
         return;
     }
@@ -129,7 +129,7 @@ function saveSurgeryProfile() {
                 supplyJson.push({
                     medicalSupplyId: Number(supplyList[s]['Code']),
                     surgeryShiftCode: supplyList[s]['Surgery Shift Code']
-                    ,quantity: supplyList[s]['Quantity']
+                    , quantity: supplyList[s]['Quantity']
                 });
             }
             $.ajax({
@@ -196,7 +196,7 @@ function confirmAllSupply() {
             ids.push(id);
         }
     }
-    if(ids.length == 0){
+    if (ids.length == 0) {
         alert("There're nothing to confirm !!");
         return;
     }
@@ -286,4 +286,22 @@ function selectAllCheckboxes(event) {
         chkSurgery[i].checked = checked;
     }
 
+}
+
+function searchSchedule() {
+    var infoShift = document.getElementsByClassName('info-shift');
+    for (var i = 0; i < infoShift.length; i++) {
+        infoShift[i].style.display = "block";
+    }
+    var keyword = document.getElementById('keyword').value;
+    console.log(keyword);
+    if (keyword == "") return;
+    for (var i = 0; i < infoShift.length; i++) {
+        var str = infoShift[i].innerHTML;
+        console.log(str);
+        if (str.includes(keyword)) {
+            continue;
+        }
+        infoShift[i].style.display = "none";
+    }
 }
