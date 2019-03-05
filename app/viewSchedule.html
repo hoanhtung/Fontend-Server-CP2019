@@ -2,43 +2,25 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
-    <!-- endbuild -->
-    <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
-    <!-- endbuild -->
-    <!-- build:css styles/mainTemplate.css -->
     <link rel="stylesheet" href="styles/mainTemplate.css">
-    <!-- endbuild -->
-    <!-- build:css styles/mainTemplate.css -->
     <link rel="stylesheet" href="styles/utilities.css">
-    <!-- endbuild -->
-
     <title>Surgery Management System</title>
-    <!-- <script src="./js/tung-intraOp.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
-    <!-- <script src="./scripts/phucJS.js"></script> -->
     <script src="./scripts/phucJS.js"></script>
-    <!-- bower:js -->
+    <script src="./scripts/linhJS.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <!-- bower:css -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="styles/jquery-ui.css">
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts/jquery-ui.js"></script>
-
-    <!-- endbower -->
     <script>
         var roomList = null;
         $.ajax({
@@ -63,18 +45,12 @@
             z-index: 90000;
         }
     </style>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
         <div class="container-scheduleItem">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
@@ -83,6 +59,12 @@
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
+                                <!-- Search funtion -->
+                                <input type="text" id="keyword" />
+                                <input type="submit" value="Search" class="btn btn-success"
+                                    onclick="searchSchedule()" />
+                                <p id="searchError" style="color: red; display: none">No result found!!</p>
+                                <!-- end of Search -->
                                 <div style="float: right">
                                     <div style="display: inline;">
                                         <div
@@ -93,9 +75,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="ecommerce-widget">
                         <div class="div-schedule" id="row-surgery-room">
                         </div>
@@ -103,9 +82,6 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
     </div>
     <div class="modal fade" id="changeTimeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
@@ -397,7 +373,7 @@
 
         function convertDateStringToDate(dateString) {
             console.log(new Date(dateString));
-            return new Date(dateString).getDate() + '/' + (new Date(dateString).getMonth() + 1) + '/' + new Date(dateString).getFullYear() + ' ' + new Date(dateString).getHours() + ' : ' + (new Date(dateString).getMinutes() > 10 ? new Date(dateString).getMinutes() : ('0' +  new Date(dateString).getMinutes()));
+            return new Date(dateString).getDate() + '/' + (new Date(dateString).getMonth() + 1) + '/' + new Date(dateString).getFullYear() + ' ' + new Date(dateString).getHours() + ' : ' + (new Date(dateString).getMinutes() > 10 ? new Date(dateString).getMinutes() : ('0' + new Date(dateString).getMinutes()));
         }
 
         function getAffectedTemplate(data) {
