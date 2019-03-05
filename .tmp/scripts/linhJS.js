@@ -273,9 +273,8 @@ function getMedicalRequestDetail(id) {
                 messesage = "<table class=\"table\"><thead><tr class=\"border-0\">" + "<th class=\"border-0\">No.</th><th class=\"border-0\">Name</th><th class=\"border-0\">Quantity</th>";
                 "</tr></thead>";
                 for (var i = 0; i < data.length; i++) {
-                    messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>2</td></tr>";
                     //show quantity in detail TODO: Uncomment below row
-                    // messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
+                    messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
                 }
                 messesage = messesage + "</table>";
             }
