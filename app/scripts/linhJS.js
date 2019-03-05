@@ -1,12 +1,12 @@
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
     sessionStorage.removeItem('supplyObj');
+    sessionStorage.removeItem('surgeryName');
     javascript: window.location.href = 'importList.html'
 }
 
 function getJSONfromSession() {
     var infoJSON = JSON.parse(sessionStorage.getItem('infoObj'));
-    var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
     if (infoJSON != null)
         parseImportInfo(infoJSON);
 }
@@ -23,7 +23,7 @@ function ExcelExport(event) {
 
             switch (sheetName) {
                 case 'SurgeryProfile':
-                    parseImportInfo(rowObj);
+                    getSurgeryName(rowObj);
                     sessionStorage.setItem('infoObj', JSON.stringify(rowObj));
                     break;
                 case 'MedicalSupply':
@@ -34,7 +34,10 @@ function ExcelExport(event) {
     };
     reader.readAsBinaryString(input.files[0]);
 };
+
+
 function parseImportInfo(jsonObj) {
+    var surName = JSON.parse(sessionStorage.getItem("surgeryName"));
     var table = document.getElementById('profile').getElementsByTagName('tbody')[0];
     for (var i = 0; i < jsonObj.length; i++) {
         var newRow = table.insertRow(table.rows.length);
@@ -46,14 +49,12 @@ function parseImportInfo(jsonObj) {
         a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
         a.href = '#';
         let surgeryShiftCode = jsonObj[i]['Surgery Shift Code'];
-        a.addEventListener('click', () => {
-            getImportDetail(surgeryShiftCode);
-        });
+        a.addEventListener("click", () => { getImportDetail(surgeryShiftCode); });
         newColumn.appendChild(a);
         newColumn = newRow.insertCell(2);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
         newColumn = newRow.insertCell(3);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
+        newColumn.appendChild(document.createTextNode(surName[i].name));
         newColumn = newRow.insertCell(4);
         if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
             newColumn.appendChild(document.createTextNode('N/A'));
@@ -62,7 +63,25 @@ function parseImportInfo(jsonObj) {
             newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] +
                 ' - ' + jsonObj[i]['Expected Time']));
         }
+
     }
+}
+function getSurgeryName(surgeryInfo) {
+    var surName = [];
+    for (var i = 0; i < surgeryInfo.length; i++) {
+        surName.push({ 'id': Number(surgeryInfo[i]['Surgery Code']) });
+    }
+    $.ajax({
+        url: EBSMSLocal + '/api/Import/getSurgeryNameById',
+        method: 'post',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(surName),
+        success: function (data) {
+            sessionStorage.setItem("surgeryName", JSON.stringify(data));
+            parseImportInfo(surgeryInfo);
+        }
+    });
 }
 
 function saveSurgeryProfile() {
@@ -93,6 +112,10 @@ function saveSurgeryProfile() {
             'proposedEndDateTime': proEndDate
         })
     }
+    if (shiftInfo.length == 0) {
+        alert("There're NOTHING to import !!!");
+        return;
+    }
     $.ajax({
         url: EBSMSLocal + '/api/Import/ImportSurgeryShift',
         method: 'post',
@@ -106,6 +129,7 @@ function saveSurgeryProfile() {
                 supplyJson.push({
                     medicalSupplyId: Number(supplyList[s]['Code']),
                     surgeryShiftCode: supplyList[s]['Surgery Shift Code']
+                    , quantity: supplyList[s]['Quantity']
                 });
             }
             $.ajax({
@@ -132,6 +156,19 @@ function getImportDetail(id) {
 function parseImportDetail() {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("Id");
+    var infoJSON = JSON.parse(sessionStorage.getItem('infoObj'));
+    var surName = JSON.parse(sessionStorage.getItem('surgeryName'));
+    for (var i = 0; i < infoJSON.length; i++) {
+        if (infoJSON[i]['Surgery Shift Code'] == id) {
+            document.getElementById('span-name').innerHTML = infoJSON[i]['Patient Name'];
+            document.getElementById('span-gender').innerHTML = infoJSON[i]['Gender'];
+            document.getElementById('span-age').innerHTML = new Date().getFullYear() - infoJSON[i]['Patient DOB'];
+            document.getElementById('span-identity').innerHTML = infoJSON[i]['Patient Id'];
+
+            document.getElementById('span-sname').innerHTML = surName[i].name;
+            document.getElementById('span-weight').innerHTML = infoJSON[i]['Surgery Weight'];
+        }
+    }
     var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
     var table = document.getElementById('listSupply').getElementsByTagName('tbody')[0];
     var j = 0;
@@ -143,6 +180,8 @@ function parseImportDetail() {
             newColumn.appendChild(document.createTextNode(++j));
             newColumn = newRow.insertCell(1);
             newColumn.appendChild(document.createTextNode(supplyJSON[i]['Name']));
+            newColumn = newRow.insertCell(2);
+            newColumn.appendChild(document.createTextNode(supplyJSON[i]['Quantity']));
         }
     }
 }
@@ -157,6 +196,10 @@ function confirmAllSupply() {
             ids.push(id);
         }
     }
+    if (ids.length == 0) {
+        alert("There're nothing to confirm !!");
+        return;
+    }
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/ConfirmMedicalRequest',
         method: 'post',
@@ -165,10 +208,9 @@ function confirmAllSupply() {
         data: JSON.stringify(ids),
         success: function () {
             alert('success');
-            // window.location.href = 'viewShiftNoSchedule.html';
+            window.location.href = 'viewShiftNoSchedule.html';
         }
     })
-
 }
 //Get all medical supply request
 function getMedicalRequest() {
@@ -220,10 +262,15 @@ function getMedicalRequestDetail(id) {
             if (data.length == 0) {
                 messesage = 'Not found medical supplies request';
             } else {
+                messesage = "<table class=\"table\"><thead><tr class=\"border-0\">" +
+                    "<th class=\"border-0\">No.</th><th class=\"border-0\">Name</th><th class=\"border-0\">Quantity</th>"
+                "</tr></thead>";
                 for (var i = 0; i < data.length; i++) {
-                    messesage = messesage + '<p>' + (i + 1) + '. ' + data[i]['name'] + '</p>';
+                    //show quantity in detail TODO: Uncomment below row
+                    messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
                 }
-            }           
+                messesage = messesage + "</table>";
+            }
             document.getElementById('mheader').innerHTML = '<h4>Medical Supply Detail</h4><p>Surgery Shift Id - ' + id + '</p>';
             document.getElementById('mbody').innerHTML = messesage;
         }
@@ -237,4 +284,27 @@ function selectAllCheckboxes(event) {
         chkSurgery[i].checked = checked;
     }
 
+}
+
+function searchSchedule() {
+    var infoShift = document.getElementsByClassName('info-shift');
+    document.getElementById("searchError").style.display = "none";
+    for (var i = 0; i < infoShift.length; i++) {
+        infoShift[i].style.display = "block";
+    }
+    var keyword = delete_mark_VI(document.getElementById('keyword').value);
+    if (keyword == "") return;
+    var flag = false;
+    for (var i = 0; i < infoShift.length; i++) {
+        var str = delete_mark_VI(infoShift[i].innerHTML);
+        //console.log(str);
+        if (str.toLowerCase().includes(keyword.toLowerCase())) {
+            flag = true;
+            continue;
+        }
+        infoShift[i].style.display = "none";
+    }
+    if(!flag){
+        document.getElementById("searchError").style.display = "inline";
+    }
 }

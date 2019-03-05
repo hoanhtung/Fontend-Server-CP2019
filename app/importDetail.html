@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
 
     <script src="./scripts/linhJS.js"></script>
+    <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/main.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
@@ -26,6 +28,7 @@
     </script>
     <title>Medical Supply Request Detail</title>
 </head>
+
 <body onload="parseImportDetail();">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
@@ -52,7 +55,37 @@
                     </div>
                     <div class="ecommerce-widget">
                         <div class="row">
-                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                            <!--  -->
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card">
+                                    <h5 class="card-header">Patient Information</h5>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td><b>Patient Id:</b></td>
+                                            <td id="span-identity"></td>
+                                            <td><b>Patient:</b></td>
+                                            <td id="span-name"></td>
+                                            <td><b>Gender:</b></td>
+                                            <td id="span-gender"></td>
+                                            <td><b>Age:</b></td>
+                                            <td id="span-age"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="card">
+                                    <h5 class="card-header">Surgery Information</h5>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td><b>Surgery Name:</b></td>
+                                            <td id="span-sname"></td>
+                                            <td><b>Surgery Weight:</b></td>
+                                            <td id="span-weight"></td>                                            
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header">Medical supplies</h5>
                                     <div class="card-body p-0">
@@ -62,6 +95,7 @@
                                                     <tr class="border-0">
                                                         <th class="border-0">No.</th>
                                                         <th class="border-0">Name</th>
+                                                        <th class="border-0">Quantity</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -82,4 +116,5 @@
         </div>
     </div>
 </body>
+
 </html>
