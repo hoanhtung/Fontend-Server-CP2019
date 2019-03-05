@@ -12,6 +12,7 @@
     <!-- endbuild -->
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
+    <link rel="stylesheet" href="styles/vinhStyle.css">
 
     <link rel="stylesheet" href="styles/itemScheduleStyle.css">
     <!-- endbuild -->
@@ -238,10 +239,10 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
     </div>
     <!-- The TreatMent Modal -->
     <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">TreatMent</h5>
+                    <h5 class="modal-title">Treatment</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -271,8 +272,24 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="medicalRequirement">Medical Requirement</label>
-                                                        <textarea class="form-control" rows="5"
-                                                            id="medicalRequirement"></textarea>
+                                                        <button class="btn btn-success add-more float-right" type="button"><i class="fa fa-plus"></i>Add more</button>
+                                                        <div class="mt-4 row">
+                                                            <div class="col-6"></div>
+                                                            <div class="col-1" style="text-align: center;"> Morning</div>
+                                                            <div class="col-1" style="text-align: center;"> Noon</div>
+                                                            <div class="col-1" style="text-align: center;"> Evening</div>
+                                                            <div class="col-1" style="text-align: center;"> Night</div>
+                                                        </div>
+                                                        <datalist id="drugs"></datalist>
+                                                        <div class="row row-drug after-add-more" style="padding-inline-start: 15px;">
+                                                            <div class="easyautocomplete-wraper form-group col-6" style="margin-bottom: 0px">
+                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" />
+                                                            </div>
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
+                                                        </div>
                                                     </div>
                                                     <button id="createTreatment" type="button"
                                                         class="btn btn-success float-right">Create</button>
@@ -308,7 +325,8 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
         });
 
         // ==========Postoperative==============
-
+        var drugs;
+        getAllDrugs();
 
         $('#btn-hide-postop').hide();
         $('#div-postoperative').hide();
@@ -336,10 +354,86 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             // var shiftId = $(this).data('shift-id');
             var shiftId = $('#span-id').text();
             var progressiveDisease = $('#progressiveDisease').val();
-            var medicalRequirement = $('#medicalRequirement').val();
-            console.log(`${shiftId}, ${progressiveDisease}, ${medicalRequirement}`);
-            createTreatmentReport(shiftId, progressiveDisease, medicalRequirement);
-        })
+            createTreatmentReport(shiftId, progressiveDisease);
+            
+        });
+        
+        $(".add-more").click(function () {
+                $(".after-add-more").after(`<div class="row row-drug control-group" style="padding-inline-start: 15px; margin-top: 10px">
+                                                                <div class="easyautocomplete-wraper col-6">
+                                                                    <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name" />
+                                                                </div>
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
+                                                                <div class="input-group-btn  col-1">
+                                                                    <button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button>
+                                                                </div>
+                                                            </div>`);
+                // autocompleteDrug();
+        });
+
+        $("body").on("click", ".remove", function () {
+                $(this).parents(".control-group").remove();
+        });   
+
+        
+        
+            function getAllDrugs() {
+                    $.ajax({
+                        url: EBSMSLocal + '/api/Drug/GetAllDrugs',
+                        method: 'get',
+                        success: function (data) {
+                            // initAutocompleteDrug(data);
+                            // drugs = data;
+                            // console.log(drugs);
+                            $(data).each(function () {
+                                var options = `<option id='${this.id}' value='${this.name}'></option>`;
+                                $('#drugs').append(options);
+                            });
+                        }
+                    });
+                }
+
+                function initAutocompleteDrug(drugs) {
+                    $("body").find(".drug").each(function () {
+                        var options = {
+                            data: drugs,
+                            getValue: "name",
+                            list: {
+                                match: {
+                                    enabled: true
+                                }
+                            },
+                        };
+                        var id = $(this).prop('id');
+                        if (id.indexOf('eac') == -1) {
+                            $(this).easyAutocomplete(options);
+                        }
+                    });
+                }
+
+        function autocompleteDrug() {
+                $("body").find(".drug").each(function () {
+                    var options = {
+                        data: drugs,
+                        getValue: "name",
+                        list: {
+                            match: {
+                                enabled: true
+                            }
+                        },
+                    };
+                    var id = $(this).prop('id');
+                    if (id.indexOf('eac') == 0) {
+                        $(this).easyAutocomplete(options);
+                    }
+                });
+            }
+
+        
+            
 
         // =======================Healthcare========================================
         $('#btn-hide-healthcare').hide();
@@ -357,6 +451,8 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             $('#btn-hide-healthcare').hide();
             $('#div-healthcare-table').empty();
         });
+
+
     </script>
 </body>
 
