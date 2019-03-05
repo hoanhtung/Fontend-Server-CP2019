@@ -273,7 +273,6 @@ function getMedicalRequestDetail(id) {
                 messesage = "<table class=\"table\"><thead><tr class=\"border-0\">" + "<th class=\"border-0\">No.</th><th class=\"border-0\">Name</th><th class=\"border-0\">Quantity</th>";
                 "</tr></thead>";
                 for (var i = 0; i < data.length; i++) {
-                    // messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>1</td></tr>";
                     //show quantity in detail TODO: Uncomment below row
                     messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
                 }
@@ -290,6 +289,29 @@ function selectAllCheckboxes(event) {
     var checked = event.checked === true;
     for (var i = 0; i < chkSurgery.length; i++) {
         chkSurgery[i].checked = checked;
+    }
+}
+
+function searchSchedule() {
+    var infoShift = document.getElementsByClassName('info-shift');
+    document.getElementById("searchError").style.display = "none";
+    for (var i = 0; i < infoShift.length; i++) {
+        infoShift[i].style.display = "block";
+    }
+    var keyword = delete_mark_VI(document.getElementById('keyword').value);
+    if (keyword == "") return;
+    var flag = false;
+    for (var i = 0; i < infoShift.length; i++) {
+        var str = delete_mark_VI(infoShift[i].innerHTML);
+        //console.log(str);
+        if (str.toLowerCase().includes(keyword.toLowerCase())) {
+            flag = true;
+            continue;
+        }
+        infoShift[i].style.display = "none";
+    }
+    if (!flag) {
+        document.getElementById("searchError").style.display = "inline";
     }
 }
 //# sourceMappingURL=linhJS.js.map
