@@ -22,7 +22,7 @@ function loadSurgeryRoom(surgeryDay) {
                         for (let index = 0; index < shift.length; index++) {
                             var estimatedStart = new Date(shift[index].estimatedStartDateTime);
                             var estimatedEnd = new Date(shift[index].estimatedEndDateTime);
-                            if (estimatedEnd < new Date()) {
+                            if (shift[index].statusName == 'Postoperative') {
                                 strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
                             }
                             else {
@@ -32,13 +32,15 @@ function loadSurgeryRoom(surgeryDay) {
                             '<div><b>' + shift[index].catalogName + '</b></div>' +
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
                             '<div><b>Time:</b> ' + convertDateToTime(estimatedStart) + ' - ' + convertDateToTime(estimatedEnd) + '</div></div>' +
-                            '<div class="mybuttonoverlap"><a href="./viewScheduleItem.html?id=' + shift[index].id + 
-                            '" class="btn btn-info">View<i class="far fa-eye"/></a>';
-                            if (estimatedEnd < new Date()) {
+                            '<div class="mybuttonoverlap">' +
+                            '<a href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info"><i class="far fa-eye"/></a>';
+                            if (shift[index].statusName == 'Postoperative') {
                                 strAppend2 += '</div>';
                             } else {
                                 strAppend2 += '<a href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[index].priorityNumber +'" data-schedule-index="' + shift[index].id + 
-                                '" data-toggle="modal" data-target="#changeTimeModal">Change <i class="far fa-edit"/></a></div>';
+                                '" data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' +
+                                '<button class="btn btn-success" onclick="appendSurgeryShiftId(' + shift[index].id + ')" data-toggle="modal" data-target="#changePostStatusModal"><i style="color: white" class="far fa-check-square"></i></button>' +
+                                '</div>';
                             }
                             strAppend2 += '</div></a>';
                         }
@@ -51,6 +53,14 @@ function loadSurgeryRoom(surgeryDay) {
         }
     });
 }
+
+// Change status postoperative
+function appendSurgeryShiftId(shiftId) {
+    $('#surgery-shift-status').html(shiftId)
+    $('#surgery-shift-status').data('shiftId', shiftId);
+}
+// -----------------------------------
+
 function LoadSurgeryShiftByRoomAndDate() {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
@@ -201,11 +211,6 @@ function setPostStatus(surgeryShiftId) {
         '&roomPost=' + roomPost + '&bedPost=' + bedPost,
         method: 'post',
         success: function(data) {
-            if (data == true) {
-                alert('Change postoperative status successfully!');
-            } else {
-                alert('Fail!');
-            }
             checkSetPostStatus(surgeryShiftId)
         }
     })
