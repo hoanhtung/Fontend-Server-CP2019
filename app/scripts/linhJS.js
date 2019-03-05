@@ -299,8 +299,8 @@ function searchSchedule() {
     var flag = false;
     for (var i = 0; i < infoShift.length; i++) {
         var str = infoShift[i].innerHTML;
-        console.log(str);
-        if (str.includes(keyword)) {
+        //console.log(str);
+        if (str.toLowerCase().includes(keyword.toLowerCase())) {
             flag = true;
             continue;
         }
