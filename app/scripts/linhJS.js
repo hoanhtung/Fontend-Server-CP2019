@@ -277,7 +277,6 @@ function getMedicalRequestDetail(id) {
     })
 }
 
-
 function selectAllCheckboxes(event) {
     var chkSurgery = $('.chkSurgery');
     var checked = event.checked === true;
@@ -293,12 +292,11 @@ function searchSchedule() {
     for (var i = 0; i < infoShift.length; i++) {
         infoShift[i].style.display = "block";
     }
-    var keyword = document.getElementById('keyword').value;
-    console.log(keyword);
+    var keyword = delete_mark_VI(document.getElementById('keyword').value);
     if (keyword == "") return;
     var flag = false;
     for (var i = 0; i < infoShift.length; i++) {
-        var str = infoShift[i].innerHTML;
+        var str = delete_mark_VI(infoShift[i].innerHTML);
         //console.log(str);
         if (str.toLowerCase().includes(keyword.toLowerCase())) {
             flag = true;

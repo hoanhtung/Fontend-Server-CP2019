@@ -69,3 +69,24 @@ body {
     padding-right: 40px;
     padding-bottom: 10px;
 }
+
+
+/* ============================= */
+.search-schedule-css {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/images/search-icon.png');
+    background-size: 25px 25px;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 45px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+.search-schedule-css:focus {
+    width: 50%;
+}

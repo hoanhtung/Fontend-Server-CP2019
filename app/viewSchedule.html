@@ -14,6 +14,7 @@
     <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/phucJS.js"></script>
     <script src="./scripts/linhJS.js"></script>
+    <script src="./scripts/lib_utilities.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -60,11 +61,11 @@
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <br/>
+                                <br/>
                                 <!-- Search funtion -->
-                                <!-- <input type="text" id="keyword" />
-                                <input type="submit" value="Search" class="btn btn-success"
-                                    onclick="searchSchedule()" />
-                                <p id="searchError" style="color: red; display: none">No result found!!</p> -->
+                                <input type="text" placeholder="Search" class="search-schedule-css" id="keyword" onkeyup="searchSchedule()" />
+                                
+                                <span id="searchError" style="margin-left: 20px; font-size: 25px; color: red; display: none">Not found surgery shift!</span>
                                 <!-- end of Search -->
 
                                 <div style="float: right">
@@ -294,7 +295,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
     <script>
         let listShiftId = [];
         $('#changeTimeModal').on('show.bs.modal', function (event) {
@@ -419,61 +420,61 @@
 
         function getAffectedTemplate(data) {
             const template1 = `<li class="list-group-item" style="background: lightcyan;">
-                                                                <div class="row">
-                                                                    <div class="col-4 mb-2">
-                                                                        <b class="block-data">Shift Id: </b>
-                                                                    </div>
-                                                                    <div class="col-8 mb-2">
-                                                                        ${data.shiftId}
-                                                                    </div>
-                                                                    <div class="col-4 mb-2">
-                                                                        <b class="block-data">Old Start-End: </b>
-                                                                    </div>
-                                                                    <div class="col-8 mb-2">
-                                                                        ${convertDateStringToDate(data.oldStart)} - ${convertDateStringToDate(data.oldEnd)}
-                                                                    </div>
-                                                                    <div class="col-4 mb-2">
-                                                                        <b class="block-data">New Start-End: </b>
-                                                                    </div>
-                                                                    <div class="col-8 mb-2">
-                                                                        ${convertDateStringToDate(data.newStart)} - ${convertDateStringToDate(data.newEnd)}
-                                                                    </div>
-                                                                    <div class="col-4 mb-2">
-                                                                        <b class="block-data">Old Room: </b>
-                                                                    </div>
-                                                                    <div class="col-8 mb-2">
-                                                                        ${data.oldRoomName}
-                                                                    </div>
-                                                                    <div class="col-4">
-                                                                        <b class="block-data">New Room: </b>
-                                                                    </div>
-                                                                    <div class="col-8">
-                                                                        ${data.newRoomName}
-                                                                    </div>
-                                                                </div>
-                                                            </li>`
+                                    <div class="row">
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Shift Id: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.shiftId}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Old Start-End: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${convertDateStringToDate(data.oldStart)} - ${convertDateStringToDate(data.oldEnd)}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">New Start-End: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${convertDateStringToDate(data.newStart)} - ${convertDateStringToDate(data.newEnd)}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Old Room: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.oldRoomName}
+                                        </div>
+                                        <div class="col-4">
+                                            <b class="block-data">New Room: </b>
+                                        </div>
+                                        <div class="col-8">
+                                            ${data.newRoomName}
+                                        </div>
+                                    </div>
+                                </li>`
             const template2 = `<li class="list-group-item" style="background: lightcyan;">
-                                                                <div class="row">
-                                                                    <div class="col-4 mb-2">
-                                                                        <b class="block-data">Shift Id: </b>
-                                                                    </div>
-                                                                    <div class="col-8 mb-2">
-                                                                        ${data.shiftId}
-                                                                    </div>
-                                                                    <div class="col-4 mb-2">
-                                                                        <b class="block-data">Old Room: </b>
-                                                                    </div>
-                                                                    <div class="col-8 mb-2">
-                                                                        ${data.oldRoomName}
-                                                                    </div>
-                                                                    <div class="col-4">
-                                                                        <b class="block-data">New Room: </b>
-                                                                    </div>
-                                                                    <div class="col-8">
-                                                                        ${data.newRoomName}
-                                                                    </div>
-                                                                </div>
-                                                            </li>`
+                                    <div class="row">
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Shift Id: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.shiftId}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Old Room: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.oldRoomName}
+                                        </div>
+                                        <div class="col-4">
+                                            <b class="block-data">New Room: </b>
+                                        </div>
+                                        <div class="col-8">
+                                            ${data.newRoomName}
+                                        </div>
+                                    </div>
+                                </li>`
             return (data.newStart === '0001-01-01T00:00:00' && data.newEnd === '0001-01-01T00:00:00') ? template2 : template1;
         }
     </script>
