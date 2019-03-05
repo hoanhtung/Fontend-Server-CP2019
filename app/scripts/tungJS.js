@@ -33,14 +33,20 @@ function loadSurgeryRoom(surgeryDay) {
                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
                             '<div><b>Time:</b> ' + convertDateToTime(estimatedStart) + ' - ' + convertDateToTime(estimatedEnd) + '</div></div>' +
                             '<div class="mybuttonoverlap">' +
-                            '<a href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info"><i class="far fa-eye"/></a>';
-                            if (shift[index].statusName == 'Postoperative') {
-                                strAppend2 += '</div>';
-                            } else {
-                                strAppend2 += '<a href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[index].priorityNumber +'" data-schedule-index="' + shift[index].id + 
+                            '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info"><i class="far fa-eye"/></a>';
+                            if (shift[index].statusName == 'Preoperative') {
+                                strAppend2 += '<a title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[index].priorityNumber +'" data-schedule-index="' + shift[index].id + 
                                 '" data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' +
-                                '<button class="btn btn-success" onclick="appendSurgeryShiftId(' + shift[index].id + ')" data-toggle="modal" data-target="#changePostStatusModal"><i style="color: white" class="far fa-check-square"></i></button>' +
+                                '<button title="Begin" class="btn btn-success" onclick="appendSurgeryShiftId(' + shift[index].id + ')" data-toggle="modal" data-target="#changePostStatusModal">' + 
+                                '<i class="fas fa-procedures"></i></button>' +
                                 '</div>';
+                            }
+                            else if (shift[index].statusName == 'Intraoperative') {
+                                strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendSurgeryShiftId(' + shift[index].id + ')" data-toggle="modal" data-target="#changePostStatusModal">' + 
+                                '<i style="color: white" class="far fa-check-square"></i></button>' +
+                                '</div>';
+                            } else {
+                                strAppend2 += '</div>';
                             }
                             strAppend2 += '</div></a>';
                         }
