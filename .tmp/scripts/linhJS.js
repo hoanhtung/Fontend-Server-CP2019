@@ -44,8 +44,16 @@ function parseImportInfo(jsonObj) {
         newRow = table.insertRow(table.rows.length);
 
         newColumn = newRow.insertCell(0);
-        newColumn.appendChild(document.createTextNode(i + 1));
+        checkBox = document.createElement('input');
+
+        checkBox.setAttribute('type', 'checkbox');
+        checkBox.setAttribute('id', 'chk' + jsonObj[i]['Surgery Shift Code']);
+        checkBox.setAttribute('class', 'checkbox chkSurgery');
+        newColumn.appendChild(checkBox);
+
         newColumn = newRow.insertCell(1);
+        newColumn.appendChild(document.createTextNode(i + 1));
+        newColumn = newRow.insertCell(2);
         a = document.createElement('a');
 
         a.appendChild(document.createTextNode(jsonObj[i]['Patient Name']));
@@ -55,11 +63,11 @@ function parseImportInfo(jsonObj) {
             getImportDetail(surgeryShiftCode);
         });
         newColumn.appendChild(a);
-        newColumn = newRow.insertCell(2);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
         newColumn = newRow.insertCell(3);
-        newColumn.appendChild(document.createTextNode(surName[i].name));
+        newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
         newColumn = newRow.insertCell(4);
+        newColumn.appendChild(document.createTextNode(surName[i].name));
+        newColumn = newRow.insertCell(5);
         if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
             newColumn.appendChild(document.createTextNode('N/A'));
         } else {
@@ -70,6 +78,7 @@ function parseImportInfo(jsonObj) {
     for (var i = 0; i < jsonObj.length; i++) {
         var newRow;
         var newColumn;
+        var checkBox;
         var a;
 
         _loop();
@@ -97,6 +106,9 @@ function saveSurgeryProfile() {
     var shift = JSON.parse(sessionStorage.getItem('infoObj'));
     var shiftInfo = [];
     for (var sh in shift) {
+        var ckb = document.getElementById('chk' + shift[sh]['Surgery Shift Code']);
+        if (!ckb.checked) continue;
+        console.log(shift[sh]['Patient Name']);
         var gender = -1;
         var proStartDate = '',
             proEndDate = '';
@@ -117,7 +129,7 @@ function saveSurgeryProfile() {
             'yearOfBirth': Number(shift[sh]['Patient DOB']),
             'surgeryCatalogID': Number(shift[sh]['Surgery Code']),
             'surgeryShiftCode': shift[sh]['Surgery Shift Code'],
-            'surgeonId': Number(shift[sh]['SurgeonID']),
+            'doctorId': Number(shift[sh]['Doctor ID']),
             'proposedStartDateTime': proStartDate,
             'proposedEndDateTime': proEndDate
         });
@@ -176,6 +188,7 @@ function parseImportDetail() {
 
             document.getElementById('span-sname').innerHTML = surName[i].name;
             document.getElementById('span-weight').innerHTML = infoJSON[i]['Surgery Weight'];
+            document.getElementById('span-doctor').innerHTML = infoJSON[i]['Doctor Name'];
         }
     }
     var supplyJSON = JSON.parse(sessionStorage.getItem('supplyObj'));
@@ -298,20 +311,24 @@ function searchSchedule() {
     for (var i = 0; i < infoShift.length; i++) {
         infoShift[i].style.display = "block";
     }
+    var countResult = 0;
     var keyword = delete_mark_VI(document.getElementById('keyword').value);
     if (keyword == "") return;
     var flag = false;
     for (var i = 0; i < infoShift.length; i++) {
         var str = delete_mark_VI(infoShift[i].innerHTML);
-        //console.log(str);
         if (str.toLowerCase().includes(keyword.toLowerCase())) {
             flag = true;
+            countResult++;
             continue;
         }
         infoShift[i].style.display = "none";
     }
-    if (!flag) {
-        document.getElementById("searchError").style.display = "inline";
+    if (countResult == 0) {
+        document.getElementById("searchError").innerHTML = "No result found!!";
+    } else {
+        document.getElementById("searchError").innerHTML = "Found " + countResult + " results";
     }
+    document.getElementById("searchError").style.display = "inline";
 }
 //# sourceMappingURL=linhJS.js.map
