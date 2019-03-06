@@ -1,8 +1,9 @@
 'use strict';
 
 //Get room show UI
-var EBSMSLocal = 'https://localhost:44372';
-// var EBSMSLocal = 'http://172.20.10.7:5000';
+// var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'http://10.82.139.179:5000';
+var EBSMSLocal = 'http://172.20.10.7:5000';
 
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
@@ -25,12 +26,14 @@ function loadSurgeryRoom(surgeryDay) {
                             var estimatedEnd = new Date(shift[_index2].estimatedEndDateTime);
                             if (shift[_index2].statusName == 'Postoperative') {
                                 strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
+                            } else if (shift[_index2].statusName == 'Intraoperative') {
+                                strAppend2 += '<div style="background-color: #ffeaa7" class="div-roomBodyItem">';
                             } else {
                                 strAppend2 += '<div class="div-roomBodyItem">';
                             }
                             strAppend2 += '<div class="info-shift"><div><b>' + shift[_index2].id + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ' + convertDateToTime(estimatedStart) + ' - ' + convertDateToTime(estimatedEnd) + '</div></div>' + '<div class="mybuttonoverlap">' + '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shift[_index2].id + '" class="btn btn-info"><i class="far fa-eye"/></a>';
                             if (shift[_index2].statusName == 'Preoperative') {
-                                strAppend2 += '<a title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index2].priorityNumber + '" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' + '<button title="Begin" class="btn btn-success" onclick="appendSurgeryShiftId(' + shift[_index2].id + ')" data-toggle="modal" data-target="#changePostStatusModal">' + '<i class="fas fa-procedures"></i></button>' + '</div>';
+                                strAppend2 += '<a title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index2].priorityNumber + '" data-schedule-index="' + shift[_index2].id + '" data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' + '<button title="Begin" class="btn btn-success" onclick="startSurgeryShift(' + shift[_index2].id + ')">' + '<i class="fas fa-procedures"></i></button>' + '</div>';
                             } else if (shift[_index2].statusName == 'Intraoperative') {
                                 strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendSurgeryShiftId(' + shift[_index2].id + ')" data-toggle="modal" data-target="#changePostStatusModal">' + '<i style="color: white" class="far fa-check-square"></i></button>' + '</div>';
                             } else {
@@ -48,6 +51,18 @@ function loadSurgeryRoom(surgeryDay) {
                 _loop(_index);
             }
             divRoom.append(strAppend1);
+        }
+    });
+}
+
+function startSurgeryShift(shiftId) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/SetIntraoperativeStatus?shiftId=' + shiftId,
+        method: 'post',
+        success: function success(data) {
+            if (data == true) {
+                loadSurgeryRoom(convertDateToNumber(new Date()));
+            }
         }
     });
 }
@@ -99,8 +114,9 @@ function makeSchedule() {
         url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
         method: 'get',
         success: function success(data) {
+            window.location.href = 'viewSchedule.html';
             // console.log(data.m_StringValue);
-            $('#content-schedule-notification').html(data.m_StringValue);
+            // $('#content-schedule-notification').html(data.m_StringValue);
             // $(window).on('load', function() {
             //     $('#modal-schedule-notification').modal('show');
             // });
@@ -186,7 +202,8 @@ function setPostStatus(surgeryShiftId) {
         url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost,
         method: 'post',
         success: function success(data) {
-            checkSetPostStatus(surgeryShiftId);
+            loadSurgeryRoom(convertDateToNumber(new Date()));
+            // checkSetPostStatus(surgeryShiftId)
         }
     });
 }

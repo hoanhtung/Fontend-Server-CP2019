@@ -71,9 +71,12 @@
                                 <!-- end of Search -->
 
                                 <div style="float: right">
+                                    <div style="display: inline;  float: left; margin-right: 20px">
+                                        <div style="width: 30px; height: 20px; background-color: #ffeaa7; float: left; margin-right: 10px;">
+                                        </div><span><b>Proceeding</b></span>
+                                    </div>
                                     <div style="display: inline;">
-                                        <div
-                                            style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;">
+                                        <div style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;">
                                         </div><span><b>Completed</b></span>
                                     </div>
                                 </div>
@@ -256,7 +259,7 @@
     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPostStatus($('#surgery-shift-status').data('shiftId')); location.reload();">Change Status</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPostStatus($('#surgery-shift-status').data('shiftId'));">Change Status</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
