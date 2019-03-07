@@ -219,7 +219,7 @@ function confirmAllSupply() {
         }
     }
     if (ids.length == 0) {
-        alert("There're nothing to confirm !!");
+        alert("There're nothing to confirm!!");
         return;
     }
     $.ajax({
@@ -229,8 +229,8 @@ function confirmAllSupply() {
         dataType: 'json',
         data: JSON.stringify(ids),
         success: function success() {
-            alert('success');
-            window.location.href = 'viewShiftNoSchedule.html';
+            makeSchedule();
+            window.location.href = 'viewSchedule.html';
         }
     });
 }
