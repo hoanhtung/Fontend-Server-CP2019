@@ -37,6 +37,12 @@ function loadAvailableRoomByStartEnd(start, end) {
                 wrapper.css('visibility', 'visible');
             }
         }
+    }).then((a, b, c) => {
+        if (c && c.status === 400) {
+            alert('Invalid Time');
+        }
+    }, er => {
+        alert('Invalid Time');
     });
 }
 function loadAvailableRoomByHourMinute(hour, minute) {
