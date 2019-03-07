@@ -104,6 +104,7 @@ function getSurgeryName(surgeryInfo) {
 
 function saveSurgeryProfile() {
     var shift = JSON.parse(sessionStorage.getItem('infoObj'));
+    console.log(shift);
     var shiftInfo = [];
     for (var sh in shift) {
         var ckb = document.getElementById('chk' + shift[sh]['Surgery Shift Code']);
@@ -133,11 +134,14 @@ function saveSurgeryProfile() {
             'proposedStartDateTime': proStartDate,
             'proposedEndDateTime': proEndDate
         });
+        shift.splice(sh, 1);
+        sh--;
     }
     if (shiftInfo.length == 0) {
         alert("There're NOTHING to import !!!");
         return;
     }
+    sessionStorage.setItem('infoObj', JSON.stringify(shift));
     $.ajax({
         url: EBSMSLocal + '/api/Import/ImportSurgeryShift',
         method: 'post',
@@ -148,11 +152,16 @@ function saveSurgeryProfile() {
             var supplyList = JSON.parse(sessionStorage.getItem('supplyObj'));
             var supplyJson = [];
             for (var s in supplyList) {
-                supplyJson.push({
-                    medicalSupplyId: Number(supplyList[s]['Code']),
-                    surgeryShiftCode: supplyList[s]['Surgery Shift Code'],
-                    quantity: supplyList[s]['Quantity']
-                });
+                for (var i = 0; i < shiftInfo.length; i++) {
+                    if (shiftInfo[i].surgeryShiftCode == supplyList[s]['Surgery Shift Code']) {
+                        supplyJson.push({
+                            medicalSupplyId: Number(supplyList[s]['Code']),
+                            surgeryShiftCode: supplyList[s]['Surgery Shift Code'],
+                            quantity: supplyList[s]['Quantity']
+                        });
+                        supplyList.splice(s, 1);
+                    }
+                }
             }
             $.ajax({
                 url: EBSMSLocal + '/api/Import/ImportSurgeryShiftMedicalSupply',
@@ -163,8 +172,10 @@ function saveSurgeryProfile() {
                 success: function success() {
                     sessionStorage.removeItem('infoObj');
                     sessionStorage.removeItem('supplyObj');
+                    sessionStorage.setItem('infoObj', JSON.stringify(shift));
+                    sessionStorage.setItem('supplyObj', JSON.stringify(supplyList));
                     alert('Import successfully!');
-                    window.location.href = 'confirmMSRequest.html';
+                    window.location.href = 'importList.html';
                 }
             });
         }
@@ -234,7 +245,7 @@ function confirmAllSupply() {
         }
     });
 }
-//Get all medical supply request
+
 function getMedicalRequest() {
     $.ajax({
         url: EBSMSLocal + '/api/MedicalConfirm/GetAllMedicalSupplyRequest',
@@ -286,7 +297,6 @@ function getMedicalRequestDetail(id) {
                 messesage = "<table class=\"table\"><thead><tr class=\"border-0\">" + "<th class=\"border-0\">No.</th><th class=\"border-0\">Name</th><th class=\"border-0\">Quantity</th>";
                 "</tr></thead>";
                 for (var i = 0; i < data.length; i++) {
-                    //show quantity in detail TODO: Uncomment below row
                     messesage = messesage + "<tr><td>" + (i + 1) + "</td><td>" + data[i]['name'] + "</td><td>" + data[i]['quantity'] + "</td></tr>";
                 }
                 messesage = messesage + "</table>";
@@ -314,11 +324,9 @@ function searchSchedule() {
     var countResult = 0;
     var keyword = delete_mark_VI(document.getElementById('keyword').value);
     if (keyword == "") return;
-    var flag = false;
     for (var i = 0; i < infoShift.length; i++) {
         var str = delete_mark_VI(infoShift[i].innerHTML);
         if (str.toLowerCase().includes(keyword.toLowerCase())) {
-            flag = true;
             countResult++;
             continue;
         }
