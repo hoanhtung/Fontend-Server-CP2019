@@ -1,35 +1,39 @@
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
+    <link rel="stylesheet" href="styles/vinhStyle.css">
+
+    <link rel="stylesheet" href="styles/itemScheduleStyle.css">
     <!-- endbuild -->
     <!-- <script src="./js/tungJS.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
+    <script src="./scripts/vinhJS.js"></script>
     <!-- bower:js -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- endbower -->
     <title>Surgery Management System</title>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
         })
     </script>
 </head>
-<body>
+<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1]); checkSetPostStatus(window.location.search.split('=')[1])">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -42,60 +46,414 @@
                             </div>
                         </div>
                     </div>
-                    <div class="div-surgery-report">
+                    <div id="span-id" class="d-none"></div>
+                    <div class="div-surgery-report form-group">
+                        <table class="table table-borderless table-information-shift">
+                            <tr>
+                                <td><b>Patient:</b></td>
+                                <td id="span-name"></td>
+                                <td><b>Gender:</b></td>
+                                <td id="span-gender"></td>
+                                <td><b>Age:</b></td>
+                                <td id="span-age"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Specialty:</b></td>
+                                <td id="span-specialty"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Surgery Name:</b></td>
+                                <td id="span-surgery-name"></td>
+                                <td><b>Type Of Surgery:</b></td>
+                                <td id="span-surgery-type"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Start Time:</b></td>
+                                <td id="span-start-time"></td>
+                                <td><b>End Time:</b></td>
+                                <td id="span-end-time"></td>
+                            </tr>
+
+                        </table>
+                        <hr />
+                        <!-- <div class="row">
+                            <div><span class="title-part col-12">Status Of Surgery Shift</span></div>
+                            <div class="progress col-12">
+                                <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-12">
+                                <div><span>(Intraoperative) Actual Start Time:</span></div> 
+                                <div><span>(Postoperative) Actual End Time:</span></div> 
+                                <div><span>(Recovery) At:</span></div> 
+                                <div><span>(Finished) At:</span></div> 
+                            </div>
+                        </div> -->
+                        <br/>
+                        <div class="row">
+                            <div class="col-12">
+                                <span id="btn-show-shift-info" class="title-part button-show"><i class="far fa-plus-square"></i> Surgery Information Detail:</span>
+                            </div>
+                            <div class="col-12">
+                                <span id="btn-hide-shift-info" class="title-part button-show"><i class="far fa-minus-square"></i> Surgery Information Detail:</span>
+                            </div>
+                            <div id="div-ekip-procedure" class="div-editable-information col-12">
+                                <div class="row">
+                                    <div class="div-ekip col-6">
+                                            <div>Performed Ekip:</div>
+                                            <table class="table-ekip">
+                                                <tr>
+                                                    <td><b>Surgeon</b></td>
+                                                    <td>Trần Văn Minh</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Surgeon</b></td>
+                                                    <td>Lê Anh Đạt</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Anesthesia doctor</b></td>
+                                                    <td>Nguyễn Thị Hằng</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Anesthesia doctor</b></td>
+                                                    <td>Trần Lệ Chi</td>
+                                                </tr>
+                                            </table>
+                                    </div>
+                                    <div class="div-procedure col-6">
+                                        <div><b>Surgery Procedure:</b></div>
+                                        <br />
+                                        <textarea style="padding: 30px" id="textarea-procedure" rows="20" cols="50">
+- Thì 1:Mở bụng:
++ Mở bụng đường trắng giữa dưới rốn, có thể kéo lên trên rốn nếu cần
++ Thăm dò toàn bộ ổ bụng
+- Thì 2:Vét hạch chậu:
++ Cắt dây chằng tròn càng xa tử cung càng tốt, sát về phía thành chậu
++ Cắt dây chằng tử cung- buồng trứng, nếu có chỉ định cắt buồng trứng thì cắt
+dây chằng thắt lưng –buồng trứng
++ Mở phúc mạc song song với hướng đi của động mạch chậu ngoài
++ Bộc lộ niệu quản
++ Vét hạch chậu dọc theo động mạch chậu ngoài, tĩnh mạch chậu ngoài, động
+mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây thần kinh bịt
+- Thì 3:Cắt tử cung
++ Cắt lá phúc mạc ở túi cùng trước, đẩy bàng quang xuống thấp
++ Cắt động mạch tử cung
++ Cắt 2 dây chằng tử cung- cùng, đẩy trực tràng xuống
++ Cắt tử cung hoàn toàn
++ Khâu mỏm âm đạo
++ Kiểm tra cầm máu, kiểm tra niệu quản, bàng quang
++ Đóng bụng theo các lớp giải phẫu
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
                         <div>
-                            <div class="div-info-patient">
-                                <div><b>Patient Name:</b> <span id="span-name"></span></div>
-                                <div><b>Gender:</b> <span id="span-gender"></span></div>
-                                <div><b>Age:</b> <span id="span-age"></span></div>   
-                            </div>
-                            <div class="div-info-surgery-shift">
-                                <div><b>Specialty:</b> <span id="span-specialty"></span></div>
-                                <div><b>Surgery Name:</b> <span id="span-surgery-name"></span></div>
-                                <div><b>Type Of Surgery:</b> <span id="span-surgery-type"></span></div>
-                                <div><b>Start Time:</b> <span id="span-start-time"></span></div>
-                                <div><b>End Time:</b> <span id="span-end-time"></span></div>
-                            </div>
-                        </div>
-                        <br/>
-                        <b>Surgery Information Detail:</b>
-                        <div class="div-editable-information">
-                            <div class="div-ekip">
-                                <div><b>Performed Ekip:</b></div>
-                                <br/>
-                                <table class="table-ekip">
-                                    <tr>
-                                        <td><b>Surgeon:</b></td>
-                                        <td>Lê Hoàng Anh</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Surgeon:</b></td>
-                                        <td>Lê Hoàng Em</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Anesthesia Doctor:</b></td>
-                                        <td>Nguyễn Văn A</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Anesthesia Doctor:</b></td>
-                                        <td>Nguyễn Văn B</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="div-procedure">
-                                <div><b>Surgery Procedure:</b></div>
-                                <br/>
-                                <textarea id="textarea-procedure" rows="10" cols="50"></textarea>
+                            <span id="btn-show-postop" class="title-part button-show"><i class="far fa-plus-square"></i>
+                                Treatment Reports:</span>
+                            <span id="btn-hide-postop" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Treatment Reports:</span>
+                            <div id="div-postoperative" class="div-editable-information row">
+                                <div class="col-12">
+                                    <a href="javascript:void(0)" class="btn btn-primary float-right"
+                                        data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
+                                        data-target="#treatmentModal">New Treatment Report</a>
+                                </div>
+                                <div class="col-12">
+                                    <div style="padding: 3%" id="div-treatment-table"></div>
+                                </div>
+
                             </div>
                         </div>
                         <br/>
-                        <input type="button" value="Preview Surgery Report"/>
-                        <a href="./viewSchedule.html"><button>Back</button></a>    
+                        <div>
+                            <span id="btn-show-healthcare" class="title-part button-show"><i
+                                    class="far fa-plus-square"></i>
+                                Healthcare Reports:</span>
+                            <span id="btn-hide-healthcare" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Healthcare Reports:</span>
+                            <div id="div-healthcare" class="div-editable-information row">
+                                <div class="col-12">
+                                    <div style="padding: 3%" id="div-healthcare-table"></div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    
+
+                    <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
+                    <div style="float: right">
+                        <input style="margin-right: 20px;" class="btn btn-info" type="button"
+                            value="Preview Surgery Report" />
+                        <input id="btn-change-post-status" class="btn btn-success" data-toggle="modal" data-target="#changePostStatusModal" type="button"
+                            value="Complete Surgery Shift" /> <br />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+    <!-- onclick="setPostStatus(window.location.search.split('=')[1])" -->
+    <!-- The Modal -->
+    <div class="modal fade" id="changePostStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Postoperative Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span><b>Assigned Nurse:</b></span>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option>Nguyễn Thị Hằng</option>
+                            <option>Nguyễn Thị Hằng A</option>
+                            <option>Nguyễn Thị Hằng B</option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <span><b>Room</b></span>
+                            <input type="text" id="roomPost" class="form-control"/>
+                        </div>
+                        <div class="col-6">
+                            <span><b>Bed</b></span>
+                            <input type="text" id="bedPost" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPostStatus(window.location.search.split('=')[1])">Change Status</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- The TreatMent Modal -->
+    <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Treatment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col px-0">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="treatment-tab" data-toggle="tab"
+                                            href="#treatment" role="tab" aria-controls="treatment"
+                                            aria-selected="true">New Treatment Report</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="treatment" role="tabpanel"
+                                        aria-labelledby="treatment-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="progressiveDisease">Progressive Disease</label>
+                                                        <textarea class="form-control" rows="5"
+                                                            id="progressiveDisease"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="medicalRequirement">Medical Requirement</label>
+                                                        <button class="btn btn-success add-more float-right" type="button"><i class="fa fa-plus"></i>Add more</button>
+                                                        <div class="mt-4 row">
+                                                            <div class="col-6"></div>
+                                                            <div class="col-1" style="text-align: center;"> Morning</div>
+                                                            <div class="col-1" style="text-align: center;"> Noon</div>
+                                                            <div class="col-1" style="text-align: center;"> Evening</div>
+                                                            <div class="col-1" style="text-align: center;"> Night</div>
+                                                        </div>
+                                                        <datalist id="drugs"></datalist>
+                                                        <div class="row row-drug after-add-more" style="padding-inline-start: 15px;">
+                                                            <div class="easyautocomplete-wraper form-group col-6" style="margin-bottom: 0px">
+                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" />
+                                                            </div>
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
+                                                            <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
+                                                        </div>
+                                                    </div>
+                                                    <button id="createTreatment" type="button"
+                                                        class="btn btn-success float-right">Create</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // ==========Surgery Report==============
+        $('#btn-hide-shift-info').hide();
+        $('#div-ekip-procedure').hide();
+
+        $('#btn-show-shift-info').click(function () {
+            $('#div-ekip-procedure').show();
+            $('#btn-hide-shift-info').show();
+            $('#btn-show-shift-info').hide();
+        });
+        $('#btn-hide-shift-info').click(function () {
+            $('#div-ekip-procedure').hide();
+            $('#btn-show-shift-info').show();
+            $('#btn-hide-shift-info').hide();
+        });
+
+        // ==========Postoperative==============
+        var drugs;
+        getAllDrugs();
+
+        $('#btn-hide-postop').hide();
+        $('#div-postoperative').hide();
+        $('#btn-show-postop').click(function () {
+            var shiftId = $('#span-id').text();
+            $('#div-postoperative').show();
+            $('#btn-hide-postop').show();
+            $('#btn-show-postop').hide();
+            loadTreatmentReport(shiftId);
+        });
+        $('#btn-hide-postop').click(function () {
+            $('#div-postoperative').hide();
+            $('#btn-show-postop').show();
+            $('#btn-hide-postop').hide();
+        });
+        // $('#actualEndTime').append(new Date());
+
+        $('#treatmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var scheduleIndex = button.data('schedule-index');
+            $('#createTreatment').data('shift-id', scheduleIndex);
+        });
+
+        $('#createTreatment').click(() => {
+            // var shiftId = $(this).data('shift-id');
+            var shiftId = $('#span-id').text();
+            var progressiveDisease = $('#progressiveDisease').val();
+            createTreatmentReport(shiftId, progressiveDisease);
+            
+        });
+        
+        $(".add-more").click(function () {
+                $(".after-add-more").after(`<div class="row row-drug control-group" style="padding-inline-start: 15px; margin-top: 10px">
+                                                                <div class="easyautocomplete-wraper col-6">
+                                                                    <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name" />
+                                                                </div>
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
+                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
+                                                                <div class="input-group-btn  col-1">
+                                                                    <button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button>
+                                                                </div>
+                                                            </div>`);
+                // autocompleteDrug();
+        });
+
+        $("body").on("click", ".remove", function () {
+                $(this).parents(".control-group").remove();
+        });   
+
+        
+        
+            function getAllDrugs() {
+                    $.ajax({
+                        url: EBSMSLocal + '/api/Drug/GetAllDrugs',
+                        method: 'get',
+                        success: function (data) {
+                            // initAutocompleteDrug(data);
+                            // drugs = data;
+                            // console.log(drugs);
+                            $(data).each(function () {
+                                var options = `<option id='${this.id}' value='${this.name}'></option>`;
+                                $('#drugs').append(options);
+                            });
+                        }
+                    });
+                }
+
+                function initAutocompleteDrug(drugs) {
+                    $("body").find(".drug").each(function () {
+                        var options = {
+                            data: drugs,
+                            getValue: "name",
+                            list: {
+                                match: {
+                                    enabled: true
+                                }
+                            },
+                        };
+                        var id = $(this).prop('id');
+                        if (id.indexOf('eac') == -1) {
+                            $(this).easyAutocomplete(options);
+                        }
+                    });
+                }
+
+        function autocompleteDrug() {
+                $("body").find(".drug").each(function () {
+                    var options = {
+                        data: drugs,
+                        getValue: "name",
+                        list: {
+                            match: {
+                                enabled: true
+                            }
+                        },
+                    };
+                    var id = $(this).prop('id');
+                    if (id.indexOf('eac') == 0) {
+                        $(this).easyAutocomplete(options);
+                    }
+                });
+            }
+
+        
+            
+
+        // =======================Healthcare========================================
+        $('#btn-hide-healthcare').hide();
+        $('#div-healthcare').hide();
+        $('#btn-show-healthcare').click(function () {
+            var shiftId = $('#span-id').text();
+            $('#div-healthcare').show();
+            $('#btn-hide-healthcare').show();
+            $('#btn-show-healthcare').hide();
+            loadHealthcareReport(shiftId);
+        });
+        $('#btn-hide-healthcare').click(function () {
+            $('#div-healthcare').hide();
+            $('#btn-show-healthcare').show();
+            $('#btn-hide-healthcare').hide();
+            $('#div-healthcare-table').empty();
+        });
+
+
+    </script>
 </body>
+
 </html>

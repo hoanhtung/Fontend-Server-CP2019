@@ -25,6 +25,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <!-- endbower -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(function() {
             $("#header").load("./layout/header.html"); 
@@ -32,15 +33,44 @@
         })
     </script>
 </head>
-<body onload="loadSurgeryShiftNoSchedule(); loadSurgeryShiftNoScheduleByProposedTime()">
+<body onload="loadSurgeryShiftNoSchedule()"> 
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
-        <div>
-            <div id="div-shift-no-schedule"></div>  
-            <h2>Proposed Time</h2>
-            <div id="div-shift-proposed"></div>  
+        <div style="padding: 10px">
+            <a href="./viewSchedule.html"><button class="btn btn-primary">Back</button></a>   
+            <input id="btn-make-schedule" class="btn btn-primary" type="submit" value="Make Schedule" onClick="makeSchedule()"/>
+            <div style="padding: 3%" id="div-shift-no-schedule"></div>  
         </div>
     </div>  
+    <!-- data-toggle="modal" data-target="#modal-schedule-notification" -->
+    <!-- Modal Notification - Tung -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-schedule-notification">
+            Open modal
+    </button> -->
+          
+        <!-- The Modal -->
+    <div class="modal" id="modal-schedule-notification">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Scheduling Notification</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+        
+            <!-- Modal body -->
+            <div class="modal-body" id="content-schedule-notification">
+            </div>
+        
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button onclick="window.location.href = 'viewSchedule.html';" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        
+            </div>
+        </div>
+    </div>
 </body>
 </html>

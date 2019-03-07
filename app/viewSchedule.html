@@ -2,70 +2,88 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- build:css styles/tungStyle.css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/headerStyle.css">
-    <!-- endbuild -->
-    <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
-    <!-- endbuild -->
-    <!-- build:css styles/mainTemplate.css -->
     <link rel="stylesheet" href="styles/mainTemplate.css">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="styles/utilities.css">
     <title>Surgery Management System</title>
-    <!-- <script src="./js/tung-intraOp.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
-    <!-- bower:js -->
+    <script src="./scripts/phucJS.js"></script>
+    <script src="./scripts/linhJS.js"></script>
+    <script src="./scripts/lib_utilities.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <!-- bower:css -->
-    <!-- endbower -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="styles/jquery-ui.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="scripts/jquery-ui.js"></script>
+    <script src="scripts/login.js"></script>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
+
+        var roomList = null;
+        $.ajax({
+            url: EBSMSLocal + '/api/Schedule/GetSurgeryRooms/',
+            method: 'get'
+        }).then((rooms) => roomList = rooms);
+        function getRoomById(id) {
+            return roomList.find(e => e.id === id);
+        }
+
+        $(function () {
+            $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
             $("#date-input").val(formatInputDate(new Date()));
         })
+
     </script>
 </head>
+
 <body onload="loadSurgeryRoom(convertDateToNumber(new Date()))">
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
+    <style>
+        .ui-front {
+            z-index: 90000;
+        }
+    </style>
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
         <div class="container-scheduleItem">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
                                 <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
-                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()"/>
-                                <input type="submit" value="View Shift No Schedule" onClick="window.location.href = 'viewShiftNoSchedule.html';" />
-                                <input type="submit" value="Make Schedule" onClick="makeSchedule()" />
-                                <input type="submit" value="Make Schedule Proposed Time" onClick="makeScheduleProposedTime()" />
-                                <div>
-                                    <span style="color: #FF8A80"><b>Độ ưu tiên 1</b></span>
-                                    <span style="color: #FFFF8D"><b>Độ ưu tiên 2</b></span>
-                                    <span style="color: #C8E6C9"><b>Độ ưu tiên 3</b></span>
+                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()" /> <br />
+                                <br />
+                                <input class="btn btn-success" type="submit" value="View Shift No Schedule"
+                                    onClick="window.location.href = 'viewShiftNoSchedule.html';" />
+                                <br/>
+                                <br/>
+                                <!-- Search funtion -->
+                                <input type="text" placeholder="Search" class="search-schedule-css" id="keyword" onkeyup="searchSchedule()" />
+                                
+                                <span id="searchError" style="margin-left: 20px; font-size: 25px; color: red; display: none">Not found surgery shift!</span>
+                                <!-- end of Search -->
+
+                                <div style="float: right">
+                                    <div style="display: inline;  float: left; margin-right: 20px">
+                                        <div style="width: 30px; height: 20px; background-color: #ffeaa7; float: left; margin-right: 10px;">
+                                        </div><span><b>Proceeding</b></span>
+                                    </div>
+                                    <div style="display: inline;">
+                                        <div style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;">
+                                        </div><span><b>Completed</b></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="ecommerce-widget">
                         <div class="div-schedule" id="row-surgery-room">
                         </div>
@@ -73,11 +91,387 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
     </div>
+    <div class="modal fade" id="changeTimeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Schedule</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group">
+                                <span>Surgery Shift Id: </span> <span id="change-shift-id"></span> <br/>
+                                <span>Date: </span> <span id="change-date"></span> <br/>
+                                <span>Old Start Date Time: </span> <span id="change-start-time"></span> <br/>
+                                <span>Old End Date Time: </span> <span id="change-end-time"></span> <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col px-0">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="startend-tab" data-toggle="tab" href="#startend"
+                                            role="tab" aria-controls="startend" aria-selected="true">Start - End</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="duration-tab" data-toggle="tab" href="#duration"
+                                            role="tab" aria-controls="duration" aria-selected="false">Duration</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="swap-tab" data-toggle="tab" href="#swap" role="tab"
+                                            aria-controls="swap" aria-selected="false">Swap</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="startend" role="tabpanel"
+                                        aria-labelledby="startend-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <!-- <div class="form-group">
+                                                        <label for="startTime">New Start Time</label>
+                                                        <input type="time" class="form-control"
+                                                            id="startTime" />
+                                                    </div> -->
+                                                    <!-- <div class="form-group">
+                                                        <label for="endTime">New End Time</label>
+                                                        <input type="time" class="form-control"
+                                                            id="endTime" />
+                                                    </div> -->
+                                                    <div class="form-group">
+                                                        <label for="startTime">New Start Time</label>
+                                                        <input type="datetime-local" class="form-control"
+                                                            id="startTime" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="endTime">New End Time</label>
+                                                        <input type="datetime-local" class="form-control"
+                                                            id="endTime" />
+                                                    </div>
+                                                    <button id="checkSchedule" type="button"
+                                                        class="btn btn-success">Check</button>
+                                                    <div id="changeRoomWrapper" class="mt-3">
+                                                        <div class="form-group">
+                                                            <label for="availableRoom">Available Room</label>
+                                                            <select class="form-control" id="availableRoom"></select>
+                                                        </div>
+                                                        <button id="changeRoom" type="button"
+                                                            class="btn btn-success">Change</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="duration" role="tabpanel"
+                                        aria-labelledby="duration-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="hour">Hour</label>
+                                                        <input type="number" class="form-control" id="hour" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="minute">Minute</label>
+                                                        <input type="number" class="form-control" id="minute" />
+                                                    </div>
+                                                    <button id="checkScheduleDuration" type="button"
+                                                        class="btn btn-success">Check</button>
+                                                    <div id="changeRoomDurationWrapper" class="mt-3">
+                                                        <div class="form-group">
+                                                            <label for="availableDurationRoom">Available Room</label>
+                                                            <select class="form-control"
+                                                                id="availableDurationRoom"></select>
+                                                        </div>
+                                                        <button id="changeRoomDuration" type="button"
+                                                            class="btn btn-success">Change</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <button id="changeIntraoperative" class="btn btn-success">Change To
+                                                        Intraoperative</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="swap" role="tabpanel" aria-labelledby="swap-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="shift1">Shift 1</label>
+                                                        <input type="number" class="form-control" id="shift1" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="shift2">Shift 2</label>
+                                                        <input type="number" class="form-control" id="shift2" />
+                                                    </div>
+                                                    <button id="swapButton" disabled
+                                                        class="btn btn-success">Swap</button>
+                                                    <div id="affected" class="fade mt-4">
+                                                        <li class="list-group-item active  mt-4">Affected Shifts</li>
+                                                        <ul class="list-group list-group-item"
+                                                            style="max-height: 300px; overflow-y: auto">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="changePostStatusModal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Postoperative Status <br/> Surgery Shift: <span id="surgery-shift-status"></span></h4> 
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span><b>Assigned Nurse:</b></span>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Nguyễn Thị Hằng</option>
+                                <option>Nguyễn Thị Hằng A</option>
+                                <option>Nguyễn Thị Hằng B</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <span><b>Room</b></span>
+                                <input type="text" id="roomPost" class="form-control"/>
+                            </div>
+                            <div class="col-6">
+                                <span><b>Bed</b></span>
+                                <input type="text" id="bedPost" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPostStatus($('#surgery-shift-status').data('shiftId'));">Change Status</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script>
+        let listShiftId = [];
+        $('#changeTimeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var scheduleIndex = button.data('schedule-index');
+            var priotityNumber = button.data('priority');
+            var startDatetime = button.data('start-datetime');
+            var endDatetime = button.data('end-datetime');
+            $('#changeRoomWrapper').css('visibility', 'hidden');
+            $('#changeRoom').data('shift-id', scheduleIndex);
+            $('#changeRoomDurationWrapper').css('visibility', 'hidden');
+            $('#changeRoomDuration').data('shift-id', scheduleIndex);
+            $('#changePriority').data('shift-id', scheduleIndex);
+            $('#changeIntraoperative').data('shift-id', scheduleIndex);
+            $('#priorityInput').val(priotityNumber);
 
+            appendChangeInfoShift(scheduleIndex, startDatetime, endDatetime);
+
+            $.get(EBSMSLocal + '/api/Schedule/GetSwapableShifts')
+                .then(res => {
+                    listShiftId = res;
+                    $('#shift1, #shift2').autocomplete({
+                        source: listShiftId.map(el => el + ''),
+                        select: (event, ui) => {
+                            validateStatus(ui, event.target);
+                        }
+                    });
+                }, er => { })
+        });
+        $('#changeTimeModal').on('hidden.bs.modal', function (event) {
+            const s1 = $('#shift1').val('');
+            const s2 = $('#shift2').val('');
+            $('#affected').addClass('fade');
+            $('#affected ul.list-group').empty();
+        });
+        $('#shift1, #shift2').on('input', () => {
+            validateStatus();
+        });
+        function disabledSwapButton() {
+            $('#swapButton').attr('disabled', true);
+        }
+        function validateStatus(data = null, target = null) {
+            if (!$('#affected').hasClass('fade')) {
+                $('#affected').addClass('fade');
+            }
+            if (data && data.item) {
+                $(target).val(data.item.value);
+            }
+            const s1 = $('#shift1').val();
+            const s2 = $('#shift2').val();
+            if (s1 !== '' && s2 !== '' && s1 !== s2 && listShiftId.indexOf(Number.parseInt(s1)) !== -1 && listShiftId.indexOf(Number.parseInt(s2)) !== -1) {
+                $('#swapButton').removeAttr('disabled');
+            } else {
+                disabledSwapButton();
+            }
+        }
+        $('#swapButton').on('click', () => {
+            const s1 = $('#shift1').val();
+            const s2 = $('#shift2').val();
+            $('#affected').addClass('fade');
+            $('#affected ul.list-group').empty();
+            $.ajax({
+                method: 'post',
+                url: EBSMSLocal + '/api/Schedule/SwapShifts',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "firstShiftId": s1,
+                    "secondShiftId": s2
+                }),
+                dataType: 'json'
+            }).then(sc => {
+                if (sc instanceof Array) {
+                    sc.forEach(element => {
+                        $('#affected ul.list-group').append(getAffectedTemplate(element));
+                    });
+                    $('#affected').removeClass('fade');
+                    loadSurgeryRoom(convertDateToNumber(new Date($('#date-input').val())));
+                }
+                alert('Swap successful');
+            }, er => {
+
+                alert('Swap fail');
+            })
+        })
+        $('#checkSchedule').click(function () {
+            var start = new Date($('#startTime').val());
+            var end = new Date($('#endTime').val());
+            loadAvailableRoomByStartEnd(start, end);
+        });
+        $('#checkScheduleDuration').click(function () {
+            var hour = $('#hour').val();
+            var minute = $('#minute').val();
+            loadAvailableRoomByHourMinute(hour, minute);
+        });
+        $('#changeRoom').click(function () {
+            var shiftId = $(this).data('shift-id');
+            var start = new Date($('#startTime').val());
+            var end = new Date($('#endTime').val());
+            var roomId = Number.parseInt($('#availableRoom').val());
+            changeSchedule(shiftId, start, end, roomId);
+        });
+        $('#changeRoomDuration').click(function () {
+            var shiftId = $(this).data('shift-id');
+            var room = $('#availableDurationRoom').val();
+            var roomArr = room.split(';');
+            var roomId = Number.parseInt(roomArr[0]);
+            var start = roomArr[1];
+            var end = roomArr[2];
+            changeScheduleDuration(shiftId, start, end, roomId);
+        });
+
+        $('#changePriority').on('click', function () {
+            var value = $('#priorityInput').val();
+            var shiftId = $(this).data('shift-id');
+            changeSchedulePriority(shiftId, value);
+        })
+
+        $('#changeIntraoperative').on('click', function () {
+            var shiftId = $(this).data('shift-id');
+            changeIntraoperative(shiftId, "Preoperative");
+        })
+
+        function convertDateStringToDate(dateString) {
+            console.log(new Date(dateString));
+            return new Date(dateString).getDate() + '/' + (new Date(dateString).getMonth() + 1) + '/' + new Date(dateString).getFullYear() + ' ' + new Date(dateString).getHours() + ' : ' + (new Date(dateString).getMinutes() > 10 ? new Date(dateString).getMinutes() : ('0' + new Date(dateString).getMinutes()));
+        }
+
+        function getAffectedTemplate(data) {
+            const template1 = `<li class="list-group-item" style="background: lightcyan;">
+                                    <div class="row">
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Shift Id: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.shiftId}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Old Start-End: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${convertDateStringToDate(data.oldStart)} - ${convertDateStringToDate(data.oldEnd)}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">New Start-End: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${convertDateStringToDate(data.newStart)} - ${convertDateStringToDate(data.newEnd)}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Old Room: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.oldRoomName}
+                                        </div>
+                                        <div class="col-4">
+                                            <b class="block-data">New Room: </b>
+                                        </div>
+                                        <div class="col-8">
+                                            ${data.newRoomName}
+                                        </div>
+                                    </div>
+                                </li>`
+            const template2 = `<li class="list-group-item" style="background: lightcyan;">
+                                    <div class="row">
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Shift Id: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.shiftId}
+                                        </div>
+                                        <div class="col-4 mb-2">
+                                            <b class="block-data">Old Room: </b>
+                                        </div>
+                                        <div class="col-8 mb-2">
+                                            ${data.oldRoomName}
+                                        </div>
+                                        <div class="col-4">
+                                            <b class="block-data">New Room: </b>
+                                        </div>
+                                        <div class="col-8">
+                                            ${data.newRoomName}
+                                        </div>
+                                    </div>
+                                </li>`
+            return (data.newStart === '0001-01-01T00:00:00' && data.newEnd === '0001-01-01T00:00:00') ? template2 : template1;
+        }
+
+    </script>
 </body>
 
 </html>

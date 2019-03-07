@@ -1,0 +1,14 @@
+/* Modal view schedule*/
+
+.modal-body .tab-content {
+}
+.title-header {
+    font-size: 2rem;
+}
+
+.title-part {
+    font-size: 1.5rem;
+}
+.button-show {
+    cursor: pointer;
+}

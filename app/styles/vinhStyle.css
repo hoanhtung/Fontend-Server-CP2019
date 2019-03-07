@@ -1,0 +1,9 @@
+.drug-used-time {
+    align-self: center;
+    margin-right: 5px
+}
+
+.error{
+    color: #D8000C;
+    background-color: #FFBABA;
+}
