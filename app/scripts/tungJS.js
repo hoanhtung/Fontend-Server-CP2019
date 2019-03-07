@@ -39,8 +39,9 @@ function loadSurgeryRoom(surgeryDay) {
                             '<div class="mybuttonoverlap">' +
                             '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shift[index].id + '" class="btn btn-info"><i class="far fa-eye"/></a>';
                             if (shift[index].statusName == 'Preoperative') {
-                                strAppend2 += '<a title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[index].priorityNumber +'" data-schedule-index="' + shift[index].id + 
-                                '" data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' +
+                                strAppend2 += '<a title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[index].priorityNumber +
+                                '" data-schedule-index="' + shift[index].id + '" data-start-datetime="' + formatStringtoDateTimeString(shift[index].estimatedStartDateTime) + '" data-end-datetime="' + formatStringtoDateTimeString(shift[index].estimatedEndDateTime) + '" ' +
+                                'data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' +
                                 '<button title="Begin" class="btn btn-success" onclick="startSurgeryShift(' +shift[index].id + ')">' + 
                                 '<i class="fas fa-procedures"></i></button>' +
                                 '</div>';
@@ -240,6 +241,13 @@ function setPostStatus(surgeryShiftId) {
     })
 }
 
+function appendChangeInfoShift(id, start, end) {
+    $('#change-shift-id').html(id);
+    $('#change-date').html(start.split(' ')[1]);
+    $('#change-start-time').html(start.split(' ')[0]);
+    $('#change-end-time').html(end.split(' ')[0])
+}
+
 function getScheduleByDay() {
     var date = new Date($('#date-input').val());
     loadSurgeryRoom(convertDateToNumber(date));
@@ -277,4 +285,14 @@ function formatDateToString(date) {
     var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return [hour, minute].join(':') + ' ' + [day, month, year].join('/')  ;
+}
+
+function formatStringtoDateTimeString(dateString) {
+    var array = dateString.split('T');
+    var time = array[1];
+    var day = array[0];
+    var formatDay = day.split('-')[2] + '/' + day.split('-')[1] + '/' + day.split('-')[0];
+    var hour = time.split(':')[0];
+    var minute = time.split(':')[1];
+    return hour + ':' + minute + ' ' + formatDay;
 }

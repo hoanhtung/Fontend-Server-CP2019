@@ -103,6 +103,14 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
+                            <div class="form-group">
+                                <span>Surgery Shift Id: </span> <span id="change-shift-id"></span> <br/>
+                                <span>Date: </span> <span id="change-date"></span> <br/>
+                                <span>Old Start Date Time: </span> <span id="change-start-time"></span> <br/>
+                                <span>Old Start Date Time: </span> <span id="change-end-time"></span> <br/>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col px-0">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
@@ -125,13 +133,23 @@
                                             <div class="row">
                                                 <div class="col py-3"
                                                     style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <!-- <div class="form-group">
+                                                        <label for="startTime">New Start Time</label>
+                                                        <input type="time" class="form-control"
+                                                            id="startTime" />
+                                                    </div> -->
+                                                    <!-- <div class="form-group">
+                                                        <label for="endTime">New End Time</label>
+                                                        <input type="time" class="form-control"
+                                                            id="endTime" />
+                                                    </div> -->
                                                     <div class="form-group">
-                                                        <label for="startTime">Start Date Time</label>
+                                                        <label for="startTime">New Start Time</label>
                                                         <input type="datetime-local" class="form-control"
                                                             id="startTime" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="endTime">End Date Time</label>
+                                                        <label for="endTime">New End Time</label>
                                                         <input type="datetime-local" class="form-control"
                                                             id="endTime" />
                                                     </div>
@@ -266,12 +284,13 @@
             </div>
     </div>
     <script>
-
         let listShiftId = [];
         $('#changeTimeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var scheduleIndex = button.data('schedule-index');
             var priotityNumber = button.data('priority');
+            var startDatetime = button.data('start-datetime');
+            var endDatetime = button.data('end-datetime');
             $('#changeRoomWrapper').css('visibility', 'hidden');
             $('#changeRoom').data('shift-id', scheduleIndex);
             $('#changeRoomDurationWrapper').css('visibility', 'hidden');
@@ -279,6 +298,8 @@
             $('#changePriority').data('shift-id', scheduleIndex);
             $('#changeIntraoperative').data('shift-id', scheduleIndex);
             $('#priorityInput').val(priotityNumber);
+
+            appendChangeInfoShift(scheduleIndex, startDatetime, endDatetime);
 
             $.get(EBSMSLocal + '/api/Schedule/GetSwapableShifts')
                 .then(res => {
