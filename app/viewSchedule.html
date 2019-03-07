@@ -221,7 +221,7 @@
                                                         <label for="shift2">Shift 2</label>
                                                         <input type="number" class="form-control" id="shift2" />
                                                     </div>
-                                                    <button id="swapButton" disabled
+                                                    <button id="swapButton"
                                                         class="btn btn-success">Swap</button>
                                                     <div id="affected" class="fade mt-4">
                                                         <li class="list-group-item active  mt-4">Affected Shifts</li>
@@ -337,7 +337,7 @@
             if (s1 !== '' && s2 !== '' && s1 !== s2 && listShiftId.indexOf(Number.parseInt(s1)) !== -1 && listShiftId.indexOf(Number.parseInt(s2)) !== -1) {
                 $('#swapButton').removeAttr('disabled');
             } else {
-                disabledSwapButton();
+                // disabledSwapButton();
             }
         }
         $('#swapButton').on('click', () => {
