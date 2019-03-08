@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,16 +11,16 @@
     <link rel="stylesheet" href="styles/mainTemplate.css">
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <title>Surgery Management System</title>
-
     <script src="./scripts/linhJS.js"></script>
     <script src="./scripts/main.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="scripts/login.js"></script>
     <script>
         $(function () {
             $("#header").load("./layout/header.html");
@@ -65,6 +66,8 @@
                                         <table class="table" id="profile">
                                             <thead class="bg-light">
                                                 <tr class="border-0">
+                                                    <th class="border-0"><input type="checkbox"
+                                                            onchange="selectAllCheckboxes(this)" /></th>
                                                     <th class="border-0">No.</th>
                                                     <th class="border-0">Patient Name</th>
                                                     <th class="border-0">Gender</th>
@@ -79,8 +82,8 @@
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: flex-end; width: 100%;">
-                                <input style="margin-right: 20px" class="btn btn-success" type="submit"
-                                    value="Import All" onclick="saveSurgeryProfile()" />
+                                <input style="margin-right: 20px" class="btn btn-success" type="submit" value="Import"
+                                    onclick="saveSurgeryProfile()" />
                                 <input class="btn btn-danger" type="submit" value="Clear List"
                                     onClick="removeSessionStorage()" />
                             </div>
@@ -91,4 +94,5 @@
         </div>
     </div>
 </body>
+
 </html>

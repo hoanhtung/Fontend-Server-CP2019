@@ -1,0 +1,12 @@
+.drug-used-time {
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+    margin-right: 5px
+}
+
+.error{
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInZpbmhTdHlsZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSw0QkFBbUI7UUFBbkIsMkJBQW1CO1FBQW5CLG1CQUFtQjtJQUNuQixpQkFBaUI7Q0FDcEI7O0FBRUQ7SUFDSSxlQUFlO0lBQ2YsMEJBQTBCO0NBQzdCIiwiZmlsZSI6InZpbmhTdHlsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZHJ1Zy11c2VkLXRpbWUge1xyXG4gICAgYWxpZ24tc2VsZjogY2VudGVyO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiA1cHhcclxufVxyXG5cclxuLmVycm9ye1xyXG4gICAgY29sb3I6ICNEODAwMEM7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjRkZCQUJBO1xyXG59Il19 */
