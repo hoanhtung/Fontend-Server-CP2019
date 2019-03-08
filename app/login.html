@@ -35,6 +35,41 @@
             <button id="buttonLogin" type="button" class="btn">Login</button>
         </form>
     </div>
-    <script src="scripts/login.js"></script>
+    <!-- <script src="scripts/login.js"></script> -->
     <!--end log form -->
+    <script>
+    $('#buttonLogin').on('click', () => {
+    const username = $('#username').val();
+    const password = $('#password').val();
+    showMessage(null);
+    if (username && password) {
+        $.ajax({
+            url: EBSMSLocal + '/api/Account/Login',
+            method: 'post',
+            data: JSON.stringify({ username: username, password: password }),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).then((a, b, c) => {
+            if (c && c.status === 204) {
+                showMessage('Invalid username or password');
+            }
+            localStorage.setItem('TOKEN_DATA', JSON.stringify(a));
+            checkRole(a);
+        }, er => {
+            showMessage('Invalid username or password');
+        })
+    } else {
+        showMessage('You have to input username and password!!!');
+    }
+});
+const showMessage = function (text) {
+    const container = $('div[target="invalid-message"]');
+    if (text) {
+        $(container).removeClass('d-none');
+        $(container).find('span').html(text);
+    } else {
+        $(container).addClass('d-none');
+    }
+}
+    </script>
 </body>

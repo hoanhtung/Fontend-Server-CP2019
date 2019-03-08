@@ -1,3 +1,4 @@
+var EBSMSLocal = 'https://localhost:44372';
 const isLogin = false;
 
 const checkLogin = function () {
@@ -72,7 +73,7 @@ $('#buttonLogin').on('click', () => {
     showMessage(null);
     if (username && password) {
         $.ajax({
-            url: 'http://45.119.212.145:5520/api/Account/Login',
+            url: EBSMSLocal + '/api/Account/Login',
             method: 'post',
             data: JSON.stringify({ username: username, password: password }),
             contentType: 'application/json',
