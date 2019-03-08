@@ -15,14 +15,14 @@ const checkRole = function (tokenData) {
     const url = window.location.pathname;
     if (tokenData && tokenData.role) {
         switch (tokenData.role.toUpperCase().trim()) {
-            case 'MEDICALSUPPLIER': {
+            case 'HOSPITALSTAFF': {
                 const accessUrl = ['importList.html'];
                 if (!checkAccessPage(accessUrl, url)) {
                     window.location.replace(accessUrl[0]);
                 };
                 break;
             }
-            case 'HOSPITALSTAFF': {
+            case 'MEDICALSUPPLIER': {
                 const accessUrl = ['confirmMSRequest.html'];
                 if (!checkAccessPage(accessUrl, url)) {
                     window.location.replace(accessUrl[0]);
