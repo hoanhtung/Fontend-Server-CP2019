@@ -104,12 +104,10 @@ function getSurgeryName(surgeryInfo) {
 
 function saveSurgeryProfile() {
     var shift = JSON.parse(sessionStorage.getItem('infoObj'));
-    console.log(shift);
     var shiftInfo = [];
-    for (var sh in shift) {
+    for (var sh = 0; sh < shift.length; sh++) {
         var ckb = document.getElementById('chk' + shift[sh]['Surgery Shift Code']);
         if (!ckb.checked) continue;
-        console.log(shift[sh]['Patient Name']);
         var gender = -1;
         var proStartDate = '',
             proEndDate = '';
@@ -151,8 +149,8 @@ function saveSurgeryProfile() {
         success: function success() {
             var supplyList = JSON.parse(sessionStorage.getItem('supplyObj'));
             var supplyJson = [];
-            for (var s in supplyList) {
-                for (var i = 0; i < shiftInfo.length; i++) {
+            for (var s = 0; s < supplyList.length; s++) {
+                for (var i in shiftInfo) {
                     if (shiftInfo[i].surgeryShiftCode == supplyList[s]['Surgery Shift Code']) {
                         supplyJson.push({
                             medicalSupplyId: Number(supplyList[s]['Code']),
@@ -160,6 +158,8 @@ function saveSurgeryProfile() {
                             quantity: supplyList[s]['Quantity']
                         });
                         supplyList.splice(s, 1);
+                        s--;
+                        break;
                     }
                 }
             }
