@@ -1,10 +1,9 @@
-var EBSMSLocal = 'https://localhost:44372';
 const isLogin = false;
 
 const checkLogin = function () {
     const tokenData = JSON.parse(localStorage.getItem('TOKEN_DATA'));
     if (!tokenData) {
-        if (window.location.pathname !== '/app/login.html') {
+        if (window.location.pathname !== '/login.html') {
             window.location.replace('login.html');
         }
     }
@@ -93,4 +92,3 @@ $('#buttonLogin').on('click', () => {
 });
 
 checkLogin();
-

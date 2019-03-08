@@ -1,12 +1,11 @@
 'use strict';
 
-var EBSMSLocal = 'https://localhost:44372';
 var isLogin = false;
 
 var checkLogin = function checkLogin() {
     var tokenData = JSON.parse(localStorage.getItem('TOKEN_DATA'));
     if (!tokenData) {
-        if (window.location.pathname !== '/app/login.html') {
+        if (window.location.pathname !== '/login.html') {
             window.location.replace('login.html');
         }
     }
@@ -17,7 +16,7 @@ var checkRole = function checkRole(tokenData) {
     var url = window.location.pathname;
     if (tokenData && tokenData.role) {
         switch (tokenData.role.toUpperCase().trim()) {
-            case 'MEDICALSUPPLIER':
+            case 'HOSPITALSTAFF':
                 {
                     var accessUrl = ['importList.html'];
                     if (!checkAccessPage(accessUrl, url)) {
@@ -25,7 +24,7 @@ var checkRole = function checkRole(tokenData) {
                     };
                     break;
                 }
-            case 'HOSPITALSTAFF':
+            case 'MEDICALSUPPLIER':
                 {
                     var _accessUrl = ['confirmMSRequest.html'];
                     if (!checkAccessPage(_accessUrl, url)) {
