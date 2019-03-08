@@ -301,7 +301,7 @@ function saveDrug() {
 
 $(document).on("click", "#btn-new-treatment", function () {
     $("#treatmentModal").empty();
-    $("#treatmentModal").append(` <div class="modal-dialog modal-lg" role="document">
+    $("#treatmentModal").append(` <div class="modal-dialog modal-lg" style="max-width: max-content;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Treatment</h5>

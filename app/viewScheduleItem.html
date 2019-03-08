@@ -241,7 +241,7 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
     <datalist class="datalist-drug" id="drugs"></datalist>
     <!-- The TreatMent Modal -->
     <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: max-content;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Treatment</h5>
@@ -358,59 +358,21 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
 
         
         
-            function getAllDrugs() {
-                    $.ajax({
-                        url: EBSMSLocal + '/api/Drug/GetAllDrugs',
-                        method: 'get',
-                        success: function (data) {
-                            // initAutocompleteDrug(data);
-                            // drugs = data;
-                            // console.log(drugs);
-                            $(data).each(function () {
-                                var options = `<option id='${this.id}' value='${this.name}'></option>`;
-                                $('#drugs').append(options);
-                            });
-                        }
-                    });
-                }
-
-                function initAutocompleteDrug(drugs) {
-                    $("body").find(".drug").each(function () {
-                        var options = {
-                            data: drugs,
-                            getValue: "name",
-                            list: {
-                                match: {
-                                    enabled: true
-                                }
-                            },
-                        };
-                        var id = $(this).prop('id');
-                        if (id.indexOf('eac') == -1) {
-                            $(this).easyAutocomplete(options);
-                        }
-                    });
-                }
-
-        function autocompleteDrug() {
-                $("body").find(".drug").each(function () {
-                    var options = {
-                        data: drugs,
-                        getValue: "name",
-                        list: {
-                            match: {
-                                enabled: true
-                            }
-                        },
-                    };
-                    var id = $(this).prop('id');
-                    if (id.indexOf('eac') == 0) {
-                        $(this).easyAutocomplete(options);
+        function getAllDrugs() {
+                $.ajax({
+                    url: EBSMSLocal + '/api/Drug/GetAllDrugs',
+                    method: 'get',
+                    success: function (data) {
+                        // initAutocompleteDrug(data);
+                        // drugs = data;
+                        // console.log(drugs);
+                        $(data).each(function () {
+                            var options = `<option id='${this.id}' value='${this.name}'>${this.unit}</option>`;
+                            $('#drugs').append(options);
+                        });
                     }
                 });
             }
-
-        
             
 
         // =======================Healthcare========================================
