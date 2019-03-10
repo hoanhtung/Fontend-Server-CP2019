@@ -22,16 +22,23 @@
     <link rel="stylesheet" href="styles/vinhStyle.css">
     <link rel="stylesheet" href="styles/itemScheduleStyle.css">
     <!-- endbuild -->
+<<<<<<< HEAD
     <!-- <script src="./js/tungJS.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/vinhJS.js"></script>
     <script src="./scripts/lib_utilities.js"></script>
+=======
+    
+>>>>>>> 58a2e642458eaf427ab1acba2ebfc43c8bf72002
     <!-- bower:js -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- endbower -->
+    <!-- <script src="./js/tungJS.js"></script> -->
+    <script src="./scripts/tungJS.js"></script>
+    <script src="./scripts/vinhJS.js"></script>
     <title>Surgery Management System</title>
     <script>
         $(function () {
@@ -165,9 +172,9 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                                     class="far fa-minus-square"></i> Treatment Reports:</span>
                             <div id="div-postoperative" class="div-editable-information row">
                                 <div class="col-12">
-                                    <a href="javascript:void(0)" class="btn btn-primary float-right"
+                                    <button class="btn btn-primary float-right"
                                         data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
-                                        data-target="#treatmentModal">New Treatment Report</a>
+                                        data-target="#treatmentModal" id="btn-new-treatment">New Treatment Report</button>
                                 </div>
                                 <div class="col-12">
                                     <div style="padding: 3%" id="div-treatment-table"></div>
@@ -254,6 +261,7 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
     <script>
         $('#btn-change-post-status').click(function () {
@@ -266,9 +274,12 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             
         })
     </script>
+=======
+    <datalist class="datalist-drug" id="drugs"></datalist>
+>>>>>>> 58a2e642458eaf427ab1acba2ebfc43c8bf72002
     <!-- The TreatMent Modal -->
     <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: max-content;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Treatment</h5>
@@ -280,19 +291,19 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col px-0">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
+                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link active" id="treatment-tab" data-toggle="tab"
                                             href="#treatment" role="tab" aria-controls="treatment"
                                             aria-selected="true">New Treatment Report</a>
-                                    </li>
+                                    </li>  -->
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="treatment" role="tabpanel"
                                         aria-labelledby="treatment-tab">
                                         <div class="container-fluid">
                                             <div class="row">
-                                                <div class="col py-3"
+                                                <div id="edit-form-treatement-report" class="col py-3"
                                                     style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
                                                     <div class="form-group">
                                                         <label for="progressiveDisease">Progressive Disease</label>
@@ -309,7 +320,6 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                                                             <div class="col-1" style="text-align: center;"> Evening</div>
                                                             <div class="col-1" style="text-align: center;"> Night</div>
                                                         </div>
-                                                        <datalist id="drugs"></datalist>
                                                         <div class="row row-drug after-add-more" style="padding-inline-start: 15px;">
                                                             <div class="easyautocomplete-wraper form-group col-6" style="margin-bottom: 0px">
                                                                 <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" />
@@ -337,6 +347,7 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             </div>
         </div>
     </div>
+
     <script>
         // ==========Surgery Report==============
         $('#btn-hide-shift-info').hide();
@@ -378,90 +389,28 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             var scheduleIndex = button.data('schedule-index');
             $('#createTreatment').data('shift-id', scheduleIndex);
         });
-
-        $('#createTreatment').click(() => {
-            // var shiftId = $(this).data('shift-id');
-            var shiftId = $('#span-id').text();
-            var progressiveDisease = $('#progressiveDisease').val();
-            createTreatmentReport(shiftId, progressiveDisease);
-            
-        });
         
-        $(".add-more").click(function () {
-                $(".after-add-more").after(`<div class="row row-drug control-group" style="padding-inline-start: 15px; margin-top: 10px">
-                                                                <div class="easyautocomplete-wraper col-6">
-                                                                    <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name" />
-                                                                </div>
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
-                                                                <div class="input-group-btn  col-1">
-                                                                    <button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button>
-                                                                </div>
-                                                            </div>`);
-                // autocompleteDrug();
-        });
-
         $("body").on("click", ".remove", function () {
                 $(this).parents(".control-group").remove();
         });   
 
         
         
-            function getAllDrugs() {
-                    $.ajax({
-                        url: EBSMSLocal + '/api/Drug/GetAllDrugs',
-                        method: 'get',
-                        success: function (data) {
-                            // initAutocompleteDrug(data);
-                            // drugs = data;
-                            // console.log(drugs);
-                            $(data).each(function () {
-                                var options = `<option id='${this.id}' value='${this.name}'></option>`;
-                                $('#drugs').append(options);
-                            });
-                        }
-                    });
-                }
-
-                function initAutocompleteDrug(drugs) {
-                    $("body").find(".drug").each(function () {
-                        var options = {
-                            data: drugs,
-                            getValue: "name",
-                            list: {
-                                match: {
-                                    enabled: true
-                                }
-                            },
-                        };
-                        var id = $(this).prop('id');
-                        if (id.indexOf('eac') == -1) {
-                            $(this).easyAutocomplete(options);
-                        }
-                    });
-                }
-
-        function autocompleteDrug() {
-                $("body").find(".drug").each(function () {
-                    var options = {
-                        data: drugs,
-                        getValue: "name",
-                        list: {
-                            match: {
-                                enabled: true
-                            }
-                        },
-                    };
-                    var id = $(this).prop('id');
-                    if (id.indexOf('eac') == 0) {
-                        $(this).easyAutocomplete(options);
+        function getAllDrugs() {
+                $.ajax({
+                    url: EBSMSLocal + '/api/Drug/GetAllDrugs',
+                    method: 'get',
+                    success: function (data) {
+                        // initAutocompleteDrug(data);
+                        // drugs = data;
+                        // console.log(drugs);
+                        $(data).each(function () {
+                            var options = `<option id='${this.id}' value='${this.name}' data-unit='${this.unit}'>${this.unit}</option>`;
+                            $('#drugs').append(options);
+                        });
                     }
                 });
             }
-
-        
             
 
         // =======================Healthcare========================================

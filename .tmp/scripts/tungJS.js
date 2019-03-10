@@ -83,7 +83,7 @@ function startSurgeryShift(shiftId, actualStartTime) {
         method: 'post',
         success: function success(data) {
             if (data == true) {
-                loadSurgeryRoom(convertDateToNumber(new Date()));
+                loadSurgeryRoom(convertDateToNumber(new Date($('#date-input').val())));
             }
         }
     });
@@ -91,11 +91,12 @@ function startSurgeryShift(shiftId, actualStartTime) {
 function setPostStatus(surgeryShiftId, actualEndTime) {
     var roomPost = $('#roomPost').val();
     var bedPost = $('#bedPost').val();
+    var nurseId = $('#select-nurse').children("option:selected").attr('id');
     $.ajax({
-        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime,
+        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime + '&nurseId=' + nurseId,
         method: 'post',
         success: function success(data) {
-            loadSurgeryRoom(convertDateToNumber(new Date()));
+            loadSurgeryRoom(convertDateToNumber(new Date($('#date-input').val())));
         }
     });
 }
@@ -122,6 +123,7 @@ function appendPostSurgeryShiftId(shiftId, start, end) {
     $('.estimated-start-time').html(formatStringtoDateTimeString(start));
     $('.estimated-end-time').html(formatStringtoDateTimeString(end));
     $('#surgery-shift-post-status').data('day', end.split('T')[0]);
+    getNurse();
 }
 // -----------------------------------
 
