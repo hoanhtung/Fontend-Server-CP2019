@@ -15,3 +15,48 @@ function delete_mark_VI(str) {
     str = str.replace(/Đ/g, 'D');
     return str;
 }
+
+function convertDateToNumber(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    var year = date.getFullYear();
+    var dateNumber = [year, month, day].join('');
+    return dateNumber;
+}
+function convertDateToTime(date) {
+    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    return [hour, minute].join(':');
+}
+function formatInputDate(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    var year = date.getFullYear();
+    var dateString = [year, month, day].join('-');
+    return dateString;
+}
+function formatDateToDateTimeString(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    var year = date.getFullYear();
+    var dateString = [day, month, year].join('/');
+    return dateString;
+}
+function formatDateToString(date) {
+    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    var year = date.getFullYear();
+    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    return [hour, minute].join(':') + ' ' + [day, month, year].join('/')  ;
+}
+
+function formatStringtoDateTimeString(dateString) {
+    var array = dateString.split('T');
+    var time = array[1];
+    var day = array[0];
+    var formatDay = day.split('-')[2] + '/' + day.split('-')[1] + '/' + day.split('-')[0];
+    var hour = time.split(':')[0];
+    var minute = time.split(':')[1];
+    return hour + ':' + minute + ' ' + formatDay;
+}

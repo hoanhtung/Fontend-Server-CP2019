@@ -10,15 +10,22 @@
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
+
+    <!-- ==============tmp================== -->
+    <link rel="stylesheet" type="text/css" href="fonts/icomoon.css">
+    <link rel="stylesheet" type="text/css" href="styles/template/app.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet">
+    <!-- =================================================== -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
     <link rel="stylesheet" href="styles/vinhStyle.css">
-
     <link rel="stylesheet" href="styles/itemScheduleStyle.css">
     <!-- endbuild -->
     <!-- <script src="./js/tungJS.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/vinhJS.js"></script>
+    <script src="./scripts/lib_utilities.js"></script>
     <!-- bower:js -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -31,9 +38,10 @@
             $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
         })
+        var shiftId = window.location.search.split('=')[1];
     </script>
 </head>
-<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1]); checkSetPostStatus(window.location.search.split('=')[1]); CheckRecoveryStatus(window.location.search.split('=')[1])">
+<body onload="loadSurgeryShiftDetail(shiftId); checkSetPostStatus(shiftId); CheckRecoveryStatus(shiftId)">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -197,12 +205,10 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
         </div>
     </div>
     </div>
-    <!-- onclick="setPostStatus(window.location.search.split('=')[1])" -->
     <!-- The Modal -->
     <div class="modal fade" id="changePostStatusModal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Change Postoperative Status</h4>
@@ -242,12 +248,24 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPostStatus(window.location.search.split('=')[1])">Change Status</button>
+                    <button type="button" id="change-post-btn" class="btn btn-primary" data-dismiss="modal">Change Status</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('#btn-change-post-status').click(function () {
+            var start = $('#span-start-time').data('start');
+            var end = $('#span-end-time').data('end')
+            appendPostSurgeryShiftId(shiftId, start, end);
+        });
+        $('#change-post-btn').click(function() {
+            setPostStatus(shiftId)
+            
+        })
+    </script>
     <!-- The TreatMent Modal -->
     <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

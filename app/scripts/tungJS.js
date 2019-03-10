@@ -67,9 +67,8 @@ function loadSurgeryRoom(surgeryDay) {
                                 '<i class="fas fa-procedures"></i></button>' +
                                 '</div>';
                             }
-                            
                             else if (shift[index].statusName == 'Intraoperative') {
-                                strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendPostSurgeryShiftId(' + shiftId + ', \'' + firstEstimatedStart + '\', \'' + firstEstimatedEnd + '\')" data-toggle="modal" data-target="#changePostStatusModal">' + 
+                                strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendPostSurgeryShiftId(' + shiftId + ', \'' + firstActualStart + '\', \'' + firstEstimatedEnd + '\')" data-toggle="modal" data-target="#changePostStatusModal">' + 
                                 '<i style="color: white" class="far fa-check-square"></i></button>' +
                                 '</div>';
                             } else {
@@ -160,7 +159,6 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
         method: 'get',
         data: { shiftId: surgeryShiftId},
         success: function(shift) {
-            console.log(shift);
             $('#span-id').append(shift.id);
             $('#span-name').append(shift.patientName);
             $('#span-gender').append(shift.gender);
@@ -168,8 +166,10 @@ function loadSurgeryShiftDetail(surgeryShiftId) {
             $('#span-specialty').append(shift.speciality);
             $('#span-surgery-name').append(shift.surgeryName);
             $('#span-surgery-type').append(shift.surgeryType);
-            $('#span-start-time').append(shift.startTime);
-            $('#span-end-time').append(shift.endTime);
+            $('#span-start-time').data('start', shift.startTime);
+            $('#span-start-time').append(formatStringtoDateTimeString(shift.startTime));
+            $('#span-end-time').data('end', shift.endTime);
+            $('#span-end-time').append(formatStringtoDateTimeString(shift.endTime));
             $('#textarea-procedure').append(shift.procedure);
         }
     });
@@ -181,15 +181,9 @@ function makeSchedule() {
         method: 'get',
         success: function(data) {
             window.location.href = 'viewSchedule.html';
-            // console.log(data.m_StringValue);
-            // $('#content-schedule-notification').html(data.m_StringValue);
-            // $(window).on('load', function() {
-            //     $('#modal-schedule-notification').modal('show');
-            // });
         }
     })
 }
-
 
 function makeScheduleProposedTime() {
     $.ajax({
@@ -250,9 +244,7 @@ function loadSurgeryShiftNoScheduleByProposedTime() {
                     + ' ' + data[i].proposedStartDateTime.split('T')[1] + ' - ' 
                     + data[i].proposedEndDateTime.split('T')[1];
                 }
-                container += '</td>'
-                            // + '<td>' + data[i].priorityNumber + '</td>'
-                            + '<td>' + data[i].scheduleDate + '</td>'
+                container += '</td><td>' + data[i].scheduleDate + '</td>'
                 + '<td>' + data[i].priorityNumber + '</td>'
                 + '<td>' + data[i].expectedSurgeryDuration + '</td></tr>';
             }
@@ -274,7 +266,7 @@ function checkSetPostStatus(surgeryId) {
                 $('#btn-change-post-status').hide();    
             }
             else {
-                $('#btn-change-post-status').hide();
+                alert('Surgery shift does not exist!')
             }
         }
     })
@@ -306,48 +298,4 @@ function appendChangeInfoShift(id, start, end) {
 function getScheduleByDay() {
     var date = new Date($('#date-input').val());
     loadSurgeryRoom(convertDateToNumber(date));
-}
-function convertDateToNumber(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-    var year = date.getFullYear();
-    var dateNumber = [year, month, day].join('');
-    return dateNumber;
-}
-function convertDateToTime(date) {
-    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    return [hour, minute].join(':');
-}
-function formatInputDate(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-    var year = date.getFullYear();
-    var dateString = [year, month, day].join('-');
-    return dateString;
-}
-function formatDateToDateTimeString(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-    var year = date.getFullYear();
-    var dateString = [day, month, year].join('/');
-    return dateString;
-}
-function formatDateToString(date) {
-    var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-    var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-    var year = date.getFullYear();
-    var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    return [hour, minute].join(':') + ' ' + [day, month, year].join('/')  ;
-}
-
-function formatStringtoDateTimeString(dateString) {
-    var array = dateString.split('T');
-    var time = array[1];
-    var day = array[0];
-    var formatDay = day.split('-')[2] + '/' + day.split('-')[1] + '/' + day.split('-')[0];
-    var hour = time.split(':')[0];
-    var minute = time.split(':')[1];
-    return hour + ':' + minute + ' ' + formatDay;
 }

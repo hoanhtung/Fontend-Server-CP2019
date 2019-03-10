@@ -6,15 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/headerStyle.css">
-    <link rel="stylesheet" href="styles/tungStyle.css">
-    <link rel="stylesheet" href="styles/mainTemplate.css">
-    <link rel="stylesheet" href="styles/utilities.css">
+    <link rel="stylesheet" href="styles/headerStyle.css" type="text/css">
+    <link rel="stylesheet" href="styles/tungStyle.css" type="text/css">
     <title>Surgery Management System</title>
     <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/phucJS.js"></script>
     <script src="./scripts/linhJS.js"></script>
     <script src="./scripts/lib_utilities.js"></script>
+
+    <!-- ==============tmp================== -->
+    <link rel="stylesheet" type="text/css" href="fonts/icomoon.css">
+    <link rel="stylesheet" type="text/css" href="styles/template/app.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet">
+    <!-- =================================================== -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -58,12 +62,13 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
+                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>                                
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()" /> <br />
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <input class="btn btn-success" type="submit" value="Swap Schedule" />
+                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift" data-toggle="modal" data-target="#addEmergencyShift" />
                                 <br/>
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword" onkeyup="searchSchedule()" />
@@ -72,7 +77,7 @@
                                 <!-- end of Search -->
 
                                 <div style="float: right">
-                                    <div style="display: inline;  float: left; margin-right: 20px">
+                                    <div style="display: inline; float: left; margin-right: 20px">
                                         <div style="width: 30px; height: 20px; background-color: #ffeaa7; float: left; margin-right: 10px;">
                                         </div><span><b>Proceeding</b></span>
                                     </div>
@@ -327,6 +332,47 @@
         </div>
     </div>
 
+    <!-- Modal add emergency shift -->
+    <div class="modal fade" id="addEmergencyShift">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Emergency Shift</h4> 
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span><b>Patient's Identity Card Number</b></span>
+                        <input type="text" class="form-control" id="emerPatientICN">
+                    </div>
+                    <div class="form-group">
+                        <span><b>Patient's Name</b></span>
+                        <input type="text" class="form-control" id="emerPatientName">
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Option 1
+                        </label>
+                        </div>
+                        <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                            <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">Option 2
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="start-surgery-btn" class="btn btn-primary" data-dismiss="modal">Start Surgery Shift</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // start surgery - set intra
         $('#start-surgery-btn').click(function () {
@@ -531,7 +577,6 @@
                                 </li>`
             return (data.newStart === '0001-01-01T00:00:00' && data.newEnd === '0001-01-01T00:00:00') ? template2 : template1;
         }
-
     </script>
 </body>
 
