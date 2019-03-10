@@ -6,15 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/headerStyle.css">
-    <link rel="stylesheet" href="styles/tungStyle.css">
-    <link rel="stylesheet" href="styles/mainTemplate.css">
-    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="styles/login-tung.css">
     <title>Surgery Management System</title>
-    <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/phucJS.js"></script>
-    <script src="./scripts/linhJS.js"></script>
-    <script src="./scripts/lib_utilities.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -24,52 +18,26 @@
     <script src="scripts/jquery-ui.js"></script>
 
 <body>
-    <div class="log-form">
-        <h2>Login to your account</h2>
-        <form>
-            <input id="username" type="text" title="username" placeholder="username" value="supplier1" />
-            <input id="password" type="password" title="username" placeholder="password" value="zxc@123456" />
+    <div class="login-dark">
+        <form method="post">
+            <div class="div-logo">
+                <div class="illustration"></div>
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="username" type="text" name="username" placeholder="username" value="supplier1">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="password" type="password" name="password" placeholder="Password" value="zxc@123456">
+            </div>
             <div target="invalid-message" class="mb-4 d-none">
                 <span class="text-danger">You have to input username and password</span>
             </div>
-            <button id="buttonLogin" type="button" class="btn">Login</button>
+            <div class="form-group">
+                <button id="buttonLogin" class="btn btn-primary btn-block" type="submit">Log In</button>
         </form>
     </div>
-    <script src="scripts/login.js"></script>
+
+    
+    <!-- <script src="scripts/login.js"></script> -->
     <!--end log form -->
-    <script>
-//     $('#buttonLogin').on('click', () => {
-//     const username = $('#username').val();
-//     const password = $('#password').val();
-//     showMessage(null);
-//     if (username && password) {
-//         $.ajax({
-//             url: EBSMSLocal + '/api/Account/Login',
-//             method: 'post',
-//             data: JSON.stringify({ username: username, password: password }),
-//             contentType: 'application/json',
-//             dataType: 'json'
-//         }).then((a, b, c) => {
-//             if (c && c.status === 204) {
-//                 showMessage('Invalid username or password');
-//             }
-//             localStorage.setItem('TOKEN_DATA', JSON.stringify(a));
-//             checkRole(a);
-//         }, er => {
-//             showMessage('Invalid username or password');
-//         })
-//     } else {
-//         showMessage('You have to input username and password!!!');
-//     }
-// });
-// const showMessage = function (text) {
-//     const container = $('div[target="invalid-message"]');
-//     if (text) {
-//         $(container).removeClass('d-none');
-//         $(container).find('span').html(text);
-//     } else {
-//         $(container).addClass('d-none');
-//     }
-// }
-    </script>
 </body>

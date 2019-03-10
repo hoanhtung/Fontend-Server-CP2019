@@ -11,7 +11,7 @@ const checkLogin = function () {
 };
 
 const checkRole = function (tokenData) {
-    const url = window.location.pathname;
+    const url = window.location.pathname;    
     if (tokenData && tokenData.role) {
         switch (tokenData.role.toUpperCase().trim()) {
             case 'HOSPITALSTAFF': {
@@ -91,4 +91,4 @@ $('#buttonLogin').on('click', () => {
     }
 });
 
-checkLogin();
+// checkLogin();
