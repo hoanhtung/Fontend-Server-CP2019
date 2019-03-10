@@ -409,4 +409,17 @@ function updateUnit(name){
     $(this).parent().siblings('.drug-quantity').val(id);
 }
 
+function getNurse(){
+    var select = $("#select-nurse");
+    $.ajax({
+        url: EBSMSLocal + '/api/Account/GetAllNurse',
+        method: 'get',
+        success: function (data) {
 
+            $(data).each(function () {
+                var options = `<option id='${this.id}' value='${this.fullName}'>${this.fullName}</option>`;
+                select.append(options);
+            });
+        }
+    });
+}
