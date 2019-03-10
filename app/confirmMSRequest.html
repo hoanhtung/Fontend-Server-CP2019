@@ -1,59 +1,45 @@
 <!doctype html>
 <html lang="en">
- 
+
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- build:css styles/tungStyle.css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/headerStyle.css">
-    <!-- endbuild -->
-    <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
-    <!-- endbuild -->
-    <!-- build:css styles/mainTemplate.css -->
     <link rel="stylesheet" href="styles/mainTemplate.css">
-    <!-- endbuild -->
     <title>Surgery Management System</title>
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
+
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <!-- bower:css -->
-    <!-- endbower -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+
     <script src="./scripts/linhJS.js"></script>
     <script src="./scripts/tungJS.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="scripts/login.js"></script> -->
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
-            $("#navigation").load("./layout/navigation.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
+            $("#navigation").load("./layout/navigation.html");
         })
     </script>
 </head>
 
 <body onload="getMedicalRequest()">
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
-        <!-- header layout -->
         <div id="header"></div>
-        <!-- navigation layout -->
-        <!-- end left sidebar -->
         <div id="navigation"></div>
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
         <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
                     <!-- ============================================================== -->
                     <!-- pageheader  -->
-                    <!-- ============================================================== -->
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
@@ -61,22 +47,25 @@
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Medical Supply Request</li>
+                                            <li class="breadcrumb-item"><a href="#"
+                                                    class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Medical Supply
+                                                Request</li>
                                         </ol>
                                     </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
                     <div class="ecommerce-widget">
-                        
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="row">
+                                <dialog id="myDialog"> Medical Supply</dialog>
+                            </div>
+                        </div>
                         <div class="row">
-                                          <!-- recent orders  -->
-                            <!-- ============================================================== -->
                             <div style="width: 100%">
                                 <div class="card">
                                     <h5 class="card-header">Pending Requests for Medical Supply</h5>
@@ -85,11 +74,12 @@
                                             <table class="table" id="request">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
-                                                        <th class="border-0"></th>
+                                                        <th class="border-0"><input type="checkbox"
+                                                                onchange="selectAllCheckboxes(this)" /></th>
                                                         <th class="border-0">Patient Name</th>
                                                         <th class="border-0">Surgery Name</th>
                                                         <th class="border-0">Day Created</th>
-                                                        <th class="border-0"><a href="#" onclick="alert('hello!!');">something</a></th>
+                                                        <th class="border-0">Medical Supplies</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -99,20 +89,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- ============================================================== -->
-                            <!-- end recent orders  -->
                             <div style="width: 100%">
-                                <input type="submit" value="Confirm All" onClick="confirmAllSupply();" />                               
+                                <input class="btn btn-success" style="float: right" type="submit" value="Confirm"
+                                    onClick="confirmAllSupply();" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
+    </div>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mheader">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="mbody">
+                    Modal body..
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
- 
 </html>

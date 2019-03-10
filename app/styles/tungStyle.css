@@ -1,13 +1,11 @@
-
-/* body {
+body {
     font-family: 'Roboto', sans-serif;
-} */
-.table-no-schedule tr td{
-    padding: 10px;
 }
 
 .title-surgery-shift h2{
     text-align: center;
+    color: black;
+    font-weight: bold;
 }
 .div-schedule {
     text-align: center;
@@ -15,20 +13,33 @@
     flex-direction: row;
     flex-wrap: nowrap;
 }
-.div-roomHeaderItem {
-    width: 195px;
-    flex: none;
-}
 .div-roomHeaderItem .div-room-name {
-    background: skyblue;
+    background: gray;
+    color: aliceblue;
+    font-weight: bold;
+    height: 40px;
 }
 .div-roomHeaderItem {
-    border: 1px black solid;
-    width: 195px; 
+    outline: 1px black solid;
+    width: 20%;
     float: left;
 }
 .div-roomBodyItem {
-    border: 1px black solid;
+    outline: 1px black solid;
+    position: relative;
+}
+.div-roomBodyItem .info-shift {
+    z-index: 1;
+}
+.mybuttonoverlap{
+	position: absolute;
+    z-index: 2;
+    display: none;
+    top: 25px;
+    left: 25px;
+}
+.div-roomBodyItem:hover .mybuttonoverlap{ 
+	display:block;
 }
 /* View Schedule Item */
 .container-scheduleItem {
@@ -36,29 +47,19 @@
     padding-right: 5%; 
 }
 .div-surgery-report {
-    /* display: flex; */
     font-size: 18px;
     color: black;
     margin-top: 50px
 }
-.div-surgery-report span {
-}
-.div-surgery-report .div-info-patient {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-.div-info-patient div {
-    margin-right: 15%;
-}
-.div-surgery-shift {
 
+.table-information-shift tr td:first-child {
+    width: 16%;
+}
+.table-information-shift tr td:nth-child(3) {
+    width: 16%;
 }
 .div-editable-information {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 .div-ekip .table-ekip {
     font-size: 18px;
@@ -67,4 +68,25 @@
 .div-ekip .table-ekip tr td{
     padding-right: 40px;
     padding-bottom: 10px;
+}
+
+
+/* ============================= */
+.search-schedule-css {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/images/search-icon.png');
+    background-size: 25px 25px;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 45px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+.search-schedule-css:focus {
+    width: 50%;
 }

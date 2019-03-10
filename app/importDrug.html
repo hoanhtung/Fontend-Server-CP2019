@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,19 +10,16 @@
     <link rel="stylesheet" href="styles/mainTemplate.css">
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
     <title>Surgery Management System</title>
-    <script src="./scripts/linhJS.js"></script>
-    <script src="./scripts/tungJS.js"></script>
+
+    <script src="./scripts/vinhJS.js"></script>
     <script src="./scripts/main.js"></script>
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
-    <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
-    <!-- <script src="scripts/login.js"></script> -->
     <script>
         $(function () {
             $("#header").load("./layout/header.html");
@@ -58,8 +54,8 @@
                     </div>
                     <div class="ecommerce-widget">
                         <div class="row">
-                            <div>
-                                <input type="file" onchange="ExcelExport(event)" id="file" />
+                            <div style="width: 100%">
+                                <input type="file" onchange="DrugExcelExport(event)" id="file" />
                             </div>
                             <div class="card"></br></div>
                             <div style="width: 100%">
@@ -69,13 +65,8 @@
                                         <table class="table" id="profile">
                                             <thead class="bg-light">
                                                 <tr class="border-0">
-                                                    <th class="border-0"><input type="checkbox"
-                                                            onchange="selectAllCheckboxes(this)" /></th>
-                                                    <th class="border-0">No.</th>
-                                                    <th class="border-0">Patient Name</th>
-                                                    <th class="border-0">Gender</th>
-                                                    <th class="border-0">Surgery Name</th>
-                                                    <th class="border-0">Proposed Datetime</th>
+                                                    <th class="border-0">Name</th>
+                                                    <th class="border-0">Đơn vị tính</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -85,8 +76,8 @@
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: flex-end; width: 100%;">
-                                <input style="margin-right: 20px" class="btn btn-success" type="submit" value="Import"
-                                    onclick="saveSurgeryProfile()" />
+                                <input style="margin-right: 20px" class="btn btn-success" type="submit"
+                                    value="Import All" onclick="saveDrug()" />
                                 <input class="btn btn-danger" type="submit" value="Clear List"
                                     onClick="removeSessionStorage()" />
                             </div>
@@ -97,5 +88,4 @@
         </div>
     </div>
 </body>
-
 </html>
