@@ -367,7 +367,7 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                         // drugs = data;
                         // console.log(drugs);
                         $(data).each(function () {
-                            var options = `<option id='${this.id}' value='${this.name}'>${this.unit}</option>`;
+                            var options = `<option id='${this.id}' value='${this.name}' data-unit='${this.unit}'>${this.unit}</option>`;
                             $('#drugs').append(options);
                         });
                     }

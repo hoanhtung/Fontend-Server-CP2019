@@ -133,7 +133,8 @@ $(document).on("click", ".edit-treatment", function () {
                 <label for="medicalRequirement">Medical Requirement</label>
                 <button class="btn btn-success add-more float-right" type="button"><i class="fa fa-plus"></i>Add more</button>
                 <div class="mt-4 row">
-                    <div class="col-6"></div>
+                    <div class="col-5"></div>
+                    <div class="col-1" style="text-align: center;"> Unit</div>
                     <div class="col-1" style="text-align: center;"> Morning</div>
                     <div class="col-1" style="text-align: center;"> Noon</div>
                     <div class="col-1" style="text-align: center;"> Evening</div>
@@ -144,9 +145,10 @@ $(document).on("click", ".edit-treatment", function () {
                     editForm.append(
                     `<div class="row row-drug control-group after-add-more" style="padding-inline-start: 15px; margin-top: 10px">
                     <input type="text" class="d-none" name="drug-id" value="${element.id}" />
-                                                                <div class="easyautocomplete-wraper col-6">
-                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" value="${element.name}" />
+                                                                <div class="easyautocomplete-wraper col-5">
+                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" value="${element.name}"  onchange="updateUnit.call(this, this.value)"/>
                                                                 </div>
+                                                                <input type="text" class="drug-quantity col-1 form-control  drug-used-time" value=${element.unit} readonly/>
                                                                 <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning" value=${element.morningQuantity}>
                         <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon"  value=${element.afternoonQuantity}>
                         <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening"  value=${element.eveningQuantity}>
@@ -336,7 +338,8 @@ $(document).on("click", "#btn-new-treatment", function () {
                                                         <label for="medicalRequirement">Medical Requirement</label>
                                                         <button class="btn btn-success add-more float-right" type="button"><i class="fa fa-plus"></i>Add more</button>
                                                         <div class="mt-4 row">
-                                                            <div class="col-6"></div>
+                                                            <div class="col-5"></div>
+                                                            <div class="col-1" style="text-align: center;"> Unit</div>
                                                             <div class="col-1" style="text-align: center;"> Morning</div>
                                                             <div class="col-1" style="text-align: center;"> Noon</div>
                                                             <div class="col-1" style="text-align: center;"> Evening</div>
@@ -345,9 +348,10 @@ $(document).on("click", "#btn-new-treatment", function () {
                                                         <datalist id="drugs"></datalist>
                                                         <div class="row row-drug after-add-more" style="padding-inline-start: 15px;">
                                                             <input type="number" class="d-none" name="drug-id" value="" />
-                                                            <div class="easyautocomplete-wraper form-group col-6" style="margin-bottom: 0px">
-                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" />
+                                                            <div class="easyautocomplete-wraper form-group col-5" style="margin-bottom: 0px">
+                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" onchange="updateUnit.call(this, this.value)"/>
                                                             </div>
+                                                            <input type="text" class="drug-quantity col-1 form-control  drug-used-time" readonly/>
                                                             <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
                                                             <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
                                                             <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
@@ -375,9 +379,10 @@ $(document).on("click", "#btn-new-treatment", function () {
 $(document).on("click", ".add-more", function () {
                 $(".after-add-more").last().after(`<div class="row row-drug control-group after-add-more" style="padding-inline-start: 15px; margin-top: 10px">
                 <input type="number" class="d-none" name="drug-id" value="" />
-                                                                    <div class="easyautocomplete-wraper col-6">
-                                                                    <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name" />
+                                                                    <div class="easyautocomplete-wraper col-5">
+                                                                    <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name"  onchange="updateUnit.call(this, this.value)"/>
                                                                 </div>
+                                                                <input type="text" class="drug-quantity col-1 form-control  drug-used-time" readonly/>
                                                                 <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
                                                                 <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
                                                                 <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
@@ -396,5 +401,12 @@ $(document).on("click", "#createTreatment", function () {
     createTreatmentReport(shiftId, progressiveDisease);
 
 });
+
+function updateUnit(name){
+    var id = $("#drugs").find('option[value="' + name + '"]').data('unit');
+    console.log(id);
+    console.log($(this).parent().siblings('.drug-quantity'));
+    $(this).parent().siblings('.drug-quantity').val(id);
+}
 
 
