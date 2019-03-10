@@ -191,6 +191,7 @@ function saveSurgeryProfile() {
 function getImportDetail(id) {
     window.location.href = 'importDetail.html?Id=' + id;
 }
+
 function parseImportDetail() {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("Id");
@@ -275,7 +276,6 @@ function getMedicalRequest() {
                 newColumn = newRow.insertCell(3);
                 newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
                 newColumn = newRow.insertCell(4);
-
                 var button = document.createElement('button');
                 button.appendChild(document.createTextNode("View Detail"));
                 button.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");

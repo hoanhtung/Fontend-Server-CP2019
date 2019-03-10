@@ -97,5 +97,5 @@ $('#buttonLogin').on('click', function () {
     }
 });
 
-checkLogin();
+// checkLogin();
 //# sourceMappingURL=login.js.map
