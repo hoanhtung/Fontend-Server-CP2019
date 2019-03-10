@@ -51,14 +51,11 @@ function parseImportInfo(jsonObj) {
         newColumn = newRow.insertCell(4);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Name']));
         newColumn = newRow.insertCell(5);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] + ' - ' + jsonObj[i]['Expected Time']));
         if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
             newColumn.appendChild(document.createTextNode('N/A'));
         } else {
             newColumn.appendChild(document.createTextNode(jsonObj[i]['Expected Date'] + ' - ' + jsonObj[i]['Expected Time']));
         }
-        newColumn = newRow.insertCell(6);
-        newColumn.appendChild(document.createTextNode(jsonObj[i]['Surgery Weight']));
     }
 }
 
