@@ -63,7 +63,7 @@
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
-                                <br/>
+                                <input class="btn btn-success" type="submit" value="Swap Schedule" />
                                 <br/>
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword" onkeyup="searchSchedule()" />
@@ -244,18 +244,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Post status -->
     <div class="modal fade" id="changePostStatusModal">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
     
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Change Postoperative Status <br/> Surgery Shift: <span id="surgery-shift-status"></span></h4> 
+                        <h4 class="modal-title">Change Postoperative Status</h4> 
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
     
                     <!-- Modal body -->
                     <div class="modal-body">
+                        <div class="form-group">
+                            <span>Surgery Shift: <span id="surgery-shift-post-status"></span></span> <br/>
+                            <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br/>
+                            <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                        </div>
+                        <div class="form-group">
+                            <span><b>Actual End Time:</b></span>
+                            <input type="time" id="actual-end" class="form-control"/>
+                        </div>
                         <div class="form-group">
                             <span><b>Assigned Nurse:</b></span>
                             <select class="form-control" id="exampleFormControlSelect1">
@@ -278,13 +289,63 @@
     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPostStatus($('#surgery-shift-status').data('shiftId'));">Change Status</button>
+                        <button id="complete-surgery-btn" type="button" class="btn btn-primary" data-dismiss="modal">Complete Surgery Shift</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
     </div>
+    <!-- Modal Intra status -->
+    <div class="modal fade" id="changeIntraStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Intraoperative Status</h4> 
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br/>
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br/>
+                        <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Actual Start Time:</b></span>
+                        <input type="time" id="actual-start" class="form-control"/>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="start-surgery-btn" class="btn btn-primary" data-dismiss="modal">Start Surgery Shift</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // start surgery - set intra
+        $('#start-surgery-btn').click(function () {
+            var id = $('#surgery-shift-intra-status').data('shiftId');
+            var day = $('#surgery-shift-intra-status').data('day');
+            var actualStartTime = $('#actual-start').val();
+            var actualStartDatetime = day + ' ' + actualStartTime;
+            startSurgeryShift(id, actualStartDatetime);
+        });
+
+        $('#complete-surgery-btn').click(function () {
+            var id = $('#surgery-shift-post-status').data('shiftId');
+            var day = $('#surgery-shift-post-status').data('day');
+            var actualEndTime = $('#actual-end').val();
+            var actualEndDatetime = day + ' ' + actualEndTime;
+            setPostStatus(id, actualEndDatetime);
+        });
+        //------------------------------------------
+
         let listShiftId = [];
         $('#changeTimeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);

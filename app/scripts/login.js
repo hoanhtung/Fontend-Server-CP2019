@@ -3,7 +3,7 @@ const isLogin = false;
 const checkLogin = function () {
     const tokenData = JSON.parse(localStorage.getItem('TOKEN_DATA'));
     if (!tokenData) {
-        if (window.location.pathname !== '/app/login.html') {
+        if (window.location.pathname !== '/login.html') {
             window.location.replace('login.html');
         }
     }
@@ -11,7 +11,7 @@ const checkLogin = function () {
 };
 
 const checkRole = function (tokenData) {
-    const url = window.location.pathname;
+    const url = window.location.pathname;    
     if (tokenData && tokenData.role) {
         switch (tokenData.role.toUpperCase().trim()) {
             case 'HOSPITALSTAFF': {
@@ -72,7 +72,7 @@ $('#buttonLogin').on('click', () => {
     showMessage(null);
     if (username && password) {
         $.ajax({
-            url: 'http://45.119.212.145:5520/api/Account/Login',
+            url: EBSMSLocal + '/api/Account/Login',
             method: 'post',
             data: JSON.stringify({ username: username, password: password }),
             contentType: 'application/json',
@@ -91,5 +91,4 @@ $('#buttonLogin').on('click', () => {
     }
 });
 
-checkLogin();
-
+// checkLogin();
