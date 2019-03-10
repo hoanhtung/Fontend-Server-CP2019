@@ -34,7 +34,7 @@
         })
     </script>
 </head>
-<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1]); checkSetPostStatus(window.location.search.split('=')[1])">
+<body onload="loadSurgeryShiftDetail(window.location.search.split('=')[1]); checkSetPostStatus(window.location.search.split('=')[1]); CheckRecoveryStatus(window.location.search.split('=')[1])">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -187,9 +187,11 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                     <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
                     <div style="float: right">
                         <input style="margin-right: 20px;" class="btn btn-info" type="button"
-                            value="Preview Surgery Report" />
+                            value="Export Surgery Report" />
                         <input id="btn-change-post-status" class="btn btn-success" data-toggle="modal" data-target="#changePostStatusModal" type="button"
-                            value="Complete Surgery Shift" /> <br />
+                            value="Complete Surgery Shift" />
+                        <input id="btn-change-finished-status" class="btn btn-warning" type="button"
+                            value="Finish Caring Patient" /> <br />
                     </div>
                 </div>
             </div>
@@ -210,6 +212,15 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
 
                 <!-- Modal body -->
                 <div class="modal-body">
+                    <div class="form-group">
+                        <span>Surgery Shift: <span id="surgery-shift-post-status"></span></span> <br/>
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br/>
+                        <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Actual End Time:</b></span>
+                        <input type="time" id="actual-end" class="form-control"/>
+                    </div>
                     <div class="form-group">
                         <span><b>Assigned Nurse:</b></span>
                         <select class="form-control" id="exampleFormControlSelect1">
