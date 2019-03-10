@@ -35,7 +35,6 @@ function ExcelExport(event) {
     reader.readAsBinaryString(input.files[0]);
 };
 
-
 function parseImportInfo(jsonObj) {
     var surName = JSON.parse(sessionStorage.getItem("surgeryName"));
     var table = document.getElementById('profile').getElementsByTagName('tbody')[0];
@@ -61,8 +60,7 @@ function parseImportInfo(jsonObj) {
         newColumn = newRow.insertCell(3);
         newColumn.appendChild(document.createTextNode(jsonObj[i]['Gender']));
         newColumn = newRow.insertCell(4);
-        // newColumn.appendChild(document.createTextNode(surName[i].name));
-        newColumn.appendChild(document.createTextNode(i));
+        newColumn.appendChild(document.createTextNode(surName[i].name));
         newColumn = newRow.insertCell(5);
         if (jsonObj[i]['Expected Date'] == null && jsonObj[i]['Expected Time'] == null) {
             newColumn.appendChild(document.createTextNode('N/A'));
