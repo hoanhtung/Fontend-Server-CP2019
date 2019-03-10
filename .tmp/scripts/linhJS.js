@@ -83,6 +83,12 @@ function parseImportInfo(jsonObj) {
 
         _loop();
     }
+    //pagination
+    $('#profile').dataTable({
+        searching: false
+    });
+    $('#profile_length').css('float', 'right');
+    $('#profile_length').css('padding-right', '15px');
 }
 function getSurgeryName(surgeryInfo) {
     var surName = [];
@@ -185,6 +191,7 @@ function saveSurgeryProfile() {
 function getImportDetail(id) {
     window.location.href = 'importDetail.html?Id=' + id;
 }
+
 function parseImportDetail() {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("Id");
@@ -269,7 +276,6 @@ function getMedicalRequest() {
                 newColumn = newRow.insertCell(3);
                 newColumn.appendChild(document.createTextNode(data[i]['createdDate']));
                 newColumn = newRow.insertCell(4);
-
                 var button = document.createElement('button');
                 button.appendChild(document.createTextNode("View Detail"));
                 button.setAttribute("onclick", "getMedicalRequestDetail(" + id + ");");
@@ -280,6 +286,12 @@ function getMedicalRequest() {
                 button.setAttribute("class", "btn btn-primary");
                 newColumn.appendChild(button);
             }
+            //pagination
+            $('#request').dataTable({
+                searching: false
+            });
+            $('#request_length').css('float', 'right');
+            $('#request_length').css('padding-right', '15px');
         }
     });
 }
