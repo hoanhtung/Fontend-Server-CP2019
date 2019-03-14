@@ -14,8 +14,8 @@ function loadAvailableRoomByStartEnd(start, end) {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({
-            startDate: convertDatetimeToString(start),
-            endDate: convertDatetimeToString(end)
+            startDate: start,
+            endDate: end
         }),
         method: 'post',
         success: function (response) {
@@ -81,13 +81,15 @@ function changeSchedule(shiftId, start, end, roomId) {
         dataType: 'json',
         data: JSON.stringify({
             id: shiftId,
-            estimatedStartDateTime: convertDatetimeToString(start),
-            estimatedEndDateTime: convertDatetimeToString(end),
+            // estimatedStartDateTime: convertDatetimeToString(start),
+            // estimatedEndDateTime: convertDatetimeToString(end),
+            estimatedStartDateTime: start,
+            estimatedEndDateTime: end,
             roomId: roomId
         }),
         method: 'post',
-        success: function () {
-            console.log('Kudo iz da bezt!');
+        success: function (data) {
+            loadSurgeryRoom(convertDateToNumber(new Date($('#date-input').val())));
         }
     });
 }
