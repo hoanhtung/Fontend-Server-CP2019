@@ -184,9 +184,8 @@ function refreshSchedule(surgeryShiftId) {
 function setPostStatus(surgeryShiftId, actualEndTime) {
     var roomPost = $('#roomPost').val();
     var bedPost = $('#bedPost').val();
-    var nurseId = $('#select-nurse').children('option:selected').attr('id');
     $.ajax({
-        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime + '&nurseId=' + nurseId,
+        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime,
         method: 'post',
         success: function success(data) {
             if (data) {
@@ -218,7 +217,6 @@ function appendPostSurgeryShiftId(shiftId, start, end) {
     $('.estimated-start-time').html(formatStringtoDateTimeString(start));
     $('.estimated-end-time').html(formatStringtoDateTimeString(end));
     $('#surgery-shift-post-status').data('day', end.split('T')[0]);
-    getNurse();
 }
 // -----------------------------------
 
