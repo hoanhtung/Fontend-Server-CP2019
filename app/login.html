@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/login-tung.css">
     <title>Surgery Management System</title>
     <script src="./scripts/phucJS.js"></script>
@@ -16,10 +15,13 @@
     <link rel="stylesheet" href="styles/jquery-ui.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts/jquery-ui.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/login.js"></script>
+    </head>
 
 <body>
     <div class="login-dark">
-        <form method="post">
+        <form id="frmLogin">
             <div class="div-logo">
                 <div class="illustration"></div>
             </div>
@@ -33,10 +35,10 @@
                 <span class="text-danger">You have to input username and password</span>
             </div>
             <div class="form-group">
-                <button id="buttonLogin" class="btn btn-primary btn-block" type="submit">Log In</button>
+                <input id="buttonLogin" class="btn btn-primary btn-block" type="submit" value="Login"/>
         </form>
     </div>
 
-    <script src="scripts/login.js"></script>
+    
     <!--end log form -->
 </body>

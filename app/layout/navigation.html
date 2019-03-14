@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav flex-column">
+                <ul class="navbar-nav flex-column" id="menu">
                     <li class="nav-divider">
                         Menu
                     </li>
@@ -24,7 +24,7 @@
     </div>
 </div>
 <script>
-    const renderMenu = function () {
+    var renderMenu = function () {
         const tokenData = JSON.parse(localStorage.getItem('TOKEN_DATA'));
         if (tokenData) {
             const role = tokenData.role.toUpperCase().trim();
@@ -34,23 +34,26 @@
                                 </li>`;
             switch (role) {
                 case 'MEDICALSUPPLIER': {
-                    const menu_MEDICALSUPPLIER = ['importList.html'];
-                    menu_MEDICALSUPPLIER.forEach(el => {
-                        container += returnTemplate(el, currentPage.includes(el));
+                    var menu_MEDICALSUPPLIER = {link : 'confirmMSRequest.html', name : 'Confirm Medical Supplies'}
+                    const menu_MEDICALSUPPLIER_ARRAY = [menu_MEDICALSUPPLIER];
+                    menu_MEDICALSUPPLIER_ARRAY.forEach(el => {
+                        container += returnTemplate(el.link, currentPage.includes(el.link), el.name);
                     });
                     break;
                 }
                 case 'HOSPITALSTAFF': {
-                    const menu_MEDICALSUPPLIER = ['importList.html'];
-                    menu_MEDICALSUPPLIER.forEach(el => {
-                        container += returnTemplate(el, currentPage.includes(el));
+                    var menu_HOSPITALSTAFF = {link : 'importList.html', name : 'Import Excel File'}
+                    const menu_HOSPITALSTAFF_ARRAY = [menu_HOSPITALSTAFF];
+                    menu_HOSPITALSTAFF_ARRAY.forEach(el => {
+                        container += returnTemplate(el.link, currentPage.includes(el.link), el.name);
                     });
                     break;
                 }
                 case 'CHIEFNURSE': {
-                    const menu_MEDICALSUPPLIER = ['importList.html'];
-                    menu_MEDICALSUPPLIER.forEach(el => {
-                        container += returnTemplate(el, currentPage.includes(el));
+                    var menu_CHIEFNURSE = {link : 'viewSchedule.html', name : 'View Schedule'}
+                    const menu_CHIEFNURSE_ARRAY = [menu_CHIEFNURSE];
+                    menu_CHIEFNURSE_ARRAY.forEach(el => {
+                        container += returnTemplate(el.link, currentPage.includes(el.link), el.name);
                     });
                     break;
                 } default: {
@@ -62,10 +65,10 @@
         }
     }
 
-    const returnTemplate = function (url, isActive) {
+    const returnTemplate = function (url, isActive, tagName) {
         return `<li class="nav-item ${isActive ? 'active' : ''}">
-                    <a class="nav-link active" href="./${url}">Import Excel File List</a>
+                    <a class="nav-link active" href="./${url}">${tagName}</a>
                 </li>`
     }
-    // renderMenu();
+    renderMenu();
 </script>

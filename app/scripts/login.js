@@ -1,6 +1,6 @@
 const isLogin = false;
 
-const checkLogin = function () {
+var checkLogin = function () {
     const tokenData = JSON.parse(localStorage.getItem('TOKEN_DATA'));
     if (!tokenData) {
         if (window.location.pathname !== '/login.html') {
@@ -9,20 +9,20 @@ const checkLogin = function () {
     }
     checkRole(tokenData);
 };
-
-const checkRole = function (tokenData) {
+checkLogin();
+function checkRole(tokenData) {
     const url = window.location.pathname;    
     if (tokenData && tokenData.role) {
         switch (tokenData.role.toUpperCase().trim()) {
             case 'HOSPITALSTAFF': {
-                const accessUrl = ['importList.html'];
+                const accessUrl = ['importList.html','importDetail.html'];
                 if (!checkAccessPage(accessUrl, url)) {
                     window.location.replace(accessUrl[0]);
                 };
                 break;
             }
             case 'MEDICALSUPPLIER': {
-                const accessUrl = ['confirmMSRequest.html'];
+                const accessUrl = ['confirmMSRequest.html','requestDetail.html'];
                 if (!checkAccessPage(accessUrl, url)) {
                     window.location.replace(accessUrl[0]);
                 };
@@ -40,12 +40,12 @@ const checkRole = function (tokenData) {
     }
 }
 
-const logout = function(){
+function logout (){
     localStorage.removeItem('TOKEN_DATA');
     window.location.replace('login.html');
 }
 
-const checkAccessPage = function (array, url) {
+function checkAccessPage (array, url) {
     let isAccess = false;
     array.forEach(el => {
         if (url.includes(el)) {
@@ -56,7 +56,7 @@ const checkAccessPage = function (array, url) {
     return isAccess;
 }
 
-const showMessage = function (text) {
+function showMessage (text) {
     const container = $('div[target="invalid-message"]');
     if (text) {
         $(container).removeClass('d-none');
@@ -66,7 +66,9 @@ const showMessage = function (text) {
     }
 }
 
-$('#buttonLogin').on('click', () => {
+  $(document).ready(function() {
+$('#frmLogin').submit(function(e){
+    e.preventDefault();
     const username = $('#username').val();
     const password = $('#password').val();
     showMessage(null);
@@ -90,5 +92,5 @@ $('#buttonLogin').on('click', () => {
         showMessage('You have to input username and password!!!');
     }
 });
-
+});
 // checkLogin();
