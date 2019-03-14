@@ -4,7 +4,7 @@
 // var EBSMSLocal = 'http://45.119.212.145:5520';
 // var EBSMSLocal = 'http://10.82.139.179:5000';
 // var EBSMSLocal = 'http://172.20.10.7:5000';
-var EBSMSLocal = 'https://localhost:44372';
+var EBSMSLocal = 'http://192.168.100.111:5000';
 
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
@@ -184,9 +184,8 @@ function refreshSchedule(surgeryShiftId) {
 function setPostStatus(surgeryShiftId, actualEndTime) {
     var roomPost = $('#roomPost').val();
     var bedPost = $('#bedPost').val();
-    var nurseId = $('#select-nurse').children('option:selected').attr('id');
     $.ajax({
-        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime + '&nurseId=' + nurseId,
+        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime,
         method: 'post',
         success: function success(data) {
             if (data) {
@@ -218,7 +217,6 @@ function appendPostSurgeryShiftId(shiftId, start, end) {
     $('.estimated-start-time').html(formatStringtoDateTimeString(start));
     $('.estimated-end-time').html(formatStringtoDateTimeString(end));
     $('#surgery-shift-post-status').data('day', end.split('T')[0]);
-    getNurse();
 }
 // -----------------------------------
 
@@ -271,9 +269,7 @@ function makeSchedule() {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
         method: 'get',
-        success: function success(data) {
-            window.location.href = 'viewSchedule.html';
-        }
+        success: function success(data) {}
     });
 }
 

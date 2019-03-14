@@ -11,14 +11,14 @@ var checkLogin = function checkLogin() {
     }
     checkRole(tokenData);
 };
-
-var checkRole = function checkRole(tokenData) {
+checkLogin();
+function checkRole(tokenData) {
     var url = window.location.pathname;
     if (tokenData && tokenData.role) {
         switch (tokenData.role.toUpperCase().trim()) {
             case 'HOSPITALSTAFF':
                 {
-                    var accessUrl = ['importList.html'];
+                    var accessUrl = ['importList.html', 'importDetail.html'];
                     if (!checkAccessPage(accessUrl, url)) {
                         window.location.replace(accessUrl[0]);
                     };
@@ -26,7 +26,7 @@ var checkRole = function checkRole(tokenData) {
                 }
             case 'MEDICALSUPPLIER':
                 {
-                    var _accessUrl = ['confirmMSRequest.html'];
+                    var _accessUrl = ['confirmMSRequest.html', 'requestDetail.html'];
                     if (!checkAccessPage(_accessUrl, url)) {
                         window.location.replace(_accessUrl[0]);
                     };
@@ -44,14 +44,14 @@ var checkRole = function checkRole(tokenData) {
                 window.location.replace('login.html');break;
         }
     }
-};
+}
 
-var logout = function logout() {
+function logout() {
     localStorage.removeItem('TOKEN_DATA');
     window.location.replace('login.html');
-};
+}
 
-var checkAccessPage = function checkAccessPage(array, url) {
+function checkAccessPage(array, url) {
     var isAccess = false;
     array.forEach(function (el) {
         if (url.includes(el)) {
@@ -60,9 +60,9 @@ var checkAccessPage = function checkAccessPage(array, url) {
         }
     });
     return isAccess;
-};
+}
 
-var showMessage = function showMessage(text) {
+function showMessage(text) {
     var container = $('div[target="invalid-message"]');
     if (text) {
         $(container).removeClass('d-none');
@@ -70,32 +70,34 @@ var showMessage = function showMessage(text) {
     } else {
         $(container).addClass('d-none');
     }
-};
+}
 
-$('#buttonLogin').on('click', function () {
-    var username = $('#username').val();
-    var password = $('#password').val();
-    showMessage(null);
-    if (username && password) {
-        $.ajax({
-            url: EBSMSLocal + '/api/Account/Login',
-            method: 'post',
-            data: JSON.stringify({ username: username, password: password }),
-            contentType: 'application/json',
-            dataType: 'json'
-        }).then(function (a, b, c) {
-            if (c && c.status === 204) {
+$(document).ready(function () {
+    $('#frmLogin').submit(function (e) {
+        e.preventDefault();
+        var username = $('#username').val();
+        var password = $('#password').val();
+        showMessage(null);
+        if (username && password) {
+            $.ajax({
+                url: EBSMSLocal + '/api/Account/Login',
+                method: 'post',
+                data: JSON.stringify({ username: username, password: password }),
+                contentType: 'application/json',
+                dataType: 'json'
+            }).then(function (a, b, c) {
+                if (c && c.status === 204) {
+                    showMessage('Invalid username or password');
+                }
+                localStorage.setItem('TOKEN_DATA', JSON.stringify(a));
+                checkRole(a);
+            }, function (er) {
                 showMessage('Invalid username or password');
-            }
-            localStorage.setItem('TOKEN_DATA', JSON.stringify(a));
-            checkRole(a);
-        }, function (er) {
-            showMessage('Invalid username or password');
-        });
-    } else {
-        showMessage('You have to input username and password!!!');
-    }
+            });
+        } else {
+            showMessage('You have to input username and password!!!');
+        }
+    });
 });
-
 // checkLogin();
 //# sourceMappingURL=login.js.map

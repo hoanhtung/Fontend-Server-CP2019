@@ -1,5 +1,34 @@
 'use strict';
 
+var deleteIdsTreatmentReportDrug = [];
+var shiftId = $('#span-id').text();
+//gets current server time
+var start_time;
+var current_time;
+var get_time = function get_time() {
+    $.ajax({
+        method: 'get',
+        url: EBSMSLocal + '/api/Schedule/GetServerTime',
+        success: function success(data) {
+            console.log(data);
+            start_time = new Date(data);
+            console.log(start_time);
+            $('#clock').html(current_time.toLocaleDateString() + " " + current_time.toLocaleTimeString());
+        }
+    });
+};
+
+//counts 0.25s
+var cnt_time = function cnt_time() {
+    current_time = new Date(start_time.getTime() + 250);
+    $('#clock').html(current_time.toLocaleDateString() + " " + current_time.toLocaleTimeString());
+    start_time = current_time;
+};
+
+setInterval(cnt_time, 250); //add 250ms to current time every 250ms
+setInterval(get_time, 30250); //sync with server every 30,25 second
+get_time();
+
 function createTreatmentReport(shiftId, progressiveDisease) {
     if (!checkDrug()) {} else {
         var drugs = createDrugObj();
@@ -85,7 +114,7 @@ function loadTreatmentReport(shiftId) {
         success: function success(data) {
             console.table(data);
             if (data.length != 0) {
-                var container = '<table class="table "><thead><tr><th>No.</th><th>Create Time</th>' + '<th>Progressive Disease</th><th>Medical Requirement</th><th>Action</th></tr></thead>';
+                var container = '<table class="table "><thead><tr><th>No.</th><th>From</th>' + '<th>Progressive Disease</th><th>Medical Requirement</th><th>Action</th></tr></thead>';
                 for (var i = 0; i < data.length; i++) {
                     var progressiveDisease = data[i].progressiveDisease.replace(/\n/g, "<br />");
                     var medicalRequirement = '';
@@ -94,7 +123,13 @@ function loadTreatmentReport(shiftId) {
                     });
                     // var medicalRequirement = data[i].medicalRequirement.replace(/\n/g, "<br />");
                     container += '<tr><td>' + (i + 1) + '</td>';
-                    container += '<td>' + data[i].dateCreated.split('T')[0] + '</td>' + '<td>' + progressiveDisease + '</td>' + '<td>' + medicalRequirement + '</td>' + ('<td><button class=\'btn btn-info edit-treatment\' data-id=\'' + data[i].id + '\' data-toggle="modal"\n                        data-target="#treatmentModal">Edit</button> <button class=\'btn btn-danger\'>Delete</button></td>') + '</tr>';
+                    container += '<td>' + data[i].dateCreated.split('T')[0] + '</td>' + '<td>' + progressiveDisease + '</td>' + '<td>' + medicalRequirement + '</td>';
+
+                    if (data[i].isUsed === true) {
+                        container += '<td><button id=\'edit-treatment-' + data[i].id + '\' class=\'btn btn-info edit-treatment\' data-id=\'' + data[i].id + '\' data-toggle="modal"\n                        data-target="#treatmentModal" disabled>Edit</button> <button id=\'delete-treatment-' + data[i].id + '\' class=\'btn btn-danger delete-treatment\' disabled>Delete</button></td>' + '</tr>';
+                    } else {
+                        container += '<td><button id=\'edit-treatment-' + data[i].id + '\' class=\'btn btn-info edit-treatment\' data-id=\'' + data[i].id + '\' data-toggle="modal"\n                        data-target="#treatmentModal">Edit</button> <button id=\'delete-treatment-' + data[i].id + '\' class=\'btn btn-danger delete-treatment\'>Delete</button></td>' + '</tr>';
+                    }
                 }
 
                 container += '</table>';
@@ -120,16 +155,26 @@ $(document).on("click", ".edit-treatment", function () {
             console.table(data);
             editForm.append('<div class="form-group">\n                                <label for="progressiveDisease">Progressive Disease</label>\n                                <textarea class="form-control" rows="5"\n                                id="progressiveDisease">' + data.progressiveDisease + '</textarea>\n                                </div>');
             editForm.append('<div class="form-group">\n                <label for="medicalRequirement">Medical Requirement</label>\n                <button class="btn btn-success add-more float-right" type="button"><i class="fa fa-plus"></i>Add more</button>\n                <div class="mt-4 row">\n                    <div class="col-5"></div>\n                    <div class="col-1" style="text-align: center;"> Unit</div>\n                    <div class="col-1" style="text-align: center;"> Morning</div>\n                    <div class="col-1" style="text-align: center;"> Noon</div>\n                    <div class="col-1" style="text-align: center;"> Evening</div>\n                    <div class="col-1" style="text-align: center;"> Night</div>\n                </div>\n                <datalist id="drugs"></datalist>');
-            data.treatmentReportDrugs.forEach(function (element) {
-                editForm.append('<div class="row row-drug control-group after-add-more" style="padding-inline-start: 15px; margin-top: 10px">\n                    <input type="text" class="d-none" name="drug-id" value="' + element.id + '" />\n                                                                <div class="easyautocomplete-wraper col-5">\n                                                                <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" value="' + element.name + '"  onchange="updateUnit.call(this, this.value)"/>\n                                                                </div>\n                                                                <input type="text" class="drug-quantity col-1 form-control  drug-used-time" value=' + element.unit + ' readonly/>\n                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning" value=' + element.morningQuantity + '>\n                        <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon"  value=' + element.afternoonQuantity + '>\n                        <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening"  value=' + element.eveningQuantity + '>\n                        <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight"  value=' + element.nightQuantity + '>\n                                                                <div class="input-group-btn  col-1">\n                                                                    <button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button>\n                                                                </div>');
+            data.treatmentReportDrugs.forEach(function (element, index) {
+                if (index === 0) {
+                    editForm.append('<div class="row row-drug control-group after-add-more" style="padding-inline-start: 15px; margin-top: 10px">\n                            <input type="text" class="d-none" name="drug-id" value="' + element.id + '" />\n                                                                        <div class="easyautocomplete-wraper col-5">\n                                                                        <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" value="' + element.name + '"  onchange="updateUnit.call(this, this.value)"/>\n                                                                        </div>\n                                                                         <input type="text" class="drug-quantity col-1 form-control  drug-used-time" value=' + element.unit + ' readonly/>\n                                                                        <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning" value=' + element.morningQuantity + '>\n                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon"  value=' + element.afternoonQuantity + '>\n                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening"  value=' + element.eveningQuantity + '>\n                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight"  value=' + element.nightQuantity + '>\n                            </div>');
+                } else {
+                    editForm.append('<div class="row row-drug control-group after-add-more" style="padding-inline-start: 15px; margin-top: 10px">\n                            <input type="text" class="d-none" name="drug-id" value="' + element.id + '" />\n                                                                        <div class="easyautocomplete-wraper col-5">\n                                                                        <input type="text" list="drugs" class="drug form-control has-error" name="drug-name" placeholder="Enter drug name" value="' + element.name + '"  onchange="updateUnit.call(this, this.value)"/>\n                                                                        </div>\n                                                                         <input type="text" class="drug-quantity col-1 form-control  drug-used-time" value=' + element.unit + ' readonly/>\n                                                                        <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning" value=' + element.morningQuantity + '>\n                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon"  value=' + element.afternoonQuantity + '>\n                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening"  value=' + element.eveningQuantity + '>\n                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight"  value=' + element.nightQuantity + '>\n                                                                        <div class="input-group-btn  col-1">\n                                                                            <button class="btn btn-danger remove" type="button" data-id=\'' + element.id + '\'><i class="fa fa-times"></i></button>\n                                                                        </div>');
+                }
             });
-            editForm.append('<\div>');
             editForm.append('<button id="editTreatment" type="button" data-id=\'' + treatmentId + '\' \n                                                        class="btn btn-success float-right" style="margin-top: 10px">Edit</button>');
         },
         error: function error(data) {
             console.log(data);
         }
     });
+});
+
+$(document).on("click", ".remove", function () {
+    $(this).parents(".control-group").remove();
+    var id = $(this).data('id');
+    deleteIdsTreatmentReportDrug.push(id);
+    console.log(deleteIdsTreatmentReportDrug);
 });
 
 $(document).on("click", "#editTreatment", function () {
@@ -144,7 +189,8 @@ $(document).on("click", "#editTreatment", function () {
             data: JSON.stringify({
                 id: treatmentId,
                 progressiveDisease: $("#progressiveDisease").val(),
-                treatmentReportDrugs: drugs
+                treatmentReportDrugs: drugs,
+                deleteTreatmentReportId: deleteIdsTreatmentReportDrug
             }),
             method: 'post'
         }).done(function (rs) {
@@ -167,10 +213,10 @@ function loadHealthcareReport(shiftId) {
         success: function success(data) {
             console.table(data);
             if (data.length != 0) {
-                var container = '<table class="table "><thead><tr><th>No.</th><th>Create Time</th>' + '<th>Wound Condition</th>' + '<th>Event Content</th><th>Care Content</th></tr></thead>';
+                var container = '<table class="table "><thead><tr><th>No.</th><th>Create Time</th>' + '<th>Wound Condition</th>' + '<th>Event Content</th><th>Care Content</th><th>Nurse</th></tr></thead>';
                 for (var i = 0; i < data.length; i++) {
-                    var progressiveDisease = data[i].eventContent.replace(/\n/g, "<br />");
-                    var medicalRequirement = data[i].careContent.replace(/\n/g, "<br />");
+                    var eventContent = data[i].eventContent.replace(/\n/g, "<br />");
+                    var careContent = data[i].careContent.replace(/\n/g, "<br />");
                     var badgeWoundCondition;
                     switch (data[i].woundCondition) {
                         case 1:
@@ -181,7 +227,7 @@ function loadHealthcareReport(shiftId) {
                             break;
                     }
                     container += '<tr><td>' + (i + 1) + '</td>';
-                    container += '<td>' + data[i].dateCreated.split('T')[0] + '</td>' + ('<td>' + badgeWoundCondition + '</td>') + '<td>' + progressiveDisease + '</td>' + '<td>' + medicalRequirement + '</td></tr>';
+                    container += '<td>' + data[i].dateCreated.split('T')[0] + '</td>' + ('<td>' + badgeWoundCondition + '</td>') + '<td>' + eventContent + '</td>' + '<td>' + careContent + '</td>' + '<td>' + data[i].nurseName + '</td></tr>';
                 }
                 container += '</table>';
                 div_healthcare_table.append(container);
@@ -274,6 +320,25 @@ $(document).on("click", "#createTreatment", function () {
     createTreatmentReport(shiftId, progressiveDisease);
 });
 
+$(document).on("click", "#assignNurse", function () {
+    var nurseId = $('#select-nurse').children("option:selected").attr('id');
+    var capacity = $('#select-nurse').children("option:selected").data('capacity');
+    if (capacity >= 7) {
+        alert("This nurse has taken care max patient");
+    } else {
+        $.ajax({
+            url: EBSMSLocal + ('/api/PostOp/AssignNurse?shiftId=' + shiftId + '&nurseId=' + nurseId),
+            method: 'get'
+        }).done(function (rs) {
+            if (rs === true) {
+                $('#assignNurseModal').modal('toggle');
+            }
+        }).fail(function (er) {
+            return console.log(er);
+        });
+    }
+});
+
 function updateUnit(name) {
     var id = $("#drugs").find('option[value="' + name + '"]').data('unit');
     console.log(id);
@@ -283,15 +348,38 @@ function updateUnit(name) {
 
 function getNurse() {
     var select = $("#select-nurse");
+    select.empty();
+    var nurseName = $("#assigned-nurse-name");
+    nurseName.empty();
     $.ajax({
-        url: EBSMSLocal + '/api/Account/GetAllNurse',
+        url: EBSMSLocal + '/api/PostOp/GetNurseByShiftId?shiftId=' + shiftId,
+        method: 'get',
+        success: function success(data) {
+            nurseName.append(data.fullName);
+        }
+    });
+
+    $.ajax({
+        url: EBSMSLocal + '/api/PostOp/GetAllNurse',
         method: 'get',
         success: function success(data) {
 
             $(data).each(function () {
-                var options = '<option id=\'' + this.id + '\' value=\'' + this.fullName + '\'>' + this.fullName + '</option>';
+                var options = '<option id=\'' + this.id + '\' value=\'' + this.fullName + '\' data-capacity=\'' + this.capacity + '\' >' + this.fullName + '</option>';
                 select.append(options);
             });
+        }
+    });
+}
+
+function completeStatus(surgeryShiftId, actualEndTime) {
+    var roomPost = $('#roomPost').val();
+    var bedPost = $('#bedPost').val();
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/SetPostoperativeStatus?shiftId=' + surgeryShiftId + '&roomPost=' + roomPost + '&bedPost=' + bedPost + '&actualEndDateTime=' + actualEndTime,
+        method: 'post',
+        success: function success(data) {
+            window.location.reload();
         }
     });
 }
