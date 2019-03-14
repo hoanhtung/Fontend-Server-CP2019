@@ -67,8 +67,10 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
-                                <input id="date-input" type="date" onchange="getScheduleByDay()" /> <br />
+                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>                                
+                                <input id="date-input" type="date" value="" onchange="getScheduleByDay()" />
+                                <div id="clock" style="float: right"></div>
+                                <br />
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />

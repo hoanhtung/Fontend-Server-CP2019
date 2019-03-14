@@ -23,8 +23,6 @@
     <link rel="stylesheet" href="styles/itemScheduleStyle.css">
     <!-- endbuild -->
     <!-- <script src="./js/tungJS.js"></script> -->
-    <script src="./scripts/tungJS.js"></script>
-    <script src="./scripts/vinhJS.js"></script>
     <script src="./scripts/lib_utilities.js"></script>
     <!-- bower:js -->
     <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
@@ -172,6 +170,9 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                                     <button class="btn btn-primary float-right"
                                         data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
                                         data-target="#treatmentModal" id="btn-new-treatment">New Treatment Report</button>
+                                    <button class="btn btn-info float-right" style="margin-right: 20px;"
+                                        data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
+                                        data-target="#assignNurseModal" id="btn-new-treatment">Assign Nurse</button>
                                 </div>
                                 <div class="col-12">
                                     <div style="padding: 3%" id="div-treatment-table"></div>
@@ -230,14 +231,6 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
                         <span><b>Actual End Time:</b></span>
                         <input type="time" id="actual-end" class="form-control"/>
                     </div>
-                    <div class="form-group">
-                        <span><b>Assigned Nurse:</b></span>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Nguyễn Thị Hằng</option>
-                            <option>Nguyễn Thị Hằng A</option>
-                            <option>Nguyễn Thị Hằng B</option>
-                        </select>
-                    </div>
                     <div class="form-group row">
                         <div class="col-6">
                             <span><b>Room</b></span>
@@ -266,14 +259,17 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             appendPostSurgeryShiftId(shiftId, start, end);
         });
         $('#change-post-btn').click(function() {
-            setPostStatus(shiftId)
-            
+            var id = $('#surgery-shift-post-status').data('shiftId');
+            var day = $('#surgery-shift-post-status').data('day');
+            var actualEndTime = $('#actual-end').val();
+            var actualEndDatetime = day + ' ' + actualEndTime;
+            completeStatus(id, actualEndDatetime);
         })
     </script>
     <datalist class="datalist-drug" id="drugs"></datalist>
     <!-- The TreatMent Modal -->
     <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document" style="max-width: max-content;">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Treatment</h5>
@@ -341,6 +337,36 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             </div>
         </div>
     </div>
+    <!-- Assign Nurse -->
+    <div class="modal fade" id="assignNurseModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Nurse</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span><b>Nurse:</b></span>
+                        <select class="form-control" id="select-nurse">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Assigned Nurse:</b>  <span id="assigned-nurse-name"></span></span>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="assignNurse" class="btn btn-primary" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ==========Surgery Report==============
@@ -383,12 +409,12 @@ mạch chậu trong, tĩnh mạch chậu trong cho tới hố bịt đến dây 
             var scheduleIndex = button.data('schedule-index');
             $('#createTreatment').data('shift-id', scheduleIndex);
         });
-        
-        $("body").on("click", ".remove", function () {
-                $(this).parents(".control-group").remove();
-        });   
 
-        
+        $('#assignNurseModal').on('show.bs.modal', function (event) {
+            getNurse();
+        });
+
+       
         
         function getAllDrugs() {
                 $.ajax({
