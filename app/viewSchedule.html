@@ -43,20 +43,24 @@
             $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
             $("#date-input").val(formatInputDate(new Date()));
+
+            //add emer
+            $("[name='scheduleDate']").val(formatInputDate(new Date()));
         })
 
     </script>
 </head>
 
 <body onload="loadSurgeryRoom(convertDateToNumber(new Date()))">
-    <style>
+    <!-- <style>
         .ui-front {
             z-index: 90000;
         }
-    </style>
+    </style> -->
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
+        <!-- <div id="navigation"></div> -->
         <div class="container-scheduleItem">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
@@ -70,22 +74,30 @@
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
-                                <input class="btn btn-success" type="submit" value="Swap Schedule" />
-                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift" data-toggle="modal" data-target="#addEmergencyShift" />
-                                <br/>
+                                <input class="btn btn-success" id="swap-btn" type="submit" value="Swap Schedule" />
+                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift"
+                                    data-toggle="modal" data-target="#addEmergencyShift" />
+                                <input class="btn btn-danger" type="submit" onclick="loadNewSurgeryRoom(convertDateToNumber(new Date()))" value="View New Schedule"/>
+                                <input class="btn btn-warning" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View Old Schedule"/>
+                                <br /> <br/>
                                 <!-- Search funtion -->
-                                <input type="text" placeholder="Search" class="search-schedule-css" id="keyword" onkeyup="searchSchedule()" />
-                                
-                                <span id="searchError" style="margin-left: 20px; font-size: 25px; color: red; display: none">Not found surgery shift!</span>
+                                <input type="text" placeholder="Search" class="search-schedule-css" id="keyword"
+                                    onkeyup="searchSchedule()" />
+
+                                <span id="searchError"
+                                    style="margin-left: 20px; font-size: 25px; color: red; display: none">Not found
+                                    surgery shift!</span>
                                 <!-- end of Search -->
 
                                 <div style="float: right">
                                     <div style="display: inline; float: left; margin-right: 20px">
-                                        <div style="width: 30px; height: 20px; background-color: #ffeaa7; float: left; margin-right: 10px;">
+                                        <div
+                                            style="width: 30px; height: 20px; background-color: #ffeaa7; float: left; margin-right: 10px;">
                                         </div><span><b>Proceeding</b></span>
                                     </div>
                                     <div style="display: inline;">
-                                        <div style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;">
+                                        <div
+                                            style="width: 30px; height: 20px; background-color: #b2bec3; float: left; margin-right: 10px;">
                                         </div><span><b>Completed</b></span>
                                     </div>
                                 </div>
@@ -113,10 +125,10 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form-group">
-                                <span>Surgery Shift Id: </span> <span id="change-shift-id"></span> <br/>
-                                <span>Date: </span> <span id="change-date"></span> <br/>
-                                <span>Old Start Date Time: </span> <span id="change-start-time"></span> <br/>
-                                <span>Old End Date Time: </span> <span id="change-end-time"></span> <br/>
+                                <span>Surgery Shift Id: </span> <span id="change-shift-id"></span> <br />
+                                <span>Date: </span> <span id="change-date"></span> <br />
+                                <span>Old Start Date Time: </span> <span id="change-start-time"></span> <br />
+                                <span>Old End Date Time: </span> <span id="change-end-time"></span> <br />
                             </div>
                         </div>
                         <div class="row">
@@ -142,25 +154,13 @@
                                             <div class="row">
                                                 <div class="col py-3"
                                                     style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
-                                                    <!-- <div class="form-group">
-                                                        <label for="startTime">New Start Time</label>
-                                                        <input type="time" class="form-control"
-                                                            id="startTime" />
-                                                    </div> -->
-                                                    <!-- <div class="form-group">
-                                                        <label for="endTime">New End Time</label>
-                                                        <input type="time" class="form-control"
-                                                            id="endTime" />
-                                                    </div> -->
                                                     <div class="form-group">
                                                         <label for="startTime">New Start Time</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                            id="startTime" />
+                                                        <input type="time" class="form-control" id="startTime" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="endTime">New End Time</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                            id="endTime" />
+                                                        <input type="time" class="form-control" id="endTime" />
                                                     </div>
                                                     <button id="checkSchedule" type="button"
                                                         class="btn btn-success">Check</button>
@@ -229,8 +229,7 @@
                                                         <label for="shift2">Shift 2</label>
                                                         <input type="number" class="form-control" id="shift2" />
                                                     </div>
-                                                    <button id="swapButton"
-                                                        class="btn btn-success">Swap</button>
+                                                    <button id="swapButton" class="btn btn-success">Swap</button>
                                                     <div id="affected" class="fade mt-4">
                                                         <li class="list-group-item active  mt-4">Affected Shifts</li>
                                                         <ul class="list-group list-group-item"
@@ -253,52 +252,82 @@
         </div>
     </div>
 
-    <!-- Modal Post status -->
-    <div class="modal fade" id="changePostStatusModal">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-    
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Change Postoperative Status</h4> 
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-    
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <span>Surgery Shift: <span id="surgery-shift-post-status"></span></span> <br/>
-                            <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br/>
-                            <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
-                        </div>
-                        <div class="form-group">
-                            <span><b>Actual End Time:</b></span>
-                            <input type="time" id="actual-end" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <span><b>Assigned Nurse:</b></span>
-                            <select class="form-control" id="select-nurse">
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-6">
-                                <span><b>Room</b></span>
-                                <input type="text" id="roomPost" class="form-control"/>
-                            </div>
-                            <div class="col-6">
-                                <span><b>Bed</b></span>
-                                <input type="text" id="bedPost" class="form-control"/>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button id="complete-surgery-btn" type="button" class="btn btn-primary" data-dismiss="modal">Complete Surgery Shift</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!-- Modal effected -->
+    <div class="modal" id="modalEffected">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="affected" class="fade mt-4">
+                        <li class="list-group-item active  mt-4">Affected Shifts</li>
+                        <ul class="list-group list-group-item" style="max-height: 300px; overflow-y: auto">
+                        </ul>
                     </div>
                 </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Post status -->
+    <div class="modal fade" id="changePostStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Postoperative Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>Surgery Shift: <span id="surgery-shift-post-status"></span></span> <br />
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
+                        <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Actual End Time:</b></span>
+                        <input type="time" id="actual-end" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <span><b>Assigned Nurse:</b></span>
+                        <select class="form-control" id="select-nurse">
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <span><b>Room</b></span>
+                            <input type="text" id="roomPost" class="form-control" />
+                        </div>
+                        <div class="col-6">
+                            <span><b>Bed</b></span>
+                            <input type="text" id="bedPost" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="complete-surgery-btn" type="button" class="btn btn-primary"
+                        data-dismiss="modal">Complete Surgery Shift</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Modal Intra status -->
     <div class="modal fade" id="changeIntraStatusModal">
@@ -307,31 +336,31 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Change Intraoperative Status</h4> 
+                    <h4 class="modal-title">Change Intraoperative Status</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="form-group">
-                        <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br/>
-                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br/>
+                        <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br />
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
                         <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
                     </div>
                     <div class="form-group">
                         <span><b>Actual Start Time:</b></span>
-                        <input type="time" id="actual-start" class="form-control"/>
+                        <input type="time" id="actual-start" class="form-control" />
                     </div>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" id="start-surgery-btn" class="btn btn-primary" data-dismiss="modal">Start Surgery Shift</button>
+                    <button type="button" id="start-surgery-btn" class="btn btn-primary" data-dismiss="modal">Start
+                        Surgery Shift</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Modal add emergency shift -->
     <div class="modal fade" id="addEmergencyShift">
         <div class="modal-dialog modal-md">
@@ -339,34 +368,49 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Emergency Shift</h4> 
+                    <h4 class="modal-title">Add Emergency Shift</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="form-group">
                         <span><b>Patient's Identity Card Number</b></span>
-                        <input type="text" class="form-control" id="emerPatientICN">
+                        <input type="text" class="form-control" name="emerPatientICN">
                     </div>
                     <div class="form-group">
                         <span><b>Patient's Name</b></span>
-                        <input type="text" class="form-control" id="emerPatientName">
+                        <input type="text" class="form-control" name="emerPatientName">
                     </div>
                     <div class="form-check-inline">
                         <label class="form-check-label" for="radio1">
-                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Option 1
+                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1"
+                                checked>Male
                         </label>
-                        </div>
-                        <div class="form-check-inline">
+                    </div>
+                    <div class="form-check-inline">
                         <label class="form-check-label" for="radio2">
-                            <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">Option 2
+                            <input type="radio" class="form-check-input" id="radio2" name="optradio"
+                                value="option2">Female
                         </label>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Date</b></span>
+                        <input type="date" class="form-control" name="scheduleDate">
+                    </div>
+                    <div class="form-group">
+                        <span><b>Start Time:</b></span>
+                        <input type="time" class="form-control" name="scheduleStartTime">
+                    </div>
+                    <div class="form-group">
+                        <span><b>End Time:</b></span>
+                        <input type="time" class="form-control" name="scheduleEndTime">
                     </div>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" id="start-surgery-btn" class="btn btn-primary" data-dismiss="modal">Start Surgery Shift</button>
+                    <button type="button" id="emergency-btn" class="btn btn-primary" data-dismiss="modal">Add Emergency
+                        Shift</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -374,6 +418,37 @@
     </div>
 
     <script>
+        $('#swap-btn').click(function () {
+            var swapIds = [];
+            $('input[name="swapChk"]:checked').each(function () {
+                swapIds.push($(this).val());
+            })
+            const s1 = swapIds[0];
+            const s2 = swapIds[1];
+            $('#affected').addClass('fade');
+            $('#affected ul.list-group').empty();
+            $.ajax({
+                method: 'post',
+                url: EBSMSLocal + '/api/Schedule/SwapShifts',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "firstShiftId": s1,
+                    "secondShiftId": s2
+                }),
+                dataType: 'json'
+            }).then(sc => {
+                if (sc instanceof Array) {
+                    sc.forEach(element => {
+                        $('#affected ul.list-group').append(getAffectedTemplate(element));
+                    });
+                    $('#affected').removeClass('fade');
+                    loadSurgeryRoom(convertDateToNumber(new Date($('#date-input').val())));
+                }
+                alert('Swap successful');
+            }, er => {
+                alert('Swap fail');
+            })
+        })
         // start surgery - set intra
         $('#start-surgery-btn').click(function () {
             var id = $('#surgery-shift-intra-status').data('shiftId');
@@ -426,6 +501,7 @@
             $('#affected').addClass('fade');
             $('#affected ul.list-group').empty();
         });
+
         $('#shift1, #shift2').on('input', () => {
             validateStatus();
         });
@@ -447,6 +523,7 @@
                 // disabledSwapButton();
             }
         }
+
         $('#swapButton').on('click', () => {
             const s1 = $('#shift1').val();
             const s2 = $('#shift2').val();
@@ -471,13 +548,16 @@
                 }
                 alert('Swap successful');
             }, er => {
-
                 alert('Swap fail');
             })
         })
+
         $('#checkSchedule').click(function () {
-            var start = new Date($('#startTime').val());
-            var end = new Date($('#endTime').val());
+            var day = $('#changeScheduleA').data('start-datetime').split(' ')[1];
+            var start = appendTimeAndDay(day, $('#startTime').val());
+            var end = appendTimeAndDay(day, $('#endTime').val());
+            // var start = new Date($('#startTime').val());
+            // var end = new Date($('#endTime').val());
             loadAvailableRoomByStartEnd(start, end);
         });
         $('#checkScheduleDuration').click(function () {
@@ -486,9 +566,13 @@
             loadAvailableRoomByHourMinute(hour, minute);
         });
         $('#changeRoom').click(function () {
+            var day = $('#changeScheduleA').data('start-datetime').split(' ')[1];
+            var start = appendTimeAndDay(day, $('#startTime').val());
+            var end = appendTimeAndDay(day, $('#endTime').val());
+            //=======================
             var shiftId = $(this).data('shift-id');
-            var start = new Date($('#startTime').val());
-            var end = new Date($('#endTime').val());
+            // var start = new Date($('#startTime').val());
+            // var end = new Date($('#endTime').val());
             var roomId = Number.parseInt($('#availableRoom').val());
             changeSchedule(shiftId, start, end, roomId);
         });
@@ -516,6 +600,10 @@
         function convertDateStringToDate(dateString) {
             console.log(new Date(dateString));
             return new Date(dateString).getDate() + '/' + (new Date(dateString).getMonth() + 1) + '/' + new Date(dateString).getFullYear() + ' ' + new Date(dateString).getHours() + ' : ' + (new Date(dateString).getMinutes() > 10 ? new Date(dateString).getMinutes() : ('0' + new Date(dateString).getMinutes()));
+        }
+        function appendTimeAndDay(day, time) { //11/03/2019, 9:00 -> 2019-03-11T09:00Z
+            var result = day.split("/");
+            return result[2] + '-' + result[1] + '-' + result[0] + 'T' + time + 'Z';
         }
 
         function getAffectedTemplate(data) {
@@ -577,6 +665,15 @@
                                 </li>`
             return (data.newStart === '0001-01-01T00:00:00' && data.newEnd === '0001-01-01T00:00:00') ? template2 : template1;
         }
+
+        $('#emergency-btn').click(function () {
+            var scheduleDate = $('[name="scheduleDate"]').val();
+            var startTime = $('[name="scheduleStartTime"]').val();
+            var endTime = $('[name="scheduleEndTime"]').val();
+            var startDateTime = scheduleDate + 'T' + startTime + 'Z';
+            var endDateTime = scheduleDate + 'T' + endTime + 'Z';
+            AddEmergencyShift(startDateTime, endDateTime)
+        })
     </script>
 </body>
 

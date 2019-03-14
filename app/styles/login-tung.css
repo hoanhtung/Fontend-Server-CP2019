@@ -9,7 +9,7 @@
   }
   
   .login-dark {
-    height: 1000px;
+    height: 100vh;
     background-image: url(../images/background_hospital.jpg);
     background-size: cover;
     position: relative;
