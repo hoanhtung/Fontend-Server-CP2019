@@ -341,3 +341,18 @@ function searchSchedule() {
     }
     document.getElementById("searchError").style.display = "inline";
 }
+
+function saveSurgeryProcedure() {
+    var url = new URL(window.location.href);
+    var id = Number(url.searchParams.get("id"));
+    var editedProcedure = document.getElementById('textarea-procedure').value;
+    var procedure = { 'surgeryShiftId': id, 'procedure': editedProcedure };
+    console.log(procedure);
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/SaveSurgeryProcedure',
+        method: 'post',
+        data: JSON.stringify(procedure),
+        contentType: 'application/json',
+        dataType: 'json'
+    })
+}
