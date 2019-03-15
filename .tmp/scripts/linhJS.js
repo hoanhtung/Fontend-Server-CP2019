@@ -248,6 +248,7 @@ function confirmAllSupply() {
         data: JSON.stringify(ids),
         success: function success() {
             makeSchedule();
+            window.location.href = 'confirmMSRequest.html';
         }
     });
 }

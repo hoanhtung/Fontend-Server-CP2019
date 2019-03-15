@@ -236,6 +236,7 @@ function confirmAllSupply() {
         data: JSON.stringify(ids),
         success: function () {
             makeSchedule();
+            window.location.href = 'confirmMSRequest.html'
         }
     })
 }

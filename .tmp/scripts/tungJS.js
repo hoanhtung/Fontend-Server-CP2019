@@ -2,154 +2,184 @@
 
 //Get room show UI
 
-var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'https://localhost:44372';
+var EBSMSLocal = 'http://172.20.10.7:5000';
+
+// function loadSurgeryRoom(surgeryDay) {
+//     var strAppend1 = '';
+//     var divRoom = $('#row-surgery-room');
+//     divRoom.empty();
+//     $.ajax({
+//         url: EBSMSLocal + '/api/Schedule/GetSurgeryRooms/',
+//         method: 'get',
+//         success: function(room) {
+//             for (let index = 0; index < room.length; index++) {
+//                 strAppend1 += '<div class="div-roomHeaderItem"><div class="div-room-name">' 
+//                 + room[index].name + '</div><div id ="header-room-' + room[index].id + '"></div>';
+//                 $.ajax({
+//                     url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
+//                     method: 'get',
+//                     data: { roomId: room[index].id, dayNumber: surgeryDay},
+//                     success: function(shift) {
+//                         var strAppend2 = '';
+//                         for (let index = 0; index < shift.length; index++) {
+//                             var firstEstimatedStart = shift[index].estimatedStartDateTime;
+//                             var firstEstimatedEnd = shift[index].estimatedEndDateTime;
+//                             var firstActualStart = shift[index].actualStartDateTime
+//                             var firstActualEnd = shift[index].actualEndDateTime
+
+//                             var estimatedStart = new Date(firstEstimatedStart);
+//                             var estimatedEnd = new Date(firstEstimatedEnd);
+//                             var actualStart = new Date(firstActualStart);
+//                             var actualEnd = new Date(firstActualEnd);
+
+//                             var shiftId = shift[index].id;
+
+//                             if (shift[index].statusName == 'Postoperative') {
+//                                 strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
+//                             } else if (shift[index].statusName == 'Intraoperative') {
+//                                 strAppend2 += '<div style="background-color: #ffeaa7" class="div-roomBodyItem">';
+//                             }
+//                             else {
+//                                 strAppend2 += '<div class="div-roomBodyItem">';
+//                             }   
+//                             strAppend2 += '<div class="info-shift"><div>';
+//                             if (shift[index].statusName != 'Intraoperative' && shift[index].statusName != 'Postoperative') {
+//                                 strAppend2 += '<input name="swapChk" type="checkbox" value="' + shiftId  + '" />';
+//                             }
+//                             strAppend2 += '<b>' + shiftId + '</b></div>' +
+//                             '<div><b>' + shift[index].catalogName + '</b></div>' +
+//                             '<div><b>Patient:</b> ' +  shift[index].patientName + '</div>' +
+//                             '<div><b>Time:</b> ';
+//                             if (firstActualStart == undefined) {
+//                                 strAppend2 += convertDateToTime(estimatedStart);
+//                             } else {
+//                                 strAppend2 += convertDateToTime(actualStart);
+//                             }
+//                             strAppend2 += ' - ';
+//                             if (firstActualEnd == undefined) {
+//                                 strAppend2 += convertDateToTime(estimatedEnd);
+//                             } else {
+//                                 strAppend2 += convertDateToTime(actualEnd);
+//                             }
+//                             strAppend2 += '</div></div>' +
+//                             '<div class="mybuttonoverlap">' +
+//                             '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shiftId + '" class="btn btn-info"><i class="far fa-eye"/></a>';
+//                             if (shift[index].statusName == 'Preoperative') {
+//                                 strAppend2 += '<a id="changeScheduleA" title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[index].priorityNumber +
+//                                 '" data-schedule-index="' + shiftId + '" data-start-datetime="' + formatStringtoDateTimeString(firstEstimatedStart) + '" data-end-datetime="' + formatStringtoDateTimeString(firstEstimatedEnd) + '" ' +
+//                                 'data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' +
+//                                 '<button title="Begin" data-toggle="modal" data-target="#changeIntraStatusModal" class="btn btn-success" onclick="appendIntraSurgeryShiftId(' + shiftId + ', \'' + firstEstimatedStart + '\', \'' + firstEstimatedEnd + '\')">' + 
+//                                 '<i class="fas fa-procedures"></i></button>' +
+//                                 '</div>';
+//                             }
+//                             else if (shift[index].statusName == 'Intraoperative') {
+//                                 strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendPostSurgeryShiftId(' + shiftId + ', \'' + firstActualStart + '\', \'' + firstEstimatedEnd + '\')" data-toggle="modal" data-target="#changePostStatusModal">' + 
+//                                 '<i style="color: white" class="far fa-check-square"></i></button>' +
+//                                 '</div>';
+//                             } else {
+//                                 strAppend2 += '</div>';
+//                             }
+//                             strAppend2 += '</div></a>';
+//                         }
+//                         $('#header-room-' + room[index].id).append(strAppend2);
+//                     }
+//                 });
+//                 strAppend1 += '</div>';
+//             }
+//             divRoom.append(strAppend1);
+//         }
+//     });
+// }
 
 function loadSurgeryRoom(surgeryDay) {
     var strAppend1 = '';
     var divRoom = $('#row-surgery-room');
     divRoom.empty();
     $.ajax({
-        url: EBSMSLocal + '/api/Schedule/GetSurgeryRooms/',
+        url: EBSMSLocal + '/api/Schedule/GetSlotRooms/',
         method: 'get',
         success: function success(room) {
-            var _loop = function _loop(_index) {
-                strAppend1 += '<div class="div-roomHeaderItem"><div class="div-room-name">' + room[_index].name + '</div><div id ="header-room-' + room[_index].id + '"></div>';
-                $.ajax({
-                    url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
-                    method: 'get',
-                    data: { roomId: room[_index].id, dayNumber: surgeryDay },
-                    success: function success(shift) {
-                        var strAppend2 = '';
-                        for (var _index2 = 0; _index2 < shift.length; _index2++) {
-                            var firstEstimatedStart = shift[_index2].estimatedStartDateTime;
-                            var firstEstimatedEnd = shift[_index2].estimatedEndDateTime;
-                            var firstActualStart = shift[_index2].actualStartDateTime;
-                            var firstActualEnd = shift[_index2].actualEndDateTime;
+            var _loop = function _loop(i) {
+                strAppend1 += '<div class="div-item-surgery-room">';
+                strAppend1 += '<div class = "div-room-name">' + room[i].name + '</div>';
+                strAppend1 += '<div class="div-all-slot-room">';
 
-                            var estimatedStart = new Date(firstEstimatedStart);
-                            var estimatedEnd = new Date(firstEstimatedEnd);
-                            var actualStart = new Date(firstActualStart);
-                            var actualEnd = new Date(firstActualEnd);
+                var _loop2 = function _loop2(j) {
+                    strAppend1 += '<div class="div-item-slot-room" id="body-slot-room-' + room[i].slotRooms[j].id + '"></div>';
+                    $.ajax({
+                        url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
+                        method: 'get',
+                        data: { slotRoomId: room[i].slotRooms[j].id, dayNumber: surgeryDay },
+                        success: function success(shift) {
+                            var strAppend2 = '';
+                            for (var _index = 0; _index < shift.length; _index++) {
+                                var firstEstimatedStart = shift[_index].estimatedStartDateTime;
+                                var firstEstimatedEnd = shift[_index].estimatedEndDateTime;
+                                var firstActualStart = shift[_index].actualStartDateTime;
+                                var firstActualEnd = shift[_index].actualEndDateTime;
 
-                            var shiftId = shift[_index2].id;
-                            if (shift[_index2].statusName == 'Postoperative') {
-                                strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
-                            } else if (shift[_index2].statusName == 'Intraoperative') {
-                                strAppend2 += '<div style="background-color: #ffeaa7" class="div-roomBodyItem">';
-                            } else {
-                                strAppend2 += '<div class="div-roomBodyItem">';
+                                var estimatedStart = new Date(firstEstimatedStart);
+                                var estimatedEnd = new Date(firstEstimatedEnd);
+                                var actualStart = new Date(firstActualStart);
+                                var actualEnd = new Date(firstActualEnd);
+
+                                var shiftId = shift[_index].id;
+                                if (shift[_index].statusName == 'Postoperative') {
+                                    strAppend2 += '<div style="background-color: #b2bec3" class="div-shift-room">';
+                                } else if (shift[_index].statusName == 'Intraoperative') {
+                                    strAppend2 += '<div style="background-color: #ffeaa7" class="div-shift-room">';
+                                } else {
+                                    strAppend2 += '<div class="div-shift-room">';
+                                }
+                                strAppend2 += '<div class="info-shift">';
+                                // if (shift[index].statusName != 'Intraoperative' && shift[index].statusName != 'Postoperative') {
+                                //     strAppend2 += '<input name="swapChk" type="checkbox" value="' + shiftId  + '" />';
+                                // }
+                                strAppend2 += '<div><span><b>' + shiftId + '</b></span></div>';
+                                strAppend2 += '<div><span><b>' + shift[_index].catalogName + '</b></div>';
+                                strAppend2 += '<div><span><b>Patient: </b>' + shift[_index].patientName + '</span></div>';
+                                strAppend2 += '<div><span><b>Time: </b>';
+                                if (firstActualStart == undefined) {
+                                    strAppend2 += convertDateToTime(estimatedStart);
+                                } else {
+                                    strAppend2 += convertDateToTime(actualStart);
+                                }
+                                strAppend2 += ' - ';
+                                if (firstActualEnd == undefined) {
+                                    strAppend2 += convertDateToTime(estimatedEnd);
+                                } else {
+                                    strAppend2 += convertDateToTime(actualEnd);
+                                }
+                                strAppend2 += '</span></div>'; //div time
+                                strAppend2 += '<div class="mybuttonoverlap">' + '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shiftId + '" class="btn btn-info"><i class="far fa-eye"/></a>';
+                                if (shift[_index].statusName == 'Preoperative') {
+                                    strAppend2 += '<a id="changeScheduleA" title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index].priorityNumber + '" data-schedule-index="' + shiftId + '" data-start-datetime="' + formatStringtoDateTimeString(firstEstimatedStart) + '" data-end-datetime="' + formatStringtoDateTimeString(firstEstimatedEnd) + '" ' + 'data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' + '<button title="Begin" data-toggle="modal" data-target="#changeIntraStatusModal" class="btn btn-success" onclick="appendIntraSurgeryShiftId(' + shiftId + ', \'' + firstEstimatedStart + '\', \'' + firstEstimatedEnd + '\')">' + '<i class="fas fa-procedures"></i></button>' + '</div>'; //div mybuttonoverlap
+                                } else if (shift[_index].statusName == 'Intraoperative') {
+                                    strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendPostSurgeryShiftId(' + shiftId + ', \'' + firstActualStart + '\', \'' + firstEstimatedEnd + '\')" data-toggle="modal" data-target="#changePostStatusModal">' + '<i style="color: white" class="far fa-check-square"></i></button>' + '</div>'; //div mybuttonoverlap
+                                } else {
+                                    strAppend2 += '</div>'; //div mybuttonoverlap
+                                }
+                                strAppend2 += '</div>'; //div-shift-room
+                                strAppend2 += '</div>'; //info-shift
                             }
-                            strAppend2 += '<div class="info-shift"><div>';
-                            if (shift[_index2].statusName != 'Intraoperative' && shift[_index2].statusName != 'Postoperative') {
-                                strAppend2 += '<input name="swapChk" type="checkbox" value="' + shiftId + '" />';
-                            }
-                            strAppend2 += '<b>' + shiftId + '</b></div>' + '<div><b>' + shift[_index2].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index2].patientName + '</div>' + '<div><b>Time:</b> ';
-                            if (firstActualStart == undefined) {
-                                strAppend2 += convertDateToTime(estimatedStart);
-                            } else {
-                                strAppend2 += convertDateToTime(actualStart);
-                            }
-                            strAppend2 += ' - ';
-                            if (firstActualEnd == undefined) {
-                                strAppend2 += convertDateToTime(estimatedEnd);
-                            } else {
-                                strAppend2 += convertDateToTime(actualEnd);
-                            }
-                            strAppend2 += '</div></div>' + '<div class="mybuttonoverlap">' + '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shiftId + '" class="btn btn-info"><i class="far fa-eye"/></a>';
-                            if (shift[_index2].statusName == 'Preoperative') {
-                                strAppend2 += '<a id="changeScheduleA" title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index2].priorityNumber + '" data-schedule-index="' + shiftId + '" data-start-datetime="' + formatStringtoDateTimeString(firstEstimatedStart) + '" data-end-datetime="' + formatStringtoDateTimeString(firstEstimatedEnd) + '" ' + 'data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' + '<button title="Begin" data-toggle="modal" data-target="#changeIntraStatusModal" class="btn btn-success" onclick="appendIntraSurgeryShiftId(' + shiftId + ', \'' + firstEstimatedStart + '\', \'' + firstEstimatedEnd + '\')">' + '<i class="fas fa-procedures"></i></button>' + '</div>';
-                            } else if (shift[_index2].statusName == 'Intraoperative') {
-                                strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendPostSurgeryShiftId(' + shiftId + ', \'' + firstActualStart + '\', \'' + firstEstimatedEnd + '\')" data-toggle="modal" data-target="#changePostStatusModal">' + '<i style="color: white" class="far fa-check-square"></i></button>' + '</div>';
-                            } else {
-                                strAppend2 += '</div>';
-                            }
-                            strAppend2 += '</div></a>';
+                            $('#body-slot-room-' + room[i].slotRooms[j].id).html(strAppend2);
+                            strAppend1 += '</div>'; //div-item-slot-room
                         }
-                        $('#header-room-' + room[_index].id).append(strAppend2);
-                    }
-                });
-                strAppend1 += '</div>';
+                    });
+                };
+
+                for (var j = 0; j < room[i].slotRooms.length; j++) {
+                    _loop2(j);
+                }
+                strAppend1 += '</div>'; // div all slot room
+                strAppend1 += '</div>'; // div item surgery room
             };
 
-            for (var _index = 0; _index < room.length; _index++) {
-                _loop(_index);
+            for (var i = 0; i < room.length; i++) {
+                _loop(i);
             }
-            divRoom.append(strAppend1);
-        }
-    });
-}
-
-function loadNewSurgeryRoom(surgeryDay) {
-    var strAppend1 = '';
-    var divRoom = $('#row-surgery-room');
-    divRoom.empty();
-    $.ajax({
-        url: EBSMSLocal + '/api/Schedule/GetSurgeryRooms/',
-        method: 'get',
-        success: function success(room) {
-            var _loop2 = function _loop2(_index3) {
-                strAppend1 += '<div class="div-roomHeaderItem"><div class="div-room-name">' + room[_index3].name + '</div><div id ="header-room-' + room[_index3].id + '"></div>';
-                $.ajax({
-                    url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
-                    method: 'get',
-                    data: { roomId: room[_index3].id, dayNumber: surgeryDay },
-                    success: function success(shift) {
-                        var strAppend2 = '';
-                        for (var _index4 = 0; _index4 < shift.length; _index4++) {
-                            var firstEstimatedStart = shift[_index4].estimatedStartDateTime;
-                            var firstEstimatedEnd = shift[_index4].estimatedEndDateTime;
-                            var firstActualStart = shift[_index4].actualStartDateTime;
-                            var firstActualEnd = shift[_index4].actualEndDateTime;
-
-                            var estimatedStart = new Date(firstEstimatedStart);
-                            var estimatedEnd = new Date(firstEstimatedEnd);
-                            var actualStart = new Date(firstActualStart);
-                            var actualEnd = new Date(firstActualEnd);
-
-                            var shiftId = shift[_index4].id;
-                            if (shift[_index4].statusName == 'Postoperative') {
-                                strAppend2 += '<div style="background-color: #b2bec3" class="div-roomBodyItem">';
-                            } else if (shift[_index4].statusName == 'Intraoperative') {
-                                strAppend2 += '<div style="background-color: #ffeaa7" class="div-roomBodyItem">';
-                            } else {
-                                strAppend2 += '<div class="div-roomBodyItem">';
-                            }
-                            strAppend2 += '<div class="info-shift"><div>';
-                            if (shift[_index4].statusName != 'Intraoperative' && shift[_index4].statusName != 'Postoperative') {
-                                strAppend2 += '<input name="swapChk" type="checkbox" value="' + shiftId + '" />';
-                            }
-                            strAppend2 += '<b>' + shiftId + '</b></div>' + '<div><b>' + shift[_index4].catalogName + '</b></div>' + '<div><b>Patient:</b> ' + shift[_index4].patientName + '</div>' + '<div><b>Time:</b> ';
-                            if (firstActualStart == undefined) {
-                                strAppend2 += convertDateToTime(estimatedStart);
-                            } else {
-                                strAppend2 += convertDateToTime(actualStart);
-                            }
-                            strAppend2 += ' - ';
-                            if (firstActualEnd == undefined) {
-                                strAppend2 += convertDateToTime(estimatedEnd);
-                            } else {
-                                strAppend2 += convertDateToTime(actualEnd);
-                            }
-                            strAppend2 += '</div></div>' + '<div class="mybuttonoverlap">' + '<a data-toggle="tooltip" title="View" href="./viewScheduleItem.html?id=' + shiftId + '" class="btn btn-info"><i class="far fa-eye"/></a>';
-                            if (shift[_index4].statusName == 'Preoperative') {
-                                strAppend2 += '<a id="changeScheduleA" title="Change" href="javascript:void(0)" class="btn btn-primary" data-priority="' + shift[_index4].priorityNumber + '" data-schedule-index="' + shiftId + '" data-start-datetime="' + formatStringtoDateTimeString(firstEstimatedStart) + '" data-end-datetime="' + formatStringtoDateTimeString(firstEstimatedEnd) + '" ' + 'data-toggle="modal" data-target="#changeTimeModal"><i class="far fa-edit"/></a>' + '<button title="Begin" data-toggle="modal" data-target="#changeIntraStatusModal" class="btn btn-success" onclick="appendIntraSurgeryShiftId(' + shiftId + ', \'' + firstEstimatedStart + '\', \'' + firstEstimatedEnd + '\')">' + '<i class="fas fa-procedures"></i></button>' + '</div>';
-                            } else if (shift[_index4].statusName == 'Intraoperative') {
-                                strAppend2 += '<button title="Complete" class="btn btn-success" onclick="appendPostSurgeryShiftId(' + shiftId + ', \'' + firstActualStart + '\', \'' + firstEstimatedEnd + '\')" data-toggle="modal" data-target="#changePostStatusModal">' + '<i style="color: white" class="far fa-check-square"></i></button>' + '</div>';
-                            } else {
-                                strAppend2 += '</div>';
-                            }
-                            strAppend2 += '</div></a>';
-                        }
-                        $('#header-room-' + room[_index3].id).append(strAppend2);
-                    }
-                });
-                strAppend1 += '</div>';
-            };
-
-            for (var _index3 = 0; _index3 < room.length; _index3++) {
-                _loop2(_index3);
-            }
-            divRoom.append(strAppend1);
+            divRoom.html(strAppend1);
         }
     });
 }
@@ -208,6 +238,8 @@ function appendIntraSurgeryShiftId(shiftId, start, end) {
     $('.estimated-start-time').html(formatStringtoDateTimeString(start));
     $('.estimated-end-time').html(formatStringtoDateTimeString(end));
     $('#surgery-shift-intra-status').data('day', end.split('T')[0]);
+    var formatStartTime = formatStringtoDateTimeString(start).split(' ')[0];
+    $('#actual-start').val(formatStartTime);
 }
 function appendPostSurgeryShiftId(shiftId, start, end) {
     $('#surgery-shift-post-status').html(shiftId);
@@ -215,6 +247,9 @@ function appendPostSurgeryShiftId(shiftId, start, end) {
     $('.estimated-start-time').html(formatStringtoDateTimeString(start));
     $('.estimated-end-time').html(formatStringtoDateTimeString(end));
     $('#surgery-shift-post-status').data('day', end.split('T')[0]);
+
+    var formatEndTime = formatStringtoDateTimeString(end).split(' ')[0];
+    $('#actual-end').val(formatEndTime);
 }
 // -----------------------------------
 
@@ -224,8 +259,8 @@ function LoadSurgeryShiftByRoomAndDate() {
         method: 'get',
         data: { roomId: room[index].id, dayNumber: surgeryDay },
         success: function success(shift) {
-            for (var _index5 = 0; _index5 < shift.length; _index5++) {
-                strAppend += '<a href="./viewScheduleItem.html?Id=' + shift[_index5].id + '"><div class="div-roomBodyItem">' + shift[_index5].catelogName + 'Patient: ' + shift[_index5].patientName + 'Time: ' + shift[_index5].estimatedStartDateTime + '-' + shift[_index5].estimatedEndDateTime;
+            for (var _index2 = 0; _index2 < shift.length; _index2++) {
+                strAppend += '<a href="./viewScheduleItem.html?Id=' + shift[_index2].id + '"><div class="div-roomBodyItem">' + shift[_index2].catelogName + 'Patient: ' + shift[_index2].patientName + 'Time: ' + shift[_index2].estimatedStartDateTime + '-' + shift[_index2].estimatedEndDateTime;
                 '</div></a>';
             }
         }
@@ -296,31 +331,6 @@ function loadSurgeryShiftNoSchedule() {
         }
     });
 }
-// function loadSurgeryShiftNoScheduleByProposedTime() {
-//     var div_shift = $('#div-shift-proposed');
-//     $.ajax({
-//         url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftNoScheduleByProposedTime',
-//         method: 'get',
-//         success: function(data) {
-//             var container = '<table class="table-no-schedule"><thead><tr><th>No.</th><th>Shift ID</th>'
-//                             + '<th>Proposed Time</th><th>Schedule Time</th>'
-//                             + '<th>Priority Number</th></th><th>ExpectedDuration</th></tr></thead>';
-//             for (var i = 0; i < data.length; i++) {
-//                 container += '<tr><td>' + (i + 1) + '</td><td>' +  data[i].surgeryShiftId + '</td><td>';
-//                 if (data[i].proposedStartDateTime != undefined && data[i].proposedEndDateTime != undefined) {
-//                     container += data[i].proposedStartDateTime.split('T')[0] 
-//                     + ' ' + data[i].proposedStartDateTime.split('T')[1] + ' - ' 
-//                     + data[i].proposedEndDateTime.split('T')[1];
-//                 }
-//                 container += '</td><td>' + data[i].scheduleDate + '</td>'
-//                 + '<td>' + data[i].priorityNumber + '</td>'
-//                 + '<td>' + data[i].expectedSurgeryDuration + '</td></tr>';
-//             }
-//             container += '</table>';
-//             div_shift.append(container);
-//         }
-//     })
-//  }
 function checkSetPostStatus(surgeryId) {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/CheckPostStatus/',
@@ -364,7 +374,7 @@ function getScheduleByDay() {
 }
 
 //Add emergency
-function AddEmergencyShift(startDatetime, endDatetime) {
+function AddEmergencyShift(startDatetime, endDatetime, chkForce) {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/AddEmergencyShift/',
         method: 'post',
@@ -372,7 +382,8 @@ function AddEmergencyShift(startDatetime, endDatetime) {
         contentType: 'application/json',
         data: JSON.stringify({
             startTime: startDatetime,
-            endTime: endDatetime
+            endTime: endDatetime,
+            isForceAdd: chkForce
         }),
         success: function success(data) {
             console.log(data);

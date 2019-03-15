@@ -11,7 +11,7 @@ var get_time = function () {
             console.log(data);
             start_time = new Date(data);
             console.log(start_time);
-            $('#clock').html(current_time.toLocaleDateString() + " " +  current_time.toLocaleTimeString());
+            $('#clock').html(current_time.toLocaleTimeString());
         }
     });
 }
@@ -19,7 +19,7 @@ var get_time = function () {
 //counts 0.25s
 var cnt_time = function () {
     current_time = new Date(start_time.getTime() + 250);
-    $('#clock').html(current_time.toLocaleDateString() + " " +  current_time.toLocaleTimeString());
+    $('#clock').html(current_time.toLocaleTimeString());
     start_time = current_time;
 }
 

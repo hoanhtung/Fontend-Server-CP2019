@@ -8,6 +8,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/headerStyle.css" type="text/css">
     <link rel="stylesheet" href="styles/tungStyle.css" type="text/css">
+    <link rel="stylesheet" href="styles/tungViewSchedule.css" type="text/css">
     <title>Surgery Management System</title>
     <script src="./scripts/lib_utilities.js"></script>
 
@@ -45,7 +46,7 @@
             $("#date-input").val(formatInputDate(new Date()));
 
             //add emer
-            $("[name='scheduleDate']").val(formatInputDate(new Date()));
+            
         })
 
     </script>
@@ -69,16 +70,16 @@
                             <div class="page-header">
                                 <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>                                
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()" />
-                                <div id="clock" style="float: right"></div>
+                                <div id="clock" style="float: right; font-size: 40px; font-weight: bold"></div>
                                 <br />
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <input class="btn btn-success" id="swap-btn" type="submit" value="Swap Schedule" />
-                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift"
+                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift" id="addEmerTmpBtn"
                                     data-toggle="modal" data-target="#addEmergencyShift" />
-                                <!-- <input class="btn btn-danger" type="submit" onclick="loadNewSurgeryRoom(convertDateToNumber(new Date()))" value="View New Schedule"/>
-                                <input class="btn btn-warning" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View Old Schedule"/> -->
+                                <!-- <input class="btn btn-danger" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View New Schedule"/> -->
+                                <!-- <input class="btn btn-warning" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View Old Schedule"/> -->
                                 <br /> <br/>
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword"
@@ -105,7 +106,7 @@
                         </div>
                     </div>
                     <div class="ecommerce-widget">
-                        <div class="div-schedule" id="row-surgery-room">
+                        <div class="div-all-surgery-room" id="row-surgery-room">
                         </div>
                     </div>
                 </div>
@@ -303,11 +304,6 @@
                         <span><b>Actual End Time:</b></span>
                         <input type="time" id="actual-end" class="form-control" />
                     </div>
-                    <div class="form-group">
-                        <span><b>Assigned Nurse:</b></span>
-                        <select class="form-control" id="select-nurse">
-                        </select>
-                    </div>
                     <div class="form-group row">
                         <div class="col-6">
                             <span><b>Room</b></span>
@@ -373,7 +369,7 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <span><b>Patient's Identity Card Number</b></span>
                         <input type="text" class="form-control" name="emerPatientICN">
                     </div>
@@ -392,7 +388,7 @@
                             <input type="radio" class="form-check-input" id="radio2" name="optradio"
                                 value="option2">Female
                         </label>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <span><b>Date</b></span>
                         <input type="date" class="form-control" name="scheduleDate">
@@ -402,9 +398,18 @@
                         <input type="time" class="form-control" name="scheduleStartTime">
                     </div>
                     <div class="form-group">
+                        <span><b>Expected Surgery Time Duration</b></span>
+                        <input type="number" class="form-control" min= "0" step="0.5" name="expectedDurationTime">
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="chkForceAdd">Force Add Emergency
+                        </label>
+                    </div>
+                    <!-- <div class="form-group">
                         <span><b>End Time:</b></span>
                         <input type="time" class="form-control" name="scheduleEndTime">
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Modal footer -->
@@ -418,6 +423,11 @@
     </div>
 
     <script>
+        $('#addEmerTmpBtn').click(function() {
+            $("[name='scheduleDate']").val(formatInputDate(new Date()));
+            $("[name='scheduleStartTime']").val(new Date().toTimeString().split(' ')[0]);
+        })
+
         $('#swap-btn').click(function () {
             var swapIds = [];
             $('input[name="swapChk"]:checked').each(function () {
@@ -598,7 +608,6 @@
         })
 
         function convertDateStringToDate(dateString) {
-            console.log(new Date(dateString));
             return new Date(dateString).getDate() + '/' + (new Date(dateString).getMonth() + 1) + '/' + new Date(dateString).getFullYear() + ' ' + new Date(dateString).getHours() + ' : ' + (new Date(dateString).getMinutes() > 10 ? new Date(dateString).getMinutes() : ('0' + new Date(dateString).getMinutes()));
         }
         function appendTimeAndDay(day, time) { //11/03/2019, 9:00 -> 2019-03-11T09:00Z
@@ -670,9 +679,15 @@
             var scheduleDate = $('[name="scheduleDate"]').val();
             var startTime = $('[name="scheduleStartTime"]').val();
             var endTime = $('[name="scheduleEndTime"]').val();
+
+            var duration = $('[name="expectedDurationTime"]').val();
+            var chkForce = $('[name="chkForceAdd"]').is(":checked");
+            console.log(chkForce);
             var startDateTime = scheduleDate + 'T' + startTime + 'Z';
-            var endDateTime = scheduleDate + 'T' + endTime + 'Z';
-            AddEmergencyShift(startDateTime, endDateTime)
+            var tmpStart = new Date(startDateTime).getTime();
+            var tmpEnd = new Date(tmpStart + duration * 60 * 60 * 1000);
+            var endDateTime = tmpEnd.toISOString();
+            AddEmergencyShift(startDateTime, endDateTime, chkForce);
         })
     </script>
 </body>

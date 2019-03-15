@@ -35,8 +35,8 @@ body {
 	position: absolute;
     z-index: 2;
     display: none;
-    top: 25px;
-    left: 25px;
+    bottom: 0;
+    left: 0;
 }
 .div-roomBodyItem:hover .mybuttonoverlap{ 
 	display:block;

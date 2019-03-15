@@ -26,6 +26,7 @@
   <!-- END ROBUST CSS-->
   <!-- BEGIN Page Level CSS-->
   <link rel="stylesheet" type="text/css" href="styles/template/menu/vertical-menu.css">
+  <link rel="stylesheet" type="text/css" href="styles/tungStyle.css">
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
   <!-- END Custom CSS-->
@@ -43,7 +44,7 @@
               class="nav-link nav-menu-main menu-toggle hidden-xs"><i class="icon-menu5 font-large-1"></i></a></li>
           <li class="nav-item">
             <a href="test_nav.html" class="navbar-brand nav-link">
-              <img alt="branding logo" src="images/surgery_logo.jpg" height="50" width="50" >
+              <!-- <img alt="branding logo" src="images/surgery_logo.jpg" height="50" width="50" > -->
             </a>
           </li>
           <li class="nav-item hidden-md-up float-xs-right"><a data-toggle="collapse" data-target="#navbar-mobile"
@@ -255,6 +256,49 @@
       <div class="content-header row">
       </div>
       <div class="content-body">
+        <style>
+          .div-all-surgery-room {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid;
+          }
+          .div-item-surgery-room {
+            display: flex;
+            border: 1px solid;
+          }
+          .div-all-slot-room {
+            display: flex;
+            flex-direction: column;
+          }
+          .div-item-slot-room {
+            height: 100px;
+            border: 1px solid;
+            display: flex;
+          }
+          .div-shift-room {
+            width: 200px;
+            height: 100px;
+            border: 1px solid;
+          }
+        </style>
+
+        <div class="div-all-surgery-room">
+            <div class="div-item-surgery-room">
+              <div style="border: 1px solid">Room 1</div>
+              <div class="div-all-slot-room">
+                <div class="div-item-slot-room">
+                  <div class="div-shift-room">
+                    <div><span><b>Shift: </b> 11</span></div>
+                    <div><span><b>Phẫu thuật gan</b></span></div>
+                    <div><span><b>Patient: </b> Nguyễn Văn A</span></div>
+                    <div><span><b>Time: </b>7:00 - 9:00</span></div>
+                  </div>
+                </div>
+                <div class="div-item-slot-room">
+                  <div class="div-shift-room">aaa</div>
+              </div>
+            </div>              
+        </div>
       </div>
     </div>
   </div>

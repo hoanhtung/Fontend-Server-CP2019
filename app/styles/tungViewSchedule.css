@@ -1,0 +1,43 @@
+.div-all-surgery-room {
+    display: flex;
+    flex-direction: column;   
+}
+.div-item-surgery-room {
+    display: flex;
+    margin-bottom: 20px;
+    overflow-x: scroll;
+    outline: 1px solid;
+}
+.div-all-slot-room {
+    display: flex;
+    flex-direction: column;
+}
+.div-item-slot-room {
+    height: 150px;
+    outline: 1px solid;
+    display: flex;
+}
+.div-shift-room {
+    width: 200px;
+    outline: 1px solid;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+}
+.div-room-name {
+    outline: 1px solid;
+    min-width: 80px;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+    font-weight: bold;
+}
+.div-shift-room .info-shift {
+    z-index: 1;
+}
+
+.div-shift-room:hover .mybuttonoverlap{ 
+	display: block;
+}
