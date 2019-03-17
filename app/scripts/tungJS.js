@@ -1,7 +1,7 @@
 //Get room show UI
 
-// var EBSMSLocal = 'https://localhost:44372';
-var EBSMSLocal = 'http://172.20.10.7:5000';
+var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'http://172.20.10.7:5000';
 
 
 // function loadSurgeryRoom(surgeryDay) {
@@ -318,6 +318,7 @@ function makeSchedule() {
         url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
         method: 'get',
         success: function(data) {
+            alert('nice');
         }
     })
 }

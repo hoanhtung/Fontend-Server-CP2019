@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="./scripts/main.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -28,7 +29,7 @@
     <link rel="stylesheet" href="styles/jquery-ui.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts/jquery-ui.js"></script>
-    
+
     <script>
 
         var roomList = null;
@@ -46,7 +47,7 @@
             $("#date-input").val(formatInputDate(new Date()));
 
             //add emer
-            
+
         })
 
     </script>
@@ -68,7 +69,7 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>                                
+                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()" />
                                 <div id="clock" style="float: right; font-size: 40px; font-weight: bold"></div>
                                 <br />
@@ -76,11 +77,11 @@
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <input class="btn btn-success" id="swap-btn" type="submit" value="Swap Schedule" />
-                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift" id="addEmerTmpBtn"
-                                    data-toggle="modal" data-target="#addEmergencyShift" />
+                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift"
+                                    id="addEmerTmpBtn" data-toggle="modal" data-target="#addEmergencyShift" />
                                 <!-- <input class="btn btn-danger" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View New Schedule"/> -->
                                 <!-- <input class="btn btn-warning" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View Old Schedule"/> -->
-                                <br /> <br/>
+                                <br /> <br />
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword"
                                     onkeyup="searchSchedule()" />
@@ -399,7 +400,7 @@
                     </div>
                     <div class="form-group">
                         <span><b>Expected Surgery Time Duration</b></span>
-                        <input type="number" class="form-control" min= "0" step="0.5" name="expectedDurationTime">
+                        <input type="number" class="form-control" min="0" step="0.5" name="expectedDurationTime">
                     </div>
                     <div class="form-check">
                         <label class="form-check-label">
@@ -423,7 +424,7 @@
     </div>
 
     <script>
-        $('#addEmerTmpBtn').click(function() {
+        $('#addEmerTmpBtn').click(function () {
             $("[name='scheduleDate']").val(formatInputDate(new Date()));
             $("[name='scheduleStartTime']").val(new Date().toTimeString().split(' ')[0]);
         })

@@ -87,9 +87,8 @@ function parseImportInfo(jsonObj) {
     $('#profile').dataTable({
         searching: false
     });
-    $('#profile_length').css('float', 'right');
-    $('#profile_length').css('padding-right', '15px');
 }
+
 function getSurgeryName(surgeryInfo) {
     var surName = [];
     for (var i = 0; i < surgeryInfo.length; i++) {
@@ -145,7 +144,25 @@ function saveSurgeryProfile() {
         alert("There're NOTHING to import !!!");
         return;
     }
-    sessionStorage.setItem('infoObj', JSON.stringify(shift));
+    // GET import supplies
+    var supplyList = JSON.parse(sessionStorage.getItem('supplyObj'));
+    var supplyJson = [];
+    for (var s = 0; s < supplyList.length; s++) {
+        for (var i in shiftInfo) {
+            if (shiftInfo[i].surgeryShiftCode == supplyList[s]['Surgery Shift Code']) {
+                supplyJson.push({
+                    medicalSupplyId: Number(supplyList[s]['Code']),
+                    surgeryShiftCode: supplyList[s]['Surgery Shift Code'],
+                    quantity: supplyList[s]['Quantity']
+                });
+                supplyList.splice(s, 1);
+                s--;
+                break;
+            }
+        }
+    }
+    console.log(shiftInfo);
+    console.log(supplyJson);
     $.ajax({
         url: EBSMSLocal + '/api/Import/ImportSurgeryShift',
         method: 'post',
@@ -153,22 +170,7 @@ function saveSurgeryProfile() {
         contentType: 'application/json',
         dataType: 'json',
         success: function success() {
-            var supplyList = JSON.parse(sessionStorage.getItem('supplyObj'));
-            var supplyJson = [];
-            for (var s = 0; s < supplyList.length; s++) {
-                for (var i in shiftInfo) {
-                    if (shiftInfo[i].surgeryShiftCode == supplyList[s]['Surgery Shift Code']) {
-                        supplyJson.push({
-                            medicalSupplyId: Number(supplyList[s]['Code']),
-                            surgeryShiftCode: supplyList[s]['Surgery Shift Code'],
-                            quantity: supplyList[s]['Quantity']
-                        });
-                        supplyList.splice(s, 1);
-                        s--;
-                        break;
-                    }
-                }
-            }
+            console.log('Import Shifts');
             $.ajax({
                 url: EBSMSLocal + '/api/Import/ImportSurgeryShiftMedicalSupply',
                 method: 'post',
@@ -176,16 +178,17 @@ function saveSurgeryProfile() {
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function success() {
+                    console.log('Import Suplies');
                     sessionStorage.removeItem('infoObj');
                     sessionStorage.removeItem('supplyObj');
                     sessionStorage.setItem('infoObj', JSON.stringify(shift));
                     sessionStorage.setItem('supplyObj', JSON.stringify(supplyList));
                     alert('Import successfully!');
-                    window.location.href = 'importList.html';
                 }
             });
         }
     });
+    window.location.href = 'importList.html';
 }
 
 function getImportDetail(id) {
@@ -290,8 +293,6 @@ function getMedicalRequest() {
             $('#request').dataTable({
                 searching: false
             });
-            $('#request_length').css('float', 'right');
-            $('#request_length').css('padding-right', '15px');
         }
     });
 }
@@ -365,5 +366,55 @@ function saveSurgeryProcedure() {
         contentType: 'application/json',
         dataType: 'json'
     });
+}
+
+function loadUsedSupplies(surgeryId) {
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/GetUsedSupply',
+        method: 'get',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: { "surgeryShiftId": surgeryId },
+        success: function success(data) {
+            var html = "<tr><td>No.</td><td>Name</td><td>Quantity</td></tr>";
+            var j = 0;
+            for (var i = 0; i < data.length; i++) {
+                html = html + "<tr><td>" + ++j + "</td>" + "<td>" + data[i].medicalSupplyName + "</td>" + "<td>" + data[i].quantity + "</td></tr>";
+            }
+            document.getElementById('table-supply').innerHTML = html;
+        }
+    });
+}
+
+//New row to ADD Supply
+$(document).on("click", ".add-more-supply", function () {
+    $(".add-supply").last().after('<div class="row supply control-group" style="padding-inline-start: 15px; margin-top: 10px">\n<div class="col-8">\n<input type="text" list="supplies" class="form-control has-error used-supply-name" name="supply-name" placeholder="Medical Supply"/>\n</div>\n<input type="number" min="1" class="col-1 form-control supply-quantity" name="quantity">\n<div class="input-group-btn  col-1">\n<button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button></div></div>');
+});
+
+$(document).on("click", "#btn-addSupplyModal", function () {
+    AddUsedMedicalSupply(shiftId);
+});
+
+function AddUsedMedicalSupply(surgeryId) {
+    var data = [];
+    var supply = document.getElementsByClassName('supply');
+    for (var i = 0; i < supply.length; i++) {
+        var supplyId = supply[i].children[0].children[0].value.split(' - ')[0];
+        var supplyQuantity = supply[i].children[1].value;
+        data.push({
+            "medicalSupplyId": supplyId,
+            "surgeryShiftId": surgeryId,
+            "quantity": supplyQuantity
+        });
+    }
+    console.log(data);
+    $.ajax({
+        url: EBSMSLocal + '/api/Schedule/AddUsedMedicalSupply',
+        method: 'post',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(data)
+    });
+    window.location.reload(true);
 }
 //# sourceMappingURL=linhJS.js.map

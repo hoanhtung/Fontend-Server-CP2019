@@ -2,8 +2,9 @@
 
 //Get room show UI
 
-// var EBSMSLocal = 'https://localhost:44372';
-var EBSMSLocal = 'http://172.20.10.7:5000';
+var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'http://172.20.10.7:5000';
+
 
 // function loadSurgeryRoom(surgeryDay) {
 //     var strAppend1 = '';
@@ -302,7 +303,9 @@ function makeSchedule() {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/MakeScheduleList',
         method: 'get',
-        success: function success(data) {}
+        success: function success(data) {
+            alert('nice');
+        }
     });
 }
 
