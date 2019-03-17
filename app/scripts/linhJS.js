@@ -345,7 +345,6 @@ function saveSurgeryProcedure() {
     var id = Number(url.searchParams.get("id"));
     var editedProcedure = document.getElementById('textarea-procedure').value;
     var procedure = { 'surgeryShiftId': id, 'procedure': editedProcedure };
-    console.log(procedure);
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/SaveSurgeryProcedure',
         method: 'post',
@@ -402,7 +401,6 @@ function AddUsedMedicalSupply(surgeryId) {
             "quantity": supplyQuantity
         });
     }
-    console.log(data);
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/AddUsedMedicalSupply',
         method: 'post',
@@ -411,4 +409,23 @@ function AddUsedMedicalSupply(surgeryId) {
         data: JSON.stringify(data)
     })
     window.location.reload(true);
+}
+
+function loadEkipMember(surgeryId) {
+    $.ajax({
+        url: EBSMSLocal + '/api/SurgeryShift/GetEkipMember',
+        method: 'get',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: { "surgeryShiftId": surgeryId },
+        success: function (data) {
+            var ekip = "";
+            for (var i = 0; i < data.length; i++) {
+                ekip = ekip + "<tr><td><b>" + data[i].workJob + "</b></td>" +
+                    "<td>" + data[i].name + "</td></tr>";
+            }
+            $(".table-ekip tr:last").after(ekip);
+            console.log(ekip);
+        }
+    })
 }

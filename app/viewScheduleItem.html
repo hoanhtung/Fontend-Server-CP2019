@@ -45,8 +45,8 @@
     </script>
 </head>
 
-<body
-    onload="loadSurgeryShiftDetail(shiftId); checkSetPostStatus(shiftId); CheckRecoveryStatus(shiftId); loadUsedSupplies(shiftId)">
+<body onload="loadSurgeryShiftDetail(shiftId); checkSetPostStatus(shiftId); CheckRecoveryStatus(shiftId); 
+    loadUsedSupplies(shiftId); loadEkipMember(shiftId);">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -119,26 +119,20 @@
                                     <div class="div-ekip col-6">
                                         <div>Performed Ekip:</div>
                                         <table class="table-ekip">
-                                            <tr>
+                                            <tr></tr>
+                                            <!-- <tr>
                                                 <td><b>Surgeon</b></td>
                                                 <td>Trần Văn Minh</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Surgeon</b></td>
                                                 <td>Lê Anh Đạt</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Anesthesia doctor</b></td>
-                                                <td>Nguyễn Thị Hằng</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Anesthesia doctor</b></td>
-                                                <td>Trần Lệ Chi</td>
-                                            </tr>
+                                            </tr> -->
                                         </table>
-                                        </br>
+                                        <hr>
                                         <div><b>Medical Supplies Used:</b></div>
                                         <table class="table-ekip" id="table-supply"></table>
+
                                         <button class="btn btn-primary float-right" data-toggle="modal"
                                             data-target="#addSupplyModal" id="btn-new-treatment">Add Medical
                                             Supply</button>
@@ -149,11 +143,10 @@
                                         <br />
                                         <textarea style="padding: 30px" id="textarea-procedure" rows="20" cols="50"
                                             readonly></textarea>
-                                        <input style="margin-left: 20px;" class="btn btn-danger"
-                                            type="button" value="Edit" id="btn-edit" />
-                                        <input style="margin-left: 20px;" class="btn btn-success"
-                                            type="button" value="Save" id="btn-saveprocedure"
-                                            onclick="saveSurgeryProcedure()" />
+                                        <input style="margin-left: 20px;" class="btn btn-danger" type="button"
+                                            value="Edit" id="btn-edit" />
+                                        <input style="margin-left: 20px;" class="btn btn-success" type="button"
+                                            value="Save" id="btn-saveprocedure" onclick="saveSurgeryProcedure()" />
                                     </div>
                                     <script>
                                         //Edit Procedure
@@ -394,7 +387,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // ==========Surgery Report==============
         $('#btn-hide-shift-info').hide();
@@ -489,7 +481,6 @@
             });
         }
     </script>
-
     <!-- Add Used Medical Supply Modal -->
     <div class="modal fade" id="addSupplyModal">
         <div class="modal-dialog modal-lg">
