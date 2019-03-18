@@ -1,6 +1,7 @@
 <html lang="en">
 
 <head>
+    <script src="./scripts/main.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -48,7 +49,7 @@
     </script>
 </head>
 
-<body>
+<body onload="loadUsedSupplies(shiftId); loadEkipMember(shiftId);">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -127,33 +128,35 @@
                                     <div class="div-ekip col-6">
                                         <div>Performed Ekip:</div>
                                         <table class="table-ekip">
-                                            <tr>
+                                            <tr></tr>
+                                            <!-- <tr>
                                                 <td><b>Surgeon</b></td>
                                                 <td>Trần Văn Minh</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Surgeon</b></td>
                                                 <td>Lê Anh Đạt</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Anesthesia doctor</b></td>
-                                                <td>Nguyễn Thị Hằng</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Anesthesia doctor</b></td>
-                                                <td>Trần Lệ Chi</td>
-                                            </tr>
+                                            </tr> -->
                                         </table>
+                                        <hr>
+                                        <div><b>Medical Supplies Used:</b></div>
+                                        <table class="table-ekip" id="table-supply"></table>
+
+                                        <button class="btn btn-primary float-right" data-toggle="modal"
+                                            data-target="#addSupplyModal" id="btn-new-treatment">Add Medical
+                                            Supply</button>
                                     </div>
+
                                     <div class="div-procedure col-6">
                                         <div><b>Surgery Procedure:</b></div>
                                         <br />
-                                        <textarea style="padding: 30px" id="textarea-procedure" rows="20" cols="50" readonly></textarea>
+                                        <textarea style="padding: 30px" id="textarea-procedure" rows="20" cols="50"
+                                            readonly></textarea>
+                                        <input style="margin-left: 20px;" class="btn btn-danger" type="button"
+                                            value="Edit" id="btn-edit" />
+                                        <input style="margin-left: 20px;" class="btn btn-success" type="button"
+                                            value="Save" id="btn-saveprocedure" onclick="saveSurgeryProcedure()" />
                                     </div>
-                                    <input style="margin-left: 20px;" class="btn btn-danger" type="button" value="Edit"
-                                        id="btn-edit" />
-                                    <input style="margin-left: 20px;" class="btn btn-success" type="button" value="Save"
-                                        id="btn-saveprocedure" onclick="saveSurgeryProcedure()" />
                                     <script>
                                         //Edit Procedure
                                         $('#btn-edit').click(function () {
@@ -178,7 +181,8 @@
                                 <div class="col-12">
                                     <button class="btn btn-primary float-right"
                                         data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
-                                        data-target="#treatmentModal" id="btn-new-treatment">New Treatment Report</button>
+                                        data-target="#treatmentModal" id="btn-new-treatment">New Treatment
+                                        Report</button>
                                     <button class="btn btn-info float-right" style="margin-right: 20px;"
                                         data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
                                         data-target="#assignNurseModal" id="btn-new-treatment">Assign Nurse</button>
@@ -345,7 +349,7 @@
             var end = $('#span-end-time').data('end')
             appendPostSurgeryShiftId(shiftId, start, end);
         });
-        $('#change-post-btn').click(function() {
+        $('#change-post-btn').click(function () {
             var id = $('#surgery-shift-post-status').data('shiftId');
             var day = $('#surgery-shift-post-status').data('day');
             var actualEndTime = $('#actual-end').val();
@@ -355,6 +359,7 @@
         //===========================================
     </script>
     <datalist class="datalist-drug" id="drugs"></datalist>
+    <datalist class="datalist-drug" id="supplies"></datalist>
     <!-- The TreatMent Modal -->
     <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -458,7 +463,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <span><b>Assigned Nurse:</b>  <span id="assigned-nurse-name"></span></span>
+                        <span><b>Assigned Nurse:</b> <span id="assigned-nurse-name"></span></span>
                     </div>
                 </div>
 
@@ -470,7 +475,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // $('#complete-surgery-btn').click(function () {
         //     var id = $('#surgery-shift-post-status').data('shiftId');
@@ -557,7 +561,45 @@
             $('#btn-hide-healthcare').addClass('btn-visibility');
             $('#div-healthcare-table').empty();
         });
+<<<<<<< HEAD
+=======
+
+        getAllSupplies();
+        function getAllSupplies() {
+            $.ajax({
+                url: EBSMSLocal + '/api/Utils/GetMedicalSupplies',
+                method: 'get',
+                success: function (data) {
+                    $(data).each(function () {
+                        var options = `<option id='${this.medicalSupplyId}' value='${this.medicalSupplyId} - ${this.medicalSupplyName}'</option>`;
+                        $('#supplies').append(options);
+                    });
+                }
+            });
+        }
+>>>>>>> 80fad4b49ba86cf323235eddbc6db11f535c3b04
     </script>
+    <!-- Add Used Medical Supply Modal -->
+    <div class="modal fade" id="addSupplyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Used Medical Suply</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-success float-right add-more-supply" type="button">Add more</button>
+                    <br /><br />
+                    <div class="form-group add-supply"> </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-addSupplyModal" class="btn btn-primary"
+                        data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

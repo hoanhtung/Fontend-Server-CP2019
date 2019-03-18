@@ -1,11 +1,14 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+    <script src="./scripts/main.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
@@ -28,50 +31,54 @@
     <!-- endbower -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
         })
     </script>
 </head>
-<body onload="loadSurgeryShiftNoSchedule()"> 
+
+<body onload="loadSurgeryShiftNoSchedule()">
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
         <div style="padding: 10px">
-            <a href="./viewSchedule.html"><button class="btn btn-primary">Back</button></a>   
-            <input id="btn-make-schedule" class="btn btn-primary" type="submit" value="Make Schedule" onClick="makeSchedule()"/>
-            <div style="padding: 3%" id="div-shift-no-schedule"></div>  
+            <a href="./viewSchedule.html"><button class="btn btn-primary">Back</button></a>
+            <input id="btn-make-schedule" class="btn btn-primary" type="submit" value="Make Schedule"
+                onClick="makeSchedule()" />
+            <div style="padding: 3%" id="div-shift-no-schedule"></div>
         </div>
-    </div>  
+    </div>
     <!-- data-toggle="modal" data-target="#modal-schedule-notification" -->
     <!-- Modal Notification - Tung -->
     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-schedule-notification">
             Open modal
     </button> -->
-          
-        <!-- The Modal -->
+
+    <!-- The Modal -->
     <div class="modal" id="modal-schedule-notification">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-        
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Scheduling Notification</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-        
-            <!-- Modal body -->
-            <div class="modal-body" id="content-schedule-notification">
-            </div>
-        
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button onclick="window.location.href = 'viewSchedule.html';" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-        
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Scheduling Notification</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="content-schedule-notification">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button onclick="window.location.href = 'viewSchedule.html';" type="button" class="btn btn-danger"
+                        data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
     </div>
 </body>
+
 </html>
