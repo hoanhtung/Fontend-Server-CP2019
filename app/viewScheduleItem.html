@@ -30,7 +30,6 @@
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- endbower -->
-    <!-- <script src="./js/tungJS.js"></script> -->
     <script src="./scripts/tungJS.js"></script>
     <script src="./scripts/vinhJS.js"></script>
     <script src="./scripts/linhJS.js"></script>
@@ -41,10 +40,15 @@
             // $("#navigation").load("./layout/navigation.html"); 
         })
         var shiftId = window.location.search.split('=')[1];
+
+        $(document).ready(function() {
+            loadSurgeryShiftDetail(shiftId);
+            checkStatus(shiftId);
+        });
     </script>
 </head>
 
-<body onload="loadSurgeryShiftDetail(shiftId); checkSetPostStatus(shiftId); CheckRecoveryStatus(shiftId)">
+<body>
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -84,6 +88,12 @@
                                     <td id="span-start-time"></td>
                                     <td><b>Estimated End Time:</b></td>
                                     <td id="span-end-time"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Actual Start Time:</b></td>
+                                    <td id="span-actual-start-time"></td>
+                                    <td><b>Actual End Time:</b></td>
+                                    <td id="span-actual-end-time"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -196,19 +206,52 @@
 
                     <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
                     <div style="float: right">
-                        <input style="margin-right: 20px;" class="btn btn-info" type="button"
-                            value="Export Surgery Report" />
-                        <input id="btn-change-post-status" class="btn btn-success" data-toggle="modal"
-                            data-target="#changePostStatusModal" type="button" value="Complete Surgery Shift" />
-                        <input id="btn-change-finished-status" class="btn btn-warning" type="button"
-                            value="Finish Caring Patient" /> <br />
+                        <input class="btn btn-info" type="button" value="Export Surgery Report" />
+                        <input id="btn-start-surgery" class="btn btn-primary btn-visibility" data-toggle="modal"
+                         type="button" data-target="#changeIntraStatusModal" value="Start Surgery Shift" />
+                        <input id="btn-complete-surgery" class="btn btn-success btn-visibility" data-toggle="modal" value="Complete Surgery Shift"
+                        data-target="#changePostStatusModal" type="button" />
+                        <input id="btn-finish-caring" data-toggle="modal" data-target="#changeFinishedStatusModal" class="btn btn-warning btn-visibility" type="button" value="Finish Caring Patient" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
     </div>
-    <!-- The Modal -->
+    <!-- The Modal Start Surgery Shift-->
+    <div class="modal fade" id="changeIntraStatusModal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Intraoperative Status</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br />
+                            <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
+                            <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                        </div>
+                        <div class="form-group">
+                            <span><b>Actual Start Time:</b></span>
+                            <input type="time" id="actual-start" class="form-control" />
+                        </div>
+                    </div>
+    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" id="change-intra-btn" class="btn btn-primary" data-dismiss="modal">Start
+                            Surgery Shift</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- The Modal Complete Surgery Shift-->
     <div class="modal fade" id="changePostStatusModal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -251,9 +294,54 @@
         </div>
     </div>
 
+    <!-- The Modal Complete Surgery Shift-->
+    <div class="modal fade" id="changeFinishedStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Complete The Care Stage </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>The patient will be moved to hospital department</span> <br />
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="change-finished-btn" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        $('#btn-change-post-status').click(function () {
+        $('#change-finished-btn').click(function() {
+            SetFinishedStatus(shiftId);
+        });
+
+        //================Start Surgery Shift=============
+
+        $('#btn-start-surgery').click(function() {
             var start = $('#span-start-time').data('start');
+            var end = $('#span-end-time').data('end')
+            appendIntraSurgeryShiftId(shiftId, start, end);
+        })
+        $('#change-intra-btn').click(function () {
+            var id = $('#surgery-shift-intra-status').data('shiftId');
+            var day = $('#surgery-shift-intra-status').data('day');
+            var actualStartTime = $('#actual-start').val();
+            var actualStartDatetime = day + ' ' + actualStartTime;
+            startSurgeryShift(id, actualStartDatetime);
+        });
+        //================Complete Surgery Shift=============
+        $('#btn-complete-surgery').click(function () {
+            var start = $('#span-actual-start-time').data('actual-start');
             var end = $('#span-end-time').data('end')
             appendPostSurgeryShiftId(shiftId, start, end);
         });
@@ -262,8 +350,9 @@
             var day = $('#surgery-shift-post-status').data('day');
             var actualEndTime = $('#actual-end').val();
             var actualEndDatetime = day + ' ' + actualEndTime;
-            completeStatus(id, actualEndDatetime);
-        })
+            setPostStatus(id, actualEndDatetime);
+        });
+        //===========================================
     </script>
     <datalist class="datalist-drug" id="drugs"></datalist>
     <!-- The TreatMent Modal -->
@@ -383,40 +472,47 @@
     </div>
 
     <script>
+        // $('#complete-surgery-btn').click(function () {
+        //     var id = $('#surgery-shift-post-status').data('shiftId');
+        //     var day = $('#surgery-shift-post-status').data('day');
+        //     var actualEndTime = $('#actual-end').val();
+        //     var actualEndDatetime = day + ' ' + actualEndTime;
+        //     setPostStatus(id, actualEndDatetime);
+        // });
+
         // ==========Surgery Report==============
-        $('#btn-hide-shift-info').hide();
-        $('#div-ekip-procedure').hide();
+        $('#btn-hide-shift-info').addClass('btn-visibility');
+        $('#div-ekip-procedure').addClass('btn-visibility');
 
         $('#btn-show-shift-info').click(function () {
-            $('#div-ekip-procedure').show();
-            $('#btn-hide-shift-info').show();
-            $('#btn-show-shift-info').hide();
+            $('#div-ekip-procedure').removeClass('btn-visibility');
+            $('#btn-hide-shift-info').removeClass('btn-visibility');
+            $('#btn-show-shift-info').addClass('btn-visibility');
         });
         $('#btn-hide-shift-info').click(function () {
-            $('#div-ekip-procedure').hide();
-            $('#btn-show-shift-info').show();
-            $('#btn-hide-shift-info').hide();
+            $('#div-ekip-procedure').addClass('btn-visibility');
+            $('#btn-show-shift-info').removeClass('btn-visibility');
+            $('#btn-hide-shift-info').addClass('btn-visibility');
         });
 
         // ==========Postoperative==============
         var drugs;
         getAllDrugs();
 
-        $('#btn-hide-postop').hide();
-        $('#div-postoperative').hide();
+        $('#btn-hide-postop').addClass('btn-visibility');
+        $('#div-postoperative').addClass('btn-visibility');
         $('#btn-show-postop').click(function () {
             var shiftId = $('#span-id').text();
-            $('#div-postoperative').show();
-            $('#btn-hide-postop').show();
-            $('#btn-show-postop').hide();
+            $('#div-postoperative').removeClass('btn-visibility');
+            $('#btn-hide-postop').removeClass('btn-visibility');
+            $('#btn-show-postop').addClass('btn-visibility');
             loadTreatmentReport(shiftId);
         });
         $('#btn-hide-postop').click(function () {
-            $('#div-postoperative').hide();
-            $('#btn-show-postop').show();
-            $('#btn-hide-postop').hide();
+            $('#div-postoperative').addClass('btn-visibility');
+            $('#btn-show-postop').removeClass('btn-visibility');
+            $('#btn-hide-postop').addClass('btn-visibility');
         });
-        // $('#actualEndTime').append(new Date());
 
         $('#treatmentModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -446,23 +542,21 @@
 
 
         // =======================Healthcare========================================
-        $('#btn-hide-healthcare').hide();
-        $('#div-healthcare').hide();
+        $('#btn-hide-healthcare').addClass('btn-visibility');
+        $('#div-healthcare').addClass('btn-visibility');
         $('#btn-show-healthcare').click(function () {
             var shiftId = $('#span-id').text();
-            $('#div-healthcare').show();
-            $('#btn-hide-healthcare').show();
-            $('#btn-show-healthcare').hide();
+            $('#div-healthcare').removeClass('btn-visibility');
+            $('#btn-hide-healthcare').removeClass('btn-visibility');
+            $('#btn-show-healthcare').addClass('btn-visibility');
             loadHealthcareReport(shiftId);
         });
         $('#btn-hide-healthcare').click(function () {
-            $('#div-healthcare').hide();
-            $('#btn-show-healthcare').show();
-            $('#btn-hide-healthcare').hide();
+            $('#div-healthcare').addClass('btn-visibility');
+            $('#btn-show-healthcare').removeClass('btn-visibility');
+            $('#btn-hide-healthcare').addClass('btn-visibility');
             $('#div-healthcare-table').empty();
         });
-
-
     </script>
 </body>
 

@@ -93,4 +93,4 @@ $('#frmLogin').submit(function(e){
     }
 });
 });
-// checkLogin();
+checkLogin();

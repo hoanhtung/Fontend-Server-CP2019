@@ -67,8 +67,8 @@
 
     const returnTemplate = function (url, isActive, tagName) {
         return `<li class="nav-item ${isActive ? 'active' : ''}">
-                    <a class="nav-link active" href="./${url}">${tagName}</a>
-                </li>`
+                    <a class="nav-link active" href="./${url}"><b>${tagName}</b></a>
+                </li>`;
     }
     renderMenu();
 </script>

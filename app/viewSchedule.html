@@ -30,7 +30,6 @@
     <script src="scripts/jquery-ui.js"></script>
     
     <script>
-
         var roomList = null;
         $.ajax({
             url: EBSMSLocal + '/api/Schedule/GetSurgeryRooms/',
@@ -44,20 +43,12 @@
             $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
             $("#date-input").val(formatInputDate(new Date()));
-
-            //add emer
-            
+            loadSurgeryRoom(convertDateToNumber(new Date()));
         })
-
     </script>
 </head>
 
-<body onload="loadSurgeryRoom(convertDateToNumber(new Date()))">
-    <!-- <style>
-        .ui-front {
-            z-index: 90000;
-        }
-    </style> -->
+<body>
     <div class="dashboard-main-wrapper">
         <!-- header -->
         <div id="header"></div>
@@ -78,8 +69,6 @@
                                 <input class="btn btn-success" id="swap-btn" type="submit" value="Swap Schedule" />
                                 <input class="btn btn-primary" type="submit" value="Add Emergency Shift" id="addEmerTmpBtn"
                                     data-toggle="modal" data-target="#addEmergencyShift" />
-                                <!-- <input class="btn btn-danger" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View New Schedule"/> -->
-                                <!-- <input class="btn btn-warning" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View Old Schedule"/> -->
                                 <br /> <br/>
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword"
@@ -113,6 +102,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal change schedule -->
     <div class="modal fade" id="changeTimeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
@@ -350,7 +341,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" id="start-surgery-btn" class="btn btn-primary" data-dismiss="modal">Start
+                    <button type="button" id="change-intra-btn" class="btn btn-primary" data-dismiss="modal">Start
                         Surgery Shift</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -406,10 +397,6 @@
                             <input type="checkbox" class="form-check-input" name="chkForceAdd">Force Add Emergency
                         </label>
                     </div>
-                    <!-- <div class="form-group">
-                        <span><b>End Time:</b></span>
-                        <input type="time" class="form-control" name="scheduleEndTime">
-                    </div> -->
                 </div>
 
                 <!-- Modal footer -->
@@ -460,7 +447,7 @@
             })
         })
         // start surgery - set intra
-        $('#start-surgery-btn').click(function () {
+        $('#change-intra-btn').click(function () {
             var id = $('#surgery-shift-intra-status').data('shiftId');
             var day = $('#surgery-shift-intra-status').data('day');
             var actualStartTime = $('#actual-start').val();

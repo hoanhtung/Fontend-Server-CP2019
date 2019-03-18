@@ -1,7 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
 }
-
 .title-surgery-shift h2{
     text-align: center;
     color: black;
@@ -89,4 +88,8 @@ body {
 }
 .search-schedule-css:focus {
     width: 50%;
+}
+
+.btn-visibility {
+    display: none;
 }

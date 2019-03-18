@@ -99,5 +99,5 @@ $(document).ready(function () {
         }
     });
 });
-// checkLogin();
+checkLogin();
 //# sourceMappingURL=login.js.map
