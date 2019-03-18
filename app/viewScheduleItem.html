@@ -42,7 +42,7 @@
         })
         var shiftId = window.location.search.split('=')[1];
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             loadSurgeryShiftDetail(shiftId);
             checkStatus(shiftId);
         });
@@ -129,22 +129,15 @@
                                         <div>Performed Ekip:</div>
                                         <table class="table-ekip">
                                             <tr></tr>
-                                            <!-- <tr>
-                                                <td><b>Surgeon</b></td>
-                                                <td>Trần Văn Minh</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Surgeon</b></td>
-                                                <td>Lê Anh Đạt</td>
-                                            </tr> -->
                                         </table>
                                         <hr>
                                         <div><b>Medical Supplies Used:</b></div>
-                                        <table class="table-ekip" id="table-supply"></table>
+                                        <table class="table" id="table-supply"></table>
 
                                         <button class="btn btn-primary float-right" data-toggle="modal"
-                                            data-target="#addSupplyModal" id="btn-new-treatment">Add Medical
-                                            Supply</button>
+                                            data-target="#addSupplyModal">Add Medical Supply</button>
+                                        <button class="btn btn-success float-right update-supply" data-toggle="modal"
+                                            data-target="#updateSupplyModal">Update Medical Supply</button>
                                     </div>
 
                                     <div class="div-procedure col-6">
@@ -212,10 +205,11 @@
                     <div style="float: right">
                         <input class="btn btn-info" type="button" value="Export Surgery Report" />
                         <input id="btn-start-surgery" class="btn btn-primary btn-visibility" data-toggle="modal"
-                         type="button" data-target="#changeIntraStatusModal" value="Start Surgery Shift" />
-                        <input id="btn-complete-surgery" class="btn btn-success btn-visibility" data-toggle="modal" value="Complete Surgery Shift"
-                        data-target="#changePostStatusModal" type="button" />
-                        <input id="btn-finish-caring" data-toggle="modal" data-target="#changeFinishedStatusModal" class="btn btn-warning btn-visibility" type="button" value="Finish Caring Patient" />
+                            type="button" data-target="#changeIntraStatusModal" value="Start Surgery Shift" />
+                        <input id="btn-complete-surgery" class="btn btn-success btn-visibility" data-toggle="modal"
+                            value="Complete Surgery Shift" data-target="#changePostStatusModal" type="button" />
+                        <input id="btn-finish-caring" data-toggle="modal" data-target="#changeFinishedStatusModal"
+                            class="btn btn-warning btn-visibility" type="button" value="Finish Caring Patient" />
                     </div>
                 </div>
             </div>
@@ -224,36 +218,36 @@
     </div>
     <!-- The Modal Start Surgery Shift-->
     <div class="modal fade" id="changeIntraStatusModal">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-    
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Change Intraoperative Status</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Intraoperative Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br />
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
+                        <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
                     </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br />
-                            <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
-                            <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
-                        </div>
-                        <div class="form-group">
-                            <span><b>Actual Start Time:</b></span>
-                            <input type="time" id="actual-start" class="form-control" />
-                        </div>
+                    <div class="form-group">
+                        <span><b>Actual Start Time:</b></span>
+                        <input type="time" id="actual-start" class="form-control" />
                     </div>
-    
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" id="change-intra-btn" class="btn btn-primary" data-dismiss="modal">Start
-                            Surgery Shift</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="change-intra-btn" class="btn btn-primary" data-dismiss="modal">Start
+                        Surgery Shift</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- The Modal Complete Surgery Shift-->
     <div class="modal fade" id="changePostStatusModal">
@@ -317,7 +311,8 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" id="change-finished-btn" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    <button type="button" id="change-finished-btn" class="btn btn-primary"
+                        data-dismiss="modal">OK</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -325,13 +320,13 @@
     </div>
 
     <script>
-        $('#change-finished-btn').click(function() {
+        $('#change-finished-btn').click(function () {
             SetFinishedStatus(shiftId);
         });
 
         //================Start Surgery Shift=============
 
-        $('#btn-start-surgery').click(function() {
+        $('#btn-start-surgery').click(function () {
             var start = $('#span-start-time').data('start');
             var end = $('#span-end-time').data('end')
             appendIntraSurgeryShiftId(shiftId, start, end);
@@ -591,6 +586,25 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btn-addSupplyModal" class="btn btn-primary"
+                        data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Used Medical Supply Modal -->
+    <div class="modal fade" id="updateSupplyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Used Medical Supply</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="update-supply-detail"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-updateSupplyModal" class="btn btn-primary"
                         data-dismiss="modal">Save</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
