@@ -34,7 +34,7 @@ function checkRole(tokenData) {
                 }
             case 'CHIEFNURSE':
                 {
-                    var _accessUrl2 = ['viewSchedule.html', 'viewScheduleItem.html'];
+                    var _accessUrl2 = ['viewSchedule.html', 'viewScheduleItem.html', 'viewShiftNoSchedule.html'];
                     if (!checkAccessPage(_accessUrl2, url)) {
                         window.location.replace(_accessUrl2[0]);
                     };

@@ -29,7 +29,7 @@ function checkRole(tokenData) {
                 break;
             }
             case 'CHIEFNURSE': {
-                const accessUrl = ['viewSchedule.html', 'viewScheduleItem.html'];
+                const accessUrl = ['viewSchedule.html', 'viewScheduleItem.html', 'viewShiftNoSchedule.html'];
                 if (!checkAccessPage(accessUrl, url)) {
                     window.location.replace(accessUrl[0]);
                 };

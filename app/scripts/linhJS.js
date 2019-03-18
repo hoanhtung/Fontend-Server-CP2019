@@ -1,3 +1,5 @@
+var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'http://172.20.10.7:5000';
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
     sessionStorage.removeItem('supplyObj');
@@ -170,11 +172,12 @@ function saveSurgeryProfile() {
                     sessionStorage.setItem('infoObj', JSON.stringify(shift));
                     sessionStorage.setItem('supplyObj', JSON.stringify(supplyList));
                     alert('Import successfully!');
+                    window.location.href = 'importList.html';
                 }
             })
         }
     })
-    window.location.href = 'importList.html';
+    
 }
 
 function getImportDetail(id) {
