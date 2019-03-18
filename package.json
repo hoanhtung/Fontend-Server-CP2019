@@ -8,7 +8,7 @@
     "babel-preset-es2015": "^6.3.13",
     "browser-sync": "^2.2.1",
     "del": "^1.1.1",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.0.1",
     "gulp-babel": "^6.1.1",
     "gulp-cache": "^0.2.8",
@@ -38,5 +38,29 @@
         "single"
       ]
     }
-  }
+  },
+  "name": "Fontend-EBSMS",
+  "description": "",
+  "version": "1.0.0",
+  "main": "gulpfile.babel.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@aspnet/signalr": "^1.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoanhtung/Fontend-Server-CP2019.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoanhtung/Fontend-Server-CP2019/issues"
+  },
+  "homepage": "https://github.com/hoanhtung/Fontend-Server-CP2019#readme"
 }

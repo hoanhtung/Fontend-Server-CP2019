@@ -1,0 +1,38 @@
+{
+  "name": "Unison",
+  "version": "0.6.0",
+  "homepage": "http://bjork24.github.io/Unison/",
+  "authors": [
+    "Dan Chilton <dan.chilton@gmail.com>"
+  ],
+  "description": "Unifying named breakpoints across CSS, JS, and HTML",
+  "main": [
+    "./js/unison.js",
+    "./js/unison.min.js",
+    "./css/_breakpoints.scss",
+    "./css/breakpoints.less",
+    "./css/breakpoints.styl"
+  ],
+  "keywords": [
+    "breakpoints",
+    "javascript",
+    "css",
+    "markup"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    ".sass-cache"
+  ],
+  "_release": "0.6.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.6.0",
+    "commit": "e6c5cbd24df98e3ef8e89c6d3a848e6a0363f312"
+  },
+  "_source": "https://github.com/bjork24/Unison.git",
+  "_target": "^0.6.0",
+  "_originalSource": "unison",
+  "_direct": true
+}
