@@ -44,13 +44,7 @@
             $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
             $("#date-input").val(formatInputDate(new Date()));
-<<<<<<< HEAD
             loadSurgeryRoom(convertDateToNumber(new Date()));
-=======
-
-            //add emer
-
->>>>>>> 80fad4b49ba86cf323235eddbc6db11f535c3b04
         })
     </script>
 </head>
@@ -74,17 +68,9 @@
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <input class="btn btn-success" id="swap-btn" type="submit" value="Swap Schedule" />
-<<<<<<< HEAD
                                 <input class="btn btn-primary" type="submit" value="Add Emergency Shift" id="addEmerTmpBtn"
                                     data-toggle="modal" data-target="#addEmergencyShift" />
                                 <br /> <br/>
-=======
-                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift"
-                                    id="addEmerTmpBtn" data-toggle="modal" data-target="#addEmergencyShift" />
-                                <!-- <input class="btn btn-danger" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View New Schedule"/> -->
-                                <!-- <input class="btn btn-warning" type="submit" onclick="loadSurgeryRoom(convertDateToNumber(new Date()))" value="View Old Schedule"/> -->
-                                <br /> <br />
->>>>>>> 80fad4b49ba86cf323235eddbc6db11f535c3b04
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword"
                                     onkeyup="searchSchedule()" />

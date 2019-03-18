@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 {"version":3,"sources":["main.js"],"names":["EBSMSLocal"],"mappings":";;AAAA,IAAIA,aAAa,yBAAjB;AACA;AACA","file":"main.js","sourcesContent":["var EBSMSLocal = 'https://localhost:44372';\r\n// var EBSMSLocal = 'http://172.20.10.7:5000';\r\n// var EBSMSLocal = 'http://localhost:5000';"]}
-=======
-{"version":3,"sources":["main.js"],"names":["EBSMSLocal"],"mappings":";;AAAA,IAAIA,aAAa,yBAAjB;AACA","file":"main.js","sourcesContent":["var EBSMSLocal = 'https://localhost:44372';\r\n// var EBSMSLocal = 'http://172.20.10.7:5000';"]}
->>>>>>> 80fad4b49ba86cf323235eddbc6db11f535c3b04
