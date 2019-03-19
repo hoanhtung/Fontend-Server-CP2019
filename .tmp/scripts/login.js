@@ -18,7 +18,7 @@ function checkRole(tokenData) {
         switch (tokenData.role.toUpperCase().trim()) {
             case 'HOSPITALSTAFF':
                 {
-                    var accessUrl = ['importList.html', 'importDetail.html'];
+                    var accessUrl = ['importList.html', 'importDetail.html', 'importListV2.html'];
                     if (!checkAccessPage(accessUrl, url)) {
                         window.location.replace(accessUrl[0]);
                     };

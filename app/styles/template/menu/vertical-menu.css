@@ -94,15 +94,18 @@ body.vertical-layout.vertical-menu.menu-collapsed .main-menu {
   body.vertical-layout.vertical-menu.menu-collapsed .main-menu .user-content {
     padding: 20px 10px; }
   body.vertical-layout.vertical-menu.menu-collapsed .main-menu .main-menu-content > span.menu-title, body.vertical-layout.vertical-menu.menu-collapsed .main-menu .main-menu-content a.menu-title {
-    right: -240px;
-    width: 240px;
+    right: -250px;
+    width: 250px;
     font-weight: 600;
-    color: #fff;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
     text-transform: uppercase;
     text-align: left;
-    background-color: #967ADC;
-    border-color: #967ADC;
-    padding: 11px 20px; }
+    background-color: #757575;
+    border-color: #757575;
+    padding: 11px 20px; 
+    height: 80px;}
   body.vertical-layout.vertical-menu.menu-collapsed .main-menu .main-menu-content > ul.menu-content {
     left: 60px;
     width: 240px;

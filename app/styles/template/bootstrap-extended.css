@@ -409,7 +409,8 @@ Bootstrap Enhance */
   background-color: #cccccc; }
 
 .btn-primary ~ .dropdown-menu .dropdown-item.active {
-  background-color: #967ADC; }
+  background-color: #967ADC;
+  }
 
 .btn-success ~ .dropdown-menu .dropdown-item.active {
   background-color: #37BC9B; }
@@ -567,7 +568,8 @@ button:focus {
   .header-navbar.navbar-semi-dark {
     background: #FFFFFF; }
     .header-navbar.navbar-semi-dark .navbar-header {
-      background: #1D2B36; }
+      background: #1D2B36; } 
+      /* 1D2B36 */
     .header-navbar.navbar-semi-dark .navbar-nav li {
       line-height: 1; }
     .header-navbar.navbar-semi-dark .navbar-nav .nav-link {
@@ -589,7 +591,7 @@ button:focus {
     height: 4rem;
     float: left;
     position: relative;
-    padding: 0rem 1rem;
+    padding: 0rem 0rem;
     transition: 300ms ease all; }
     .header-navbar .navbar-header .navbar-brand {
       padding: 15px 6px; }
@@ -832,7 +834,7 @@ button:focus {
   .header-navbar.navbar-semi-dark .hamburger-inner::after {
     background-color: #FFFFFF; }
   .header-navbar.navbar-dark .navbar-header .navbar-nav .nav-link, .header-navbar.navbar-semi-dark .navbar-header .navbar-nav .nav-link {
-    color: #FFFFFF; }
+    color: #55595c; }
   .header-navbar.navbar-dark .navbar-container .navbar-nav .nav-link, .header-navbar.navbar-semi-dark .navbar-container .navbar-nav .nav-link {
     color: #55595c; } }
 
@@ -1088,11 +1090,11 @@ button:focus {
 .tag-primary {
   background-color: #967ADC; }
   .tag-primary.tag-glow {
-    box-shadow: 0px 0px 10px #967ADC; }
+    box-shadow: 0px 0px 10px #7652d1; }
   .tag-primary[href]:focus {
     background-color: #7652d1; }
   .tag-primary[href]:hover {
-    background-color: #7652d1; }
+    background-color: black; }
 
 .tag-success {
   background-color: #37BC9B; }

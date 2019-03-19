@@ -31,6 +31,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts/jquery-ui.js"></script>
 
+    <script src="/bower_components/@aspnet/signalr/dist/browser/signalr.js"></script>
+    <script src="./scripts/notifyMessage.js"></script>
     <script>
         var roomList = null;
         $.ajax({
@@ -47,6 +49,8 @@
             $("#date-input").val(formatInputDate(new Date()));
             loadSurgeryRoom(convertDateToNumber(new Date()));
         })
+
+
     </script>
 </head>
 
@@ -61,17 +65,20 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h3 style="text-align: center" class="pageheader-title">Surgery Schedule</h3>
+                                <h1 style="text-align: center" class="pageheader-title"><b>Surgery Schedule</b></h1>
+                                <div id="messageId"></div>
                                 <input id="date-input" type="date" value="" onchange="getScheduleByDay()" />
                                 <div id="clock" style="float: right; font-size: 40px; font-weight: bold"></div>
                                 <br />
+                                <!-- <button onclick="SendNotification()">Click on</button> -->
+                                <!-- <div id="div-notification">Kakaka</div> -->
                                 <br />
                                 <input class="btn btn-success" type="submit" value="View Shift No Schedule"
                                     onClick="window.location.href = 'viewShiftNoSchedule.html';" />
                                 <input class="btn btn-success" id="swap-btn" type="submit" value="Swap Schedule" />
-                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift" id="addEmerTmpBtn"
-                                    data-toggle="modal" data-target="#addEmergencyShift" />
-                                <br /> <br/>
+                                <input class="btn btn-primary" type="submit" value="Add Emergency Shift"
+                                    id="addEmerTmpBtn" data-toggle="modal" data-target="#addEmergencyShift" />
+                                <br /> <br />
                                 <!-- Search funtion -->
                                 <input type="text" placeholder="Search" class="search-schedule-css" id="keyword"
                                     onkeyup="searchSchedule()" />

@@ -67,7 +67,6 @@ body {
 .div-ekip .table-ekip tr td{
     padding-right: 40px;
     padding-bottom: 10px;
-
 }
 
 
@@ -93,4 +92,42 @@ body {
 
 .btn-visibility {
     display: none;
+}
+
+
+/* ======================Fix template========================== */
+.tung-nav-header {
+    background: #ffffff !important;
+    overflow: hidden;
+}
+.nav-item .navbar-brand {
+    padding-top: 0 !important; 
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.nav-item .navbar-brand img {
+    width: 56px;
+    height: 56px;
+    background-size: cover;
+}
+.nav-item .navbar-brand span {
+    font-family: 'Ubuntu', sans-serif;
+    line-height: inherit;
+    font-size: 30px;
+    font-weight: 700;
+    color: #10867A;
+    padding-top: 10px;
+    margin-left: 10px;
+}
+.menu-title {
+    font-weight: bold;
+}
+/* .tung-nav-item {
+    display: flex;
+} */
+.tung-nav-item a{
+    height: 80px;
+    display: flex !important;
+    align-items: center;
 }
