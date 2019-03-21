@@ -18,7 +18,7 @@ function checkRole(tokenData) {
         switch (tokenData.role.toUpperCase().trim()) {
             case 'HOSPITALSTAFF':
                 {
-                    var accessUrl = ['importList.html', 'importDetail.html', 'importListV2.html'];
+                    var accessUrl = ['test_nav.html', 'importList.html', 'importDetail.html', 'importListV2.html'];
                     if (!checkAccessPage(accessUrl, url)) {
                         window.location.replace(accessUrl[0]);
                     };
@@ -34,7 +34,7 @@ function checkRole(tokenData) {
                 }
             case 'CHIEFNURSE':
                 {
-                    var _accessUrl2 = ['viewSchedule.html', 'viewScheduleItem.html', 'viewShiftNoSchedule.html'];
+                    var _accessUrl2 = ['test_nav.html', 'viewSchedule.html', 'viewScheduleItem.html', 'viewShiftNoSchedule.html'];
                     if (!checkAccessPage(_accessUrl2, url)) {
                         window.location.replace(_accessUrl2[0]);
                     };

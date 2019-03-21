@@ -1,4 +1,4 @@
-var EBSMSLocal = 'http://localhost:5000';
+var EBSMSLocal = 'https://localhost:44372';
 // var EBSMSLocal = 'http://172.20.10.7:5000';
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
@@ -240,9 +240,10 @@ function confirmAllSupply() {
         data: JSON.stringify(ids),
         success: function () {
             makeSchedule();
-            window.location.href = 'confirmMSRequest.html'
+            window.location.href = 'confirmMSRequest.html';
         }
     })
+
 }
 
 function getMedicalRequest() {
