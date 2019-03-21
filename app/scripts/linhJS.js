@@ -1,8 +1,4 @@
 var EBSMSLocal = 'https://localhost:44372';
-<<<<<<< HEAD
-=======
-// var EBSMSLocal = 'https://localhost:5000';
->>>>>>> f6e1d5d97a62da5250badc6f5d5892591441e4f3
 // var EBSMSLocal = 'http://172.20.10.7:5000';
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
