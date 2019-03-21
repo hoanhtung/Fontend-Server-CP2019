@@ -439,7 +439,8 @@ $(document).on("click", ".update-supply", function () {
     for (var i = 1; i < data.childElementCount; i++) {
         html = html + "<tr><td class='col-2'>" + data.children[i].children[1].innerHTML + "</td>" +
             "<td><input type='number' min='0' value='" + data.children[i].children[2].innerHTML + "' style='width: 55px' /></td>" +
-            "<td style='display:none'>" + data.children[i].children[3].innerHTML + "</td></tr>";
+            "<td style='display:none'>" + data.children[i].children[3].innerHTML + "</td>" +
+            "<td><button class='btn btn-danger'>Delete</button></td></tr>";
     }
     html = html + "</table>";
     document.getElementById('update-supply-detail').innerHTML = html;
@@ -451,8 +452,6 @@ $(document).on("click", "#btn-updateSupplyModal", function () {
     var data = document.getElementById(idHtml).children[0];
     var updateData = [];
     for (var i = 0; i < data.childElementCount; i++) {
-        // console.log(data.children[i].children[1].children[0].value);
-        // console.log(data.children[i].children[2].innerHTML);
         updateData.push({
             medicalSupplyId: data.children[i].children[2].innerHTML,
             surgeryShiftId: shiftId,
@@ -468,4 +467,10 @@ $(document).on("click", "#btn-updateSupplyModal", function () {
         data: JSON.stringify(updateData)
     })
     window.location.reload(true);
+});
+
+$(document).on("click", "#update-supply-detail-table tr td button", function () {
+    $(this).parent().parent().addClass('line-cross');
+    $(this).parent().parent().find('input').attr('readonly', true);
+    $(this).parent().parent().find('input').attr('value', 0);
 });
