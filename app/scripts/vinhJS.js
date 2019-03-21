@@ -366,7 +366,7 @@ $(document).on("click", "#btn-new-treatment", function () {
     $("#treatmentModal").append(` <div class="modal-dialog modal-lg" style="max-width: max-content;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Treatment</h5>
+                    <h5 class="modal-title">Treatment 1</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -439,18 +439,18 @@ $(document).on("click", "#btn-new-treatment", function () {
 $(document).on("click", ".add-more", function () {
                 $(".after-add-more").last().after(`<div class="row row-drug control-group after-add-more" style="padding-inline-start: 15px; margin-top: 10px">
                 <input type="number" class="d-none" name="drug-id" value="" />
-                                                                    <div class="easyautocomplete-wraper col-5">
-                                                                    <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name"  onchange="updateUnit.call(this, this.value)"/>
-                                                                </div>
-                                                                <input type="text" class="drug-quantity col-1 form-control  drug-used-time" readonly/>
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
-                                                                <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
-                                                                <div class="input-group-btn  col-1">
-                                                                    <button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button>
-                                                                </div>
-                                                            </div>`);
+                        <div class="easyautocomplete-wraper col-5">
+                        <input type="text" list="drugs" class="drug form-control " name="drug-name"  placeholder="Enter drug name"  onchange="updateUnit.call(this, this.value)"/>
+                    </div>
+                    <input type="text" class="drug-quantity col-1 form-control  drug-used-time" readonly/>
+                    <input type="number" min="0" class="col-1 drug-used-time form-control" name="isMorning">
+                    <input type="number" min="0" class="col-1 drug-used-time form-control" name="isAfternoon">
+                    <input type="number" min="0" class="col-1 drug-used-time form-control" name="isEvening">
+                    <input type="number" min="0" class="col-1 drug-used-time form-control" name="isNight">
+                    <div class="input-group-btn  col-1">
+                        <button class="btn btn-danger remove" type="button"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>`);
     // autocompleteDrug();
 });
 

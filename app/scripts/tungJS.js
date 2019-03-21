@@ -114,7 +114,7 @@ function checkPreviousShift(surgeryShiftId) {
     });
     return result;
 }
-// change status
+// change status -- view schedule page
 function startSurgeryShift(shiftId, actualStartTime) {
     var today = new Date($('#date-input').val());
     $.ajax({
@@ -130,7 +130,7 @@ function startSurgeryShift(shiftId, actualStartTime) {
     })
 }
 
-//Refresh Schedule
+//Refresh Schedule -- view schedule page
 function refreshSchedule(surgeryShiftId) {
     $.ajax({
         url: EBSMSLocal + '/api/Schedule/RefreshSurgeryShift?shiftId=' + surgeryShiftId,
@@ -161,7 +161,6 @@ function setPostStatus(surgeryShiftId, actualEndTime) {
         }
     })
 }
-
 function SetFinishedStatus(surgeryShiftId) {
     $.ajax({
         url: EBSMSLocal + '/api/Status/SetFinishedStatus?shiftId=' + surgeryShiftId,
@@ -194,24 +193,6 @@ function appendPostSurgeryShiftId(shiftId, start, end) {
 
     var formatEndTime = formatStringtoDateTimeString(end).split(' ')[0];
     $('#actual-end').val(formatEndTime);
-}
-// -----------------------------------
-
-function LoadSurgeryShiftByRoomAndDate() {
-    $.ajax({
-        url: EBSMSLocal + '/api/Schedule/GetSurgeryShiftsByRoomAndDate/',
-        method: 'get',
-        data: { roomId: room[index].id, dayNumber: surgeryDay },
-        success: function (shift) {
-            for (let index = 0; index < shift.length; index++) {
-                strAppend += '<a href="./viewScheduleItem.html?Id=' + shift[index].id + '"><div class="div-roomBodyItem">' +
-                    shift[index].catelogName +
-                    'Patient: ' + shift[index].patientName +
-                    'Time: ' + shift[index].estimatedStartDateTime + '-' + shift[index].estimatedEndDateTime;
-                '</div></a>';
-            }
-        }
-    });
 }
 
 function loadSurgeryShiftDetail(surgeryShiftId) {
@@ -295,7 +276,7 @@ function loadSurgeryShiftNoSchedule() {
         }
     })
 }
-
+//schedule Detail
 function checkStatus(surgeryId) {
     const preStatus = 'Preoperative';
     const intraStatus = 'Intraoperative';
@@ -328,11 +309,12 @@ function appendChangeInfoShift(id, start, end) {
     $('#change-start-time').html(start.split(' ')[0]);
     $('#change-end-time').html(end.split(' ')[0])
 }
-
+//******************************
 function getScheduleByDay() {
     var date = new Date($('#date-input').val());
     loadSurgeryRoom(convertDateToNumber(date));
 }
+//*******************************
 
 //Add emergency
 function AddEmergencyShift(startDatetime, endDatetime, chkForce) {
