@@ -1,4 +1,5 @@
-var EBSMSLocal = 'http://localhost:5000';
+var EBSMSLocal = 'https://localhost:44372';
+// var EBSMSLocal = 'https://localhost:5000';
 // var EBSMSLocal = 'http://172.20.10.7:5000';
 function removeSessionStorage() {
     sessionStorage.removeItem('infoObj');
@@ -177,7 +178,7 @@ function saveSurgeryProfile() {
             })
         }
     })
-    
+
 }
 
 function getImportDetail(id) {
@@ -370,7 +371,8 @@ function loadUsedSupplies(surgeryId) {
             for (var i = 0; i < data.length; i++) {
                 html = html + "<tr><td>" + ++j + "</td>" +
                     "<td>" + data[i].medicalSupplyName + "</td>" +
-                    "<td>" + data[i].quantity + "</td></tr>";
+                    "<td>" + data[i].quantity + "</td>" +
+                    "<td style='display:none'>" + data[i].medicalSupplyId + "</td></tr>";
             }
             document.getElementById('table-supply').innerHTML = html;
         }
@@ -428,7 +430,43 @@ function loadEkipMember(surgeryId) {
                     "<td>" + data[i].name + "</td></tr>";
             }
             $(".table-ekip tr:last").after(ekip);
-            console.log(ekip);
         }
     })
 }
+
+$(document).on("click", ".update-supply", function () {
+    var data = document.getElementById('table-supply').children[0];
+    var html = "<table class='table' id='update-supply-detail-table'>";
+    for (var i = 1; i < data.childElementCount; i++) {
+        html = html + "<tr><td class='col-2'>" + data.children[i].children[1].innerHTML + "</td>" +
+            "<td><input type='number' min='0' value='" + data.children[i].children[2].innerHTML + "' style='width: 55px' /></td>" +
+            "<td style='display:none'>" + data.children[i].children[3].innerHTML + "</td></tr>";
+    }
+    html = html + "</table>";
+    document.getElementById('update-supply-detail').innerHTML = html;
+});
+
+$(document).on("click", "#btn-updateSupplyModal", function () {
+    var idHtml = 'update-supply-detail-table';
+    var shiftId = window.location.search.split('=')[1];
+    var data = document.getElementById(idHtml).children[0];
+    var updateData = [];
+    for (var i = 0; i < data.childElementCount; i++) {
+        // console.log(data.children[i].children[1].children[0].value);
+        // console.log(data.children[i].children[2].innerHTML);
+        updateData.push({
+            medicalSupplyId: data.children[i].children[2].innerHTML,
+            surgeryShiftId: shiftId,
+            quantity: data.children[i].children[1].children[0].value
+        });
+    }
+    console.log(updateData);
+    $.ajax({
+        url: EBSMSLocal + '/api/SurgeryShift/UpdateMedicalSupply',
+        method: 'post',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(updateData)
+    })
+    window.location.reload(true);
+});
