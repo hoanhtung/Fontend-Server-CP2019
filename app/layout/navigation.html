@@ -1,25 +1,74 @@
 <div class="nav-left-sidebar sidebar-dark">
-        <div class="menu-list">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav flex-column">
-                        <li class="nav-divider">
-                            Menu
-                        </li>
-                        <li class="nav-item ">
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link active" href="./importList.html">Import Excel File List</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link active" href="./confirmMSRequest.html">Confirm Medical Supplies</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link active" href="./viewSchedule.html">View Schedule</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+    <div class="menu-list">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav flex-column" id="menu">
+                    <li class="nav-divider">
+                        Menu
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./importList.html">
+                            <i class="fas fa-file-import"></i><b>Import Excel File</b>
+                        </a>
+                        <a class="nav-link" href="./confirmMSRequest.html">
+                            <i class="fas fa-clipboard-check"></i><b>Confirm Medical Supplies</b>
+                        </a>
+                        <a class="nav-link" href="./viewSchedule.html">
+                            <i class="fas fa-calendar-alt"></i><b>View Surgery Schedule</b>
+                        </a>
+                    </li>     
+                </ul>
+            </div>
+        </nav>
     </div>
+</div>
+<script>
+    var renderMenu = function () {
+        const tokenData = JSON.parse(localStorage.getItem('TOKEN_DATA'));
+        if (tokenData) {
+            const role = tokenData.role.toUpperCase().trim();
+            const currentPage = window.location.pathname;
+            let container = ` <li class="nav-divider">
+                                    Menu
+                                </li>`;
+            switch (role) {
+                case 'MEDICALSUPPLIER': {
+                    var menu_MEDICALSUPPLIER = {link : 'confirmMSRequest.html', name : 'Confirm Medical Supplies'}
+                    const menu_MEDICALSUPPLIER_ARRAY = [menu_MEDICALSUPPLIER];
+                    menu_MEDICALSUPPLIER_ARRAY.forEach(el => {
+                        container += returnTemplate(el.link, currentPage.includes(el.link), el.name);
+                    });
+                    break;
+                }
+                case 'HOSPITALSTAFF': {
+                    var menu_HOSPITALSTAFF = {link : 'importList.html', name : 'Import Excel File'}
+                    const menu_HOSPITALSTAFF_ARRAY = [menu_HOSPITALSTAFF];
+                    menu_HOSPITALSTAFF_ARRAY.forEach(el => {
+                        container += returnTemplate(el.link, currentPage.includes(el.link), el.name);
+                    });
+                    break;
+                }
+                case 'CHIEFNURSE': {
+                    var menu_CHIEFNURSE = {link : 'viewSchedule.html', name : 'View Schedule'}
+                    const menu_CHIEFNURSE_ARRAY = [menu_CHIEFNURSE];
+                    menu_CHIEFNURSE_ARRAY.forEach(el => {
+                        container += returnTemplate(el.link, currentPage.includes(el.link), el.name);
+                    });
+                    break;
+                } default: {
+                    return;
+                }
+            }
+            $('ul#menu').empty();
+            $('ul#menu').append(container);
+        }
+    }
+
+    const returnTemplate = function (url, isActive, tagName) {
+        return `<li class="nav-item ${isActive ? 'active' : ''}">
+                    <a class="nav-link active" href="./${url}"><b>${tagName}</b></a>
+                </li>`;
+    }
+    renderMenu();
+</script>

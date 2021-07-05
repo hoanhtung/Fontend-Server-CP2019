@@ -1,35 +1,60 @@
 <html lang="en">
+
 <head>
+    <script src="./scripts/main.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/headerStyle.css">
     <!-- endbuild -->
+
+    <!-- ==============tmp================== -->
+    <link rel="stylesheet" type="text/css" href="fonts/icomoon.css">
+    <link rel="stylesheet" type="text/css" href="styles/template/app.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet">
+    <!-- =================================================== -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- build:css styles/tungStyle.css -->
     <link rel="stylesheet" href="styles/tungStyle.css">
+    <link rel="stylesheet" href="styles/vinhStyle.css">
+    <link rel="stylesheet" href="styles/itemScheduleStyle.css">
     <!-- endbuild -->
     <!-- <script src="./js/tungJS.js"></script> -->
+    <script src="./scripts/lib_utilities.js"></script>
+    <!-- bower:js -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/fontawesome-all.min.css">
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- endbower -->
     <script src="./scripts/tungJS.js"></script>
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbower -->
+    <script src="./scripts/vinhJS.js"></script>
+    <script src="./scripts/linhJS.js"></script>
     <title>Surgery Management System</title>
+    <style>
+        .line-cross {
+            text-decoration: line-through;
+        }
+    </style>
     <script>
-        $(function() {
-            $("#header").load("./layout/header.html"); 
+        $(function () {
+            $("#header").load("./layout/header.html");
             // $("#navigation").load("./layout/navigation.html"); 
         })
+        var shiftId = window.location.search.split('=')[1];
+
+        $(document).ready(function () {
+            loadSurgeryShiftDetail(shiftId);
+            checkStatus(shiftId);
+        });
     </script>
 </head>
-<body>
+
+<body onload="loadUsedSupplies(shiftId); loadEkipMember(shiftId);">
     <div class="dashboard-main-wrapper">
         <div id="header"></div>
         <div class="container-scheduleItem">
@@ -42,60 +67,555 @@
                             </div>
                         </div>
                     </div>
-                    <div class="div-surgery-report">
+                    <div id="span-id" class="d-none"></div>
+                    <div class="div-surgery-report form-group">
+                        <table class="table table-borderless table-information-shift">
+                            <tbody id="body-detail-shift">
+                                <tr>
+                                    <td><b>Patient:</b></td>
+                                    <td id="span-name"></td>
+                                    <td><b>Gender:</b></td>
+                                    <td id="span-gender"></td>
+                                    <td><b>Age:</b></td>
+                                    <td id="span-age"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Specialty:</b></td>
+                                    <td id="span-specialty"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Surgery Name:</b></td>
+                                    <td id="span-surgery-name"></td>
+                                    <td><b>Type Of Surgery:</b></td>
+                                    <td id="span-surgery-type"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Estimated Start Time:</b></td>
+                                    <td id="span-start-time"></td>
+                                    <td><b>Estimated End Time:</b></td>
+                                    <td id="span-end-time"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Actual Start Time:</b></td>
+                                    <td id="span-actual-start-time"></td>
+                                    <td><b>Actual End Time:</b></td>
+                                    <td id="span-actual-end-time"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr />
+                        <!-- <div class="row">
+                            <div><span class="title-part col-12">Status Of Surgery Shift</span></div>
+                            <div class="progress col-12">
+                                <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="col-12">
+                                <div><span>(Intraoperative) Actual Start Time:</span></div> 
+                                <div><span>(Postoperative) Actual End Time:</span></div> 
+                                <div><span>(Recovery) At:</span></div> 
+                                <div><span>(Finished) At:</span></div> 
+                            </div>
+                        </div> -->
+                        <br />
+                        <div class="row">
+                            <div class="col-12">
+                                <span id="btn-show-shift-info" class="title-part button-show"><i
+                                        class="far fa-plus-square"></i> Surgery Information Detail:</span>
+                            </div>
+                            <div class="col-12">
+                                <span id="btn-hide-shift-info" class="title-part button-show"><i
+                                        class="far fa-minus-square"></i> Surgery Information Detail:</span>
+                            </div>
+                            <div id="div-ekip-procedure" class="div-editable-information col-12">
+                                <div class="row">
+                                    <div class="div-ekip col-6">
+                                        <div>Performed Ekip:</div>
+                                        <table class="table-ekip">
+                                            <tr></tr>
+                                        </table>
+                                        <hr>
+                                        <div><b>Medical Supplies Used:</b></div>
+                                        <table class="table" id="table-supply"></table>
+
+                                        <button class="btn btn-primary float-right" data-toggle="modal"
+                                            data-target="#addSupplyModal">Add Medical Supply</button>
+                                        <button class="btn btn-success float-right update-supply" data-toggle="modal"
+                                            data-target="#updateSupplyModal">Update Medical Supply</button>
+                                    </div>
+
+                                    <div class="div-procedure col-6">
+                                        <div><b>Surgery Procedure:</b></div>
+                                        <br />
+                                        <textarea style="padding: 30px" id="textarea-procedure" rows="20" cols="50"
+                                            readonly></textarea>
+                                        <input style="margin-left: 20px;" class="btn btn-danger" type="button"
+                                            value="Edit" id="btn-edit" />
+                                        <input style="margin-left: 20px;" class="btn btn-success" type="button"
+                                            value="Save" id="btn-saveprocedure" onclick="saveSurgeryProcedure()" />
+                                    </div>
+                                    <script>
+                                        //Edit Procedure
+                                        $('#btn-edit').click(function () {
+                                            $('#textarea-procedure').attr("readonly", false);
+                                            $('#textarea-procedure').focus();
+                                        });
+                                        $('#btn-saveprocedure').click(function () {
+                                            $('#textarea-procedure').attr("readonly", true);
+
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
                         <div>
-                            <div class="div-info-patient">
-                                <div><b>Patient Name:</b> <span id="span-name"></span></div>
-                                <div><b>Gender:</b> <span id="span-gender"></span></div>
-                                <div><b>Age:</b> <span id="span-age"></span></div>   
-                            </div>
-                            <div class="div-info-surgery-shift">
-                                <div><b>Specialty:</b> <span id="span-specialty"></span></div>
-                                <div><b>Surgery Name:</b> <span id="span-surgery-name"></span></div>
-                                <div><b>Type Of Surgery:</b> <span id="span-surgery-type"></span></div>
-                                <div><b>Start Time:</b> <span id="span-start-time"></span></div>
-                                <div><b>End Time:</b> <span id="span-end-time"></span></div>
-                            </div>
-                        </div>
-                        <br/>
-                        <b>Surgery Information Detail:</b>
-                        <div class="div-editable-information">
-                            <div class="div-ekip">
-                                <div><b>Performed Ekip:</b></div>
-                                <br/>
-                                <table class="table-ekip">
-                                    <tr>
-                                        <td><b>Surgeon:</b></td>
-                                        <td>Lê Hoàng Anh</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Surgeon:</b></td>
-                                        <td>Lê Hoàng Em</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Anesthesia Doctor:</b></td>
-                                        <td>Nguyễn Văn A</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Anesthesia Doctor:</b></td>
-                                        <td>Nguyễn Văn B</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="div-procedure">
-                                <div><b>Surgery Procedure:</b></div>
-                                <br/>
-                                <textarea id="textarea-procedure" rows="10" cols="50"></textarea>
+                            <span id="btn-show-postop" class="title-part button-show"><i class="far fa-plus-square"></i>
+                                Treatment Reports:</span>
+                            <span id="btn-hide-postop" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Treatment Reports:</span>
+                            <div id="div-postoperative" class="div-editable-information row">
+                                <div class="col-12">
+                                    <button class="btn btn-primary float-right"
+                                        data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
+                                        data-target="#treatmentModal" id="btn-new-treatment">New Treatment
+                                        Report</button>
+                                    <button class="btn btn-info float-right" style="margin-right: 20px;"
+                                        data-schedule-index="window.location.search.split('=')[1]" data-toggle="modal"
+                                        data-target="#assignNurseModal" id="btn-new-treatment">Assign Nurse</button>
+                                </div>
+                                <div class="col-12">
+                                    <div style="padding: 3%" id="div-treatment-table"></div>
+                                </div>
                             </div>
                         </div>
-                        <br/>
-                        <input type="button" value="Preview Surgery Report"/>
-                        <a href="./viewSchedule.html"><button>Back</button></a>    
+                        <br />
+                        <div>
+                            <span id="btn-show-healthcare" class="title-part button-show"><i
+                                    class="far fa-plus-square"></i>
+                                Healthcare Reports:</span>
+                            <span id="btn-hide-healthcare" class="title-part button-show"><i
+                                    class="far fa-minus-square"></i> Healthcare Reports:</span>
+                            <div id="div-healthcare" class="div-editable-information row">
+                                <div class="col-12">
+                                    <div style="padding: 3%" id="div-healthcare-table"></div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    
+
+                    <a href="./viewSchedule.html"><button class="btn btn-danger">Back</button></a>
+                    <div style="float: right">
+                        <input class="btn btn-info" type="button" value="Export Surgery Report" />
+                        <input id="btn-start-surgery" class="btn btn-primary btn-visibility" data-toggle="modal"
+                            type="button" data-target="#changeIntraStatusModal" value="Start Surgery Shift" />
+                        <input id="btn-complete-surgery" class="btn btn-success btn-visibility" data-toggle="modal"
+                            value="Complete Surgery Shift" data-target="#changePostStatusModal" type="button" />
+                        <input id="btn-finish-caring" data-toggle="modal" data-target="#changeFinishedStatusModal"
+                            class="btn btn-warning btn-visibility" type="button" value="Finish Caring Patient" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- The Modal Start Surgery Shift-->
+    <div class="modal fade" id="changeIntraStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Intraoperative Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>Surgery Shift: <span id="surgery-shift-intra-status"></span></span> <br />
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
+                        <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Actual Start Time:</b></span>
+                        <input type="time" id="actual-start" class="form-control" />
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="change-intra-btn" class="btn btn-primary" data-dismiss="modal">Start
+                        Surgery Shift</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal Complete Surgery Shift-->
+    <div class="modal fade" id="changePostStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Postoperative Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>Surgery Shift: <span id="surgery-shift-post-status"></span></span> <br />
+                        <span>Estimated Start Datetime: <span class="estimated-start-time"></span></span> <br />
+                        <span>Estimated End Datetime: <span class="estimated-end-time"></span></span>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Actual End Time:</b></span>
+                        <input type="time" id="actual-end" class="form-control" />
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <span><b>Room</b></span>
+                            <input type="text" id="roomPost" class="form-control" />
+                        </div>
+                        <div class="col-6">
+                            <span><b>Bed</b></span>
+                            <input type="text" id="bedPost" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="change-post-btn" class="btn btn-primary" data-dismiss="modal">Change
+                        Status</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal Complete Surgery Shift-->
+    <div class="modal fade" id="changeFinishedStatusModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Complete The Care Stage </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>The patient will be moved to hospital department</span> <br />
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="change-finished-btn" class="btn btn-primary"
+                        data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#change-finished-btn').click(function () {
+            SetFinishedStatus(shiftId);
+        });
+
+        //================Start Surgery Shift=============
+
+        $('#btn-start-surgery').click(function () {
+            var start = $('#span-start-time').data('start');
+            var end = $('#span-end-time').data('end')
+            appendIntraSurgeryShiftId(shiftId, start, end);
+        })
+        $('#change-intra-btn').click(function () {
+            var id = $('#surgery-shift-intra-status').data('shiftId');
+            var day = $('#surgery-shift-intra-status').data('day');
+            var actualStartTime = $('#actual-start').val();
+            var actualStartDatetime = day + ' ' + actualStartTime;
+            startSurgeryShift(id, actualStartDatetime);
+        });
+        //================Complete Surgery Shift=============
+        $('#btn-complete-surgery').click(function () {
+            var start = $('#span-actual-start-time').data('actual-start');
+            var end = $('#span-end-time').data('end')
+            appendPostSurgeryShiftId(shiftId, start, end);
+        });
+        $('#change-post-btn').click(function () {
+            var id = $('#surgery-shift-post-status').data('shiftId');
+            var day = $('#surgery-shift-post-status').data('day');
+            var actualEndTime = $('#actual-end').val();
+            var actualEndDatetime = day + ' ' + actualEndTime;
+            setPostStatus(id, actualEndDatetime);
+        });
+        //===========================================
+    </script>
+    <datalist class="datalist-drug" id="drugs"></datalist>
+    <datalist class="datalist-drug" id="supplies"></datalist>
+    <!-- The TreatMent Modal -->
+    <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Treatment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col px-0">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link active" id="treatment-tab" data-toggle="tab"
+                                            href="#treatment" role="tab" aria-controls="treatment"
+                                            aria-selected="true">New Treatment Report</a>
+                                    </li>  -->
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="treatment" role="tabpanel"
+                                        aria-labelledby="treatment-tab">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div id="edit-form-treatement-report" class="col py-3"
+                                                    style="border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;border-right: 1px solid #dee2e6;">
+                                                    <div class="form-group">
+                                                        <label for="progressiveDisease">Progressive Disease</label>
+                                                        <textarea class="form-control" rows="5"
+                                                            id="progressiveDisease"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="medicalRequirement">Medical Requirement</label>
+                                                        <button class="btn btn-success add-more float-right"
+                                                            type="button"><i class="fa fa-plus"></i>Add more</button>
+                                                        <div class="mt-4 row">
+                                                            <div class="col-6"></div>
+                                                            <div class="col-1" style="text-align: center;"> Morning
+                                                            </div>
+                                                            <div class="col-1" style="text-align: center;"> Noon</div>
+                                                            <div class="col-1" style="text-align: center;"> Evening
+                                                            </div>
+                                                            <div class="col-1" style="text-align: center;"> Night</div>
+                                                        </div>
+                                                        <div class="row row-drug after-add-more"
+                                                            style="padding-inline-start: 15px;">
+                                                            <div class="easyautocomplete-wraper form-group col-6"
+                                                                style="margin-bottom: 0px">
+                                                                <input type="text" list="drugs"
+                                                                    class="drug form-control has-error" name="drug-name"
+                                                                    placeholder="Enter drug name" />
+                                                            </div>
+                                                            <input type="number" min="0"
+                                                                class="col-1 drug-used-time form-control"
+                                                                name="isMorning">
+                                                            <input type="number" min="0"
+                                                                class="col-1 drug-used-time form-control"
+                                                                name="isAfternoon">
+                                                            <input type="number" min="0"
+                                                                class="col-1 drug-used-time form-control"
+                                                                name="isEvening">
+                                                            <input type="number" min="0"
+                                                                class="col-1 drug-used-time form-control"
+                                                                name="isNight">
+                                                        </div>
+                                                    </div>
+                                                    <button id="createTreatment" type="button"
+                                                        class="btn btn-success float-right">Create</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Assign Nurse -->
+    <div class="modal fade" id="assignNurseModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Nurse</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span><b>Nurse:</b></span>
+                        <select class="form-control" id="select-nurse">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span><b>Assigned Nurse:</b> <span id="assigned-nurse-name"></span></span>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="assignNurse" class="btn btn-primary" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // $('#complete-surgery-btn').click(function () {
+        //     var id = $('#surgery-shift-post-status').data('shiftId');
+        //     var day = $('#surgery-shift-post-status').data('day');
+        //     var actualEndTime = $('#actual-end').val();
+        //     var actualEndDatetime = day + ' ' + actualEndTime;
+        //     setPostStatus(id, actualEndDatetime);
+        // });
+
+        // ==========Surgery Report==============
+        $('#btn-hide-shift-info').addClass('btn-visibility');
+        $('#div-ekip-procedure').addClass('btn-visibility');
+
+        $('#btn-show-shift-info').click(function () {
+            $('#div-ekip-procedure').removeClass('btn-visibility');
+            $('#btn-hide-shift-info').removeClass('btn-visibility');
+            $('#btn-show-shift-info').addClass('btn-visibility');
+        });
+        $('#btn-hide-shift-info').click(function () {
+            $('#div-ekip-procedure').addClass('btn-visibility');
+            $('#btn-show-shift-info').removeClass('btn-visibility');
+            $('#btn-hide-shift-info').addClass('btn-visibility');
+        });
+
+        // ==========Postoperative==============
+        var drugs;
+        getAllDrugs();
+
+        $('#btn-hide-postop').addClass('btn-visibility');
+        $('#div-postoperative').addClass('btn-visibility');
+        $('#btn-show-postop').click(function () {
+            var shiftId = $('#span-id').text();
+            $('#div-postoperative').removeClass('btn-visibility');
+            $('#btn-hide-postop').removeClass('btn-visibility');
+            $('#btn-show-postop').addClass('btn-visibility');
+            loadTreatmentReport(shiftId);
+        });
+        $('#btn-hide-postop').click(function () {
+            $('#div-postoperative').addClass('btn-visibility');
+            $('#btn-show-postop').removeClass('btn-visibility');
+            $('#btn-hide-postop').addClass('btn-visibility');
+        });
+
+        $('#treatmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var scheduleIndex = button.data('schedule-index');
+            $('#createTreatment').data('shift-id', scheduleIndex);
+        });
+
+        $('#assignNurseModal').on('show.bs.modal', function (event) {
+            getNurse();
+        });
+
+        function getAllDrugs() {
+            $.ajax({
+                url: EBSMSLocal + '/api/Drug/GetAllDrugs',
+                method: 'get',
+                success: function (data) {
+                    // initAutocompleteDrug(data);
+                    // drugs = data;
+                    // console.log(drugs);
+                    $(data).each(function () {
+                        var options = `<option id='${this.id}' value='${this.name}' data-unit='${this.unit}'>${this.unit}</option>`;
+                        $('#drugs').append(options);
+                    });
+                }
+            });
+        }
+
+
+        // =======================Healthcare========================================
+        $('#btn-hide-healthcare').addClass('btn-visibility');
+        $('#div-healthcare').addClass('btn-visibility');
+        $('#btn-show-healthcare').click(function () {
+            var shiftId = $('#span-id').text();
+            $('#div-healthcare').removeClass('btn-visibility');
+            $('#btn-hide-healthcare').removeClass('btn-visibility');
+            $('#btn-show-healthcare').addClass('btn-visibility');
+            loadHealthcareReport(shiftId);
+        });
+        $('#btn-hide-healthcare').click(function () {
+            $('#div-healthcare').addClass('btn-visibility');
+            $('#btn-show-healthcare').removeClass('btn-visibility');
+            $('#btn-hide-healthcare').addClass('btn-visibility');
+            $('#div-healthcare-table').empty();
+        });
+
+        getAllSupplies();
+        function getAllSupplies() {
+            $.ajax({
+                url: EBSMSLocal + '/api/Utils/GetMedicalSupplies',
+                method: 'get',
+                success: function (data) {
+                    $(data).each(function () {
+                        var options = `<option id='${this.medicalSupplyId}' value='${this.medicalSupplyId} - ${this.medicalSupplyName}'</option>`;
+                        $('#supplies').append(options);
+                    });
+                }
+            });
+        }
+    </script>
+    <!-- Add Used Medical Supply Modal -->
+    <div class="modal fade" id="addSupplyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Used Medical Suply</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-success float-right add-more-supply" type="button">Add more</button>
+                    <br /><br />
+                    <div class="form-group add-supply"> </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-addSupplyModal" class="btn btn-primary"
+                        data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Used Medical Supply Modal -->
+    <div class="modal fade" id="updateSupplyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Used Medical Supply</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="update-supply-detail"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-updateSupplyModal" class="btn btn-primary"
+                        data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>
